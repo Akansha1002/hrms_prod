@@ -204,10 +204,10 @@ const PayRollSection = ({ data, onChange, setUpdatedValues }: PayrollSectionProp
                     </FormItem>
                 </div>
             </Card>
-            <ComputeCtcDrawer
+            {/* <ComputeCtcDrawer
                 open={drawerOpen}
                 onDrawerOpen={setDrawerOpen}
-            />
+            /> */}
         </>
     )
 }

@@ -56,7 +56,7 @@ const ComputeCtcDrawer = ({ open, onDrawerOpen, selectedSalaryStructure }: Compu
     return (
         <Drawer
             title="Compute CTC"
-            width={1000}
+            width={1500}
             isOpen={open}
             onClose={handleDrawerClose}
             onRequestClose={handleDrawerClose}
