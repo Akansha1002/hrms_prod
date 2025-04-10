@@ -281,11 +281,11 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                     </div>
                 </div>
             </Card>
-            <ComputeCtcDrawer
+            {/* <ComputeCtcDrawer
                 open={drawerOpen}
                 onDrawerOpen={setDrawerOpen}
                 selectedSalaryStructure={selectedSalaryStructure}
-            />
+            /> */}
         </>
     )
 }

@@ -7,9 +7,9 @@ import type { AxiosError } from 'axios'
 const AxiosBase = axios.create({
     timeout: 60000,
     headers: {
-        "authorization": "token 22383aa5b27f69b:9278831c98f894e",
-        // 'Content-Type': 'multipart/form-data',
+        'Authorization': 'token 86a287070b03a26:468ff52ec56e076',
     },
+
     baseURL: appConfig.apiPrefix,
 })
 
