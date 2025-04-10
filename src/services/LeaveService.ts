@@ -46,16 +46,16 @@ export async function apiGetLeaveApplicationList<
     }
 }
 
-// export async function apiGetLeaveApplication<
-//     T,
-//     U extends Record<string, unknown>,
-// >({ id, ...params }: U) {
-//     return ApiService.fetchDataWithAxios<T>({
-//         url: `/Leave Application/${id}`,
-//         method: 'get',
-//         params,
-//     })
-// }
+export async function apiGetLeaveApplication<
+    T,
+    U extends Record<string, unknown>,
+>({ id, ...params }: U) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: `/Leave Application/${id}`,
+        method: 'get',
+        params,
+    })
+}
 
 export async function apiAddLeaveApplication<
     T,
