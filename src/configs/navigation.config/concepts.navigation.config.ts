@@ -425,41 +425,41 @@ const conceptsNavigationConfig: NavigationTree[] = [
                     //     },
                     //     subMenu: [],
                     // },
-                    {
-                        key: 'concepts.customers.employeeOnboarding',
-                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-onboarding`,
-                        title: 'Employee Onboarding',
-                        translateKey:
-                            'nav.conceptsCustomers.employeeOnboarding',
-                        icon: 'customerList',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        meta: {
-                            description: {
-                                translateKey:
-                                    'nav.conceptsCustomers.employeeOnboardingDesc',
-                                label: 'Employee Onboarding',
-                            },
-                        },
-                        subMenu: [],
-                    },
-                    {
-                        key: 'concepts.customers.employeeMovement',
-                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-movement`,
-                        title: 'Employee Movement',
-                        translateKey: 'nav.conceptsCustomers.employeeMovement',
-                        icon: 'customerList',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        meta: {
-                            description: {
-                                translateKey:
-                                    'nav.conceptsCustomers.employeeMovementDesc',
-                                label: 'Employee Movement',
-                            },
-                        },
-                        subMenu: [],
-                    },
+                    // {
+                    //     key: 'concepts.customers.employeeOnboarding',
+                    //     path: `${CONCEPTS_PREFIX_PATH}/customers/employee-onboarding`,
+                    //     title: 'Employee Onboarding',
+                    //     translateKey:
+                    //         'nav.conceptsCustomers.employeeOnboarding',
+                    //     icon: 'customerList',
+                    //     type: NAV_ITEM_TYPE_ITEM,
+                    //     authority: [ADMIN, USER],
+                    //     meta: {
+                    //         description: {
+                    //             translateKey:
+                    //                 'nav.conceptsCustomers.employeeOnboardingDesc',
+                    //             label: 'Employee Onboarding',
+                    //         },
+                    //     },
+                    //     subMenu: [],
+                    // },
+                    // {
+                    //     key: 'concepts.customers.employeeMovement',
+                    //     path: `${CONCEPTS_PREFIX_PATH}/customers/employee-movement`,
+                    //     title: 'Employee Movement',
+                    //     translateKey: 'nav.conceptsCustomers.employeeMovement',
+                    //     icon: 'customerList',
+                    //     type: NAV_ITEM_TYPE_ITEM,
+                    //     authority: [ADMIN, USER],
+                    //     meta: {
+                    //         description: {
+                    //             translateKey:
+                    //                 'nav.conceptsCustomers.employeeMovementDesc',
+                    //             label: 'Employee Movement',
+                    //         },
+                    //     },
+                    //     subMenu: [],
+                    // },
                 ],
             },
             //Leave
@@ -701,109 +701,109 @@ const conceptsNavigationConfig: NavigationTree[] = [
             //     },
             //     subMenu: [],
             // },
-            {
-                key: 'concepts.salaryAdjustment',
-                path: `${CONCEPTS_PREFIX_PATH}/salaryAdjustment`,
-                title: 'Salary Adjustment',
-                translateKey: 'nav.SalaryAdjustment',
-                icon: 'calendar',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [ADMIN, USER],
-                meta: {
-                    description: {
-                        translateKey: 'nav.holidayDesc',
-                        label: 'Schedule and events',
-                    },
-                },
-                subMenu: [],
-            },
-            {
-                key: 'concepts.confirmation',
-                path: '',
-                title: 'Confirmation',
-                translateKey: 'nav.conceptsConfirmation.confirmation',
-                icon: 'fileManager',
-                type: NAV_ITEM_TYPE_COLLAPSE,
-                authority: [ADMIN, USER],
-                meta: {
-                    description: {
-                        translateKey:
-                            'nav.conceptsConfirmation.confirmationDesc',
-                        label: 'Employee Appraisal Confirmation',
-                    },
-                },
-                subMenu: [
-                    {
-                        key: 'concepts.confirmation.confirmationAppraisal',
-                        path: `${CONCEPTS_PREFIX_PATH}/confirmation/confirmation-appraisal`,
-                        title: 'Confirmation Appraisal',
-                        translateKey:
-                            'nav.conceptsConfirmation.confirmationAppraisal',
-                        icon: 'confirmationAppraisal',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        meta: {
-                            description: {
-                                translateKey:
-                                    'nav.conceptsConfirmation.confirmationAppraisalDesc',
-                                label: '',
-                            },
-                        },
-                        subMenu: [],
-                    },
-                ],
-            },
-            {
-                key: 'concepts.payroll',
-                path: '',
-                title: 'Payroll',
-                translateKey: 'nav.payroll',
-                icon: 'calendar',
-                type: NAV_ITEM_TYPE_COLLAPSE,
-                authority: [ADMIN, USER],
-                meta: {
-                    description: {
-                        translateKey: 'nav.payrollDesc',
-                        label: '',
-                    },
-                },
-                subMenu: [
-                    {
-                        key: 'concepts.payroll.list',
-                        path: `${CONCEPTS_PREFIX_PATH}/payroll/list`,
-                        title: 'Employee Tax Exemption Declaration',
-                        translateKey: 'nav.payroll.list',
-                        icon: 'attendance',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        meta: {
-                            description: {
-                                translateKey: 'nav.payroll.list',
-                                label: 'Payroll List',
-                            },
-                        },
-                        subMenu: [],
-                    },
-                    {
-                        key: 'concepts.payroll.taxExemptionProofSubmission',
-                        path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
-                        title: 'Employee Tax Exemption Proof Submission',
-                        translateKey:
-                            'nav.conceptsPayroll.taxExemptionProofSubmission',
-                        icon: 'Tax',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [ADMIN, USER],
-                        meta: {
-                            description: {
-                                translateKey:
-                                    'nav.conceptsPayroll.taxExemptionProofSubmissionDesc',
-                                label: '',
-                            },
-                        },
-                        subMenu: [],
-                    },
-                ],
-            },
+            // {
+            //     key: 'concepts.salaryAdjustment',
+            //     path: `${CONCEPTS_PREFIX_PATH}/salaryAdjustment`,
+            //     title: 'Salary Adjustment',
+            //     translateKey: 'nav.SalaryAdjustment',
+            //     icon: 'calendar',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [ADMIN, USER],
+            //     meta: {
+            //         description: {
+            //             translateKey: 'nav.holidayDesc',
+            //             label: 'Schedule and events',
+            //         },
+            //     },
+            //     subMenu: [],
+            // },
+            // {
+            //     key: 'concepts.confirmation',
+            //     path: '',
+            //     title: 'Confirmation',
+            //     translateKey: 'nav.conceptsConfirmation.confirmation',
+            //     icon: 'fileManager',
+            //     type: NAV_ITEM_TYPE_COLLAPSE,
+            //     authority: [ADMIN, USER],
+            //     meta: {
+            //         description: {
+            //             translateKey:
+            //                 'nav.conceptsConfirmation.confirmationDesc',
+            //             label: 'Employee Appraisal Confirmation',
+            //         },
+            //     },
+            //     subMenu: [
+            //         {
+            //             key: 'concepts.confirmation.confirmationAppraisal',
+            //             path: `${CONCEPTS_PREFIX_PATH}/confirmation/confirmation-appraisal`,
+            //             title: 'Confirmation Appraisal',
+            //             translateKey:
+            //                 'nav.conceptsConfirmation.confirmationAppraisal',
+            //             icon: 'confirmationAppraisal',
+            //             type: NAV_ITEM_TYPE_ITEM,
+            //             authority: [ADMIN, USER],
+            //             meta: {
+            //                 description: {
+            //                     translateKey:
+            //                         'nav.conceptsConfirmation.confirmationAppraisalDesc',
+            //                     label: '',
+            //                 },
+            //             },
+            //             subMenu: [],
+            //         },
+            //     ],
+            // },
+            // {
+            //     key: 'concepts.payroll',
+            //     path: '',
+            //     title: 'Payroll',
+            //     translateKey: 'nav.payroll',
+            //     icon: 'calendar',
+            //     type: NAV_ITEM_TYPE_COLLAPSE,
+            //     authority: [ADMIN, USER],
+            //     meta: {
+            //         description: {
+            //             translateKey: 'nav.payrollDesc',
+            //             label: '',
+            //         },
+            //     },
+            //     subMenu: [
+            //         {
+            //             key: 'concepts.payroll.list',
+            //             path: `${CONCEPTS_PREFIX_PATH}/payroll/list`,
+            //             title: 'Employee Tax Exemption Declaration',
+            //             translateKey: 'nav.payroll.list',
+            //             icon: 'attendance',
+            //             type: NAV_ITEM_TYPE_ITEM,
+            //             authority: [ADMIN, USER],
+            //             meta: {
+            //                 description: {
+            //                     translateKey: 'nav.payroll.list',
+            //                     label: 'Payroll List',
+            //                 },
+            //             },
+            //             subMenu: [],
+            //         },
+            //         {
+            //             key: 'concepts.payroll.taxExemptionProofSubmission',
+            //             path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
+            //             title: 'Employee Tax Exemption Proof Submission',
+            //             translateKey:
+            //                 'nav.conceptsPayroll.taxExemptionProofSubmission',
+            //             icon: 'Tax',
+            //             type: NAV_ITEM_TYPE_ITEM,
+            //             authority: [ADMIN, USER],
+            //             meta: {
+            //                 description: {
+            //                     translateKey:
+            //                         'nav.conceptsPayroll.taxExemptionProofSubmissionDesc',
+            //                     label: '',
+            //                 },
+            //             },
+            //             subMenu: [],
+            //         },
+            //     ],
+            // },
         ],
     },
 ]
