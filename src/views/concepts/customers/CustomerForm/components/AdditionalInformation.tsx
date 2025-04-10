@@ -288,7 +288,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                     <Controller
                         name="notice_number_of_days"
                         control={control}
-                        defaultValue={30}
+                        defaultValue={'30'}
                         render={({ field }) =>
                             <Input
                                 type="text"

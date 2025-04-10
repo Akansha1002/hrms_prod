@@ -10,8 +10,9 @@ import { Employee } from '../types'
 
 
 const statusColor: Record<string, string> = {
-    active: 'bg-emerald-200 dark:bg-emerald-200 text-gray-900 dark:text-gray-900',
-    blocked: 'bg-red-200 dark:bg-red-200 text-gray-900 dark:text-gray-900',
+    Approved: 'bg-success-subtle text-success',
+    Pending: 'bg-error-subtle text-error',
+    'Pending Employee End': 'bg-warning-subtle text-warning',
 }
 
 const EmployeeColumn = ({ row }: { row: Employee }) => {
@@ -29,7 +30,8 @@ const EmployeeColumn = ({ row }: { row: Employee }) => {
 
 const EmployeeListTable = () => {
     const {
-        employeeList,
+        employeeList = [],
+        employeeListTotal,
         tableData,
         isLoading,
         setTableData,
@@ -82,6 +84,12 @@ const EmployeeListTable = () => {
         }
     }
 
+    const handlePaginationChange = (page: number) => {
+        const newTableData = cloneDeep(tableData)
+        newTableData.pageIndex = page
+        handleSetTableData(newTableData)
+    }
+
     const handleSelectChange = (value: number) => {
         const newTableData = cloneDeep(tableData)
         newTableData.pageSize = Number(value)
@@ -117,9 +125,15 @@ const EmployeeListTable = () => {
             skeletonAvatarColumns={[0]}
             skeletonAvatarProps={{ width: 28, height: 28 }}
             loading={isLoading}
+            pagingData={{
+                total: employeeListTotal,
+                pageIndex: tableData.pageIndex as number,
+                pageSize: tableData.pageSize as number,
+            }}
             checkboxChecked={(row) =>
                 selectedEmployee.some((selected) => selected.id === row.id)
             }
+            onPaginationChange={handlePaginationChange}
             onSelectChange={handleSelectChange}
             onSort={handleSort}
             onCheckBoxChange={handleRowSelect}

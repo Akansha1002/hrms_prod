@@ -1,7 +1,5 @@
 import ApiService from '@/services/ApiService'
 
-const API_URL = 'http://159.65.147.182:8000/api/resource/Past Employment Details'
-
 
 export async function apiGetPastEmploymentDetailsList<T, U extends Record<string, unknown>>({
     name,
@@ -9,7 +7,7 @@ export async function apiGetPastEmploymentDetailsList<T, U extends Record<string
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
         // url: `${API_URL}?filters=[["employee_number", "=", ${name}]]`,
-        url: `${API_URL}?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
+        url: `resource/Past Employment Details?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
         method: 'get',
         params,
     })
@@ -23,7 +21,7 @@ export async function apiGetPastEmploymentDetail<T, U extends Record<string, unk
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Past Employment Details/${name}`,
         method: 'get',
         params,
     })
@@ -35,7 +33,7 @@ export async function apiGetPastEmploymentDetail<T, U extends Record<string, unk
 export async function apiCreatePastEmploymentDetail<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: API_URL,
+        url: 'resource/Past Employment Details',
         method: 'post',
         data,
     })
@@ -48,7 +46,7 @@ export async function apiUpdatePastEmploymentDetail<T, U extends Record<string, 
     name: string,
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Past Employment Details/${name}`,
         method: 'put',
         data,
     })

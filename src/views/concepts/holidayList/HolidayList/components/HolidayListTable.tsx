@@ -21,9 +21,9 @@ const HolidayColumn = ({ row }: { row: HolidayListTableData }) => {
         <>
             <Link
                 className={`hover:underline ml-2 rtl:mr-2 font-semibold text-gray-900 dark:text-gray-100`}
-                to={`/concepts/customers/holidayList/holiday/${row.id}`}
+                to={`/concepts/holidayList/holiday/${row.holiday_list_name}`}
             >
-                {row.id}
+                {row.holiday_list_name}
             </Link>
         </>
     )
@@ -32,7 +32,7 @@ const HolidayColumn = ({ row }: { row: HolidayListTableData }) => {
 const columnHelper = createColumnHelper<HolidayListTableData>()
 
 const columns = [
-    columnHelper.accessor('id', {
+    columnHelper.accessor('holiday_list_name', {
         header: 'ID',
         cell: (props) => {
             const row = props.row.original

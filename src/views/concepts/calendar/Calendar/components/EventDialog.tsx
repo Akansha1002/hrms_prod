@@ -1,157 +1,56 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import dayjs from 'dayjs'
+import useSWR from 'swr'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import Select from '@/components/ui/Select'
 import DatePicker from '@/components/ui/DatePicker'
 import Dialog from '@/components/ui/Dialog'
 import { Form, FormItem } from '@/components/ui/Form'
-import Badge from '@/components/ui/Badge'
-import hooks from '@/components/ui/hooks'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { TbChecks } from 'react-icons/tb'
-import { components } from 'react-select'
-import dayjs from 'dayjs'
+import Checkbox from '@/components/ui/Checkbox/Checkbox'
 import type { SelectedCell } from '../types'
-import type { ControlProps, OptionProps } from 'react-select'
-
-type FormModel = {
-    title: string
-    startDate: Date
-    endDate: Date
-    color: string
-}
-
-export type EventParam = {
-    id: string
-    title: string
-    start: string
-    eventColor: string
-    end?: string
-}
-
-type ColorOption = {
-    value: string
-    label: string
-    color: string
-}
+import ScrollBar from '@/components/ui/ScrollBar'
+import classNames from '@/utils/classNames'
+import { apiGetLeaveAllocations, apiGetLeaveTypeList } from '@/services/LeaveService'
+import { apiGetEmployeeNameList } from '@/services/HolidayService'
 
 type EventDialogProps = {
     open: boolean
     selected: SelectedCell
     onDialogOpen: (open: boolean) => void
-    submit: (eventData: EventParam, type: string) => void
-}
-
-const { Control } = components
-
-const { useUniqueId } = hooks
-
-const colorOptions = [
-    {
-        value: 'red',
-        label: 'red',
-        color: 'bg-red-400',
-    },
-    {
-        value: 'orange',
-        label: 'orange',
-        color: 'bg-orange-400',
-    },
-    {
-        value: 'yellow',
-        label: 'yellow',
-        color: 'bg-yellow-400',
-    },
-    {
-        value: 'green',
-        label: 'green',
-        color: 'bg-green-400',
-    },
-    {
-        value: 'blue',
-        label: 'blue',
-        color: 'bg-blue-400',
-    },
-    {
-        value: 'purple',
-        label: 'purple',
-        color: 'bg-purple-400',
-    },
-]
-
-const CustomSelectOption = ({
-    innerProps,
-    label,
-    data,
-    isSelected,
-}: OptionProps<ColorOption>) => {
-    return (
-        <div
-            className={`flex items-center justify-between rounded-lg p-2 ${
-                isSelected
-                    ? 'bg-gray-100 dark:bg-gray-500'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-600'
-            }`}
-            {...innerProps}
-        >
-            <div className="flex items-center">
-                <Badge className={data.color} />
-                <span className="ml-2 rtl:mr-2 capitalize">{label}</span>
-            </div>
-            {isSelected && <TbChecks className="text-emerald-500 text-xl" />}
-        </div>
-    )
-}
-
-const CustomControl = ({ children, ...props }: ControlProps<ColorOption>) => {
-    const selected = props.getValue()[0]
-
-    return (
-        <Control className="capitalize" {...props}>
-            {selected && (
-                <Badge className={`${selected.color} ltr:ml-4 rtl:mr-4`} />
-            )}
-            {children}
-        </Control>
-    )
+    submit: (formData: FormModel) => void
+    employeeId: string
 }
 
 const validationSchema = z.object({
-    title: z.string().min(1, { message: 'Event title required' }),
-    startDate: z.date({
-        required_error: 'Please select a date',
-        invalid_type_error: "That's not a date!",
-    }),
-    endDate: z.date({
-        required_error: 'Please select a date',
-        invalid_type_error: "That's not a date!",
-    }),
-    color: z.string().min(1, { message: 'Color required' }),
+    naming_series: z.string().default('HR-LAP-.YYYY.-'),
+    leave_type: z.string().min(1, { message: 'Leave type is required' }),
+    from_date: z.date({ required_error: 'Please select a date' }),
+    to_date: z.date({ required_error: 'Please select a date' }),
+    description: z.string().min(1, { message: 'Reason is required' }),
+    posting_date: z.date({ required_error: 'Please select a date' }),
+    leaveAddress: z.string().optional(),
+    phoneNo: z.string().optional(),
+    custom_work_reassign_to: z.string().optional(),
+    custom_employees_to_be_notified: z.string().optional(),
+    half_day: z.boolean().optional().default(false),
+    message: z.string().optional(),
 })
 
-const EventDialog = (props: EventDialogProps) => {
-    const { submit, open, selected, onDialogOpen } = props
+type FormModel = z.infer<typeof validationSchema>
 
-    const newId = useUniqueId('event-')
+const EventDialog = (props: EventDialogProps) => {
+    const { submit, open, selected, onDialogOpen, employeeId } = props
 
     const handleDialogClose = () => {
         onDialogOpen(false)
     }
 
     const onSubmit = (values: FormModel) => {
-        const eventData: EventParam = {
-            id: selected.id || newId,
-            title: values.title,
-            start: dayjs(values.startDate).format(),
-            eventColor: values.color,
-        }
-        if (values.endDate) {
-            eventData.end = dayjs(values.endDate).format()
-        }
-        console.log('eventData', eventData)
-        submit?.(eventData, selected.type)
+        submit(values)
         handleDialogClose()
     }
 
@@ -162,113 +61,330 @@ const EventDialog = (props: EventDialogProps) => {
         control,
     } = useForm<FormModel>({
         resolver: zodResolver(validationSchema),
+        defaultValues: {
+            naming_series: 'HR-LAP-.YYYY.-',
+            half_day: false,
+        },
     })
+
+    // const { data, isLoading } = useSWR(
+    //     ['/api/resource/Leave Type', {}],
+    //     ([_, params]) => apiGetLeaveTypeList<{ data: { name: string }[] }, Record<string, unknown>>(params),
+    //     {
+    //         revalidateOnFocus: false,
+    //     }
+    // );
+
+    // const leaveTypeList = data?.data?.map((leaveType) => ({
+    //     value: leaveType.name,
+    //     label: leaveType.name,
+    // })) || [];
+
+    // const { data, error, isLoading, mutate } = useSWR(
+    //     'fetch-all-data',
+    //     async () => {
+    //         const [leaveTypeRes, employeeNameRes] = await Promise.all([
+    //             // apiGetLeaveTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
+    //             apiGetLeaveAllocations<{ data: { name: string, total_leaves_allocated: number }[] }, Record<string, unknown>>({}),
+    //             apiGetEmployeeNameList<{ data: { name: string; employee_name: string }[] }, Record<string, unknown>>({}),
+    //         ]);
+
+    //         return {
+    //             leaveTypeList: leaveTypeRes?.data || [],
+    //             employeeNameList: employeeNameRes?.data || [],
+    //         };
+    //     },
+    //     { revalidateOnFocus: false },
+    // )
+
+    const { data: leaveAllocationsData, error: leaveError, isLoading: isLeaveLoading } = useSWR(
+        employeeId ? ['leave-allocations', employeeId] : null,
+        ([_, empId]) =>
+            apiGetLeaveAllocations<{
+                data: { leave_type: string; total_leaves_allocated: number }[]
+            }, { employee: string }>({ employee: empId }),
+        { revalidateOnFocus: false }
+    )
+
+    const leaveTypeList =
+        leaveAllocationsData?.data.map((leave) => ({
+            value: leave.leave_type,
+            label: leave.leave_type,
+            totalAllocated: leave.total_leaves_allocated ?? 0
+        })) || []
+
+    const [totalAllocatedLeave, setTotalAllocatedLeave] = useState<number | null>(null)
+
+    const { data: employeeData, error: employeeError, isLoading: isEmployeeLoading } = useSWR(
+        'employee-name-list',
+        () =>
+            apiGetEmployeeNameList<{
+                data: { name: string; employee_name: string }[]
+            }, Record<string, unknown>>({}),
+        { revalidateOnFocus: false }
+    )
+
+    const employeeNameList =
+        employeeData?.data.map((employeeName) => ({
+            value: employeeName.name,
+            label: `${employeeName.employee_name} (${employeeName.name})`,
+        })) || []
+
 
     useEffect(() => {
         if (selected) {
             reset({
-                title: selected.title || '',
-                startDate: (selected.start &&
-                    dayjs(selected.start).toDate()) as Date,
-                endDate: (selected.end && dayjs(selected.end).toDate()) as Date,
-                color: selected.eventColor || colorOptions[0].value,
+                naming_series: 'HR-LAP-.YYYY.-',
+                leave_type: selected.leave_type || '',
+                from_date: selected.from_date ? dayjs(selected.from_date).toDate() : undefined,
+                to_date: selected.to_date ? dayjs(selected.to_date).toDate() : undefined,
+                description: selected.description || '',
+                posting_date: selected.posting_date ? dayjs(selected.posting_date).toDate() : dayjs().toDate(),
+                leaveAddress: selected.leaveAddress || '',
+                phoneNo: selected.phoneNo || '',
+                custom_work_reassign_to: selected.custom_work_reassign_to || '',
+                custom_employees_to_be_notified: selected.custom_employees_to_be_notified || '',
+                half_day: selected.half_day || false,
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selected])
+    }, [selected, reset])
 
     return (
         <Dialog
             isOpen={open}
+            height={560}
+            bodyOpenClassName="overflow-hidden"
             onClose={handleDialogClose}
             onRequestClose={handleDialogClose}
         >
-            <h5 className="mb-4">
-                {selected.type === 'NEW' ? 'Add New Event' : 'Edit Event'}
-            </h5>
+            <h5 className="mb-4">Leave Request</h5>
             <Form
                 className="flex-1 flex flex-col"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <FormItem
-                    label="Event title"
-                    invalid={Boolean(errors.title)}
-                    errorMessage={errors.title?.message}
-                >
-                    <Controller
-                        name="title"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                autoComplete="off"
-                                placeholder="Event title"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="Start date"
-                    invalid={Boolean(errors.startDate)}
-                    errorMessage={errors.startDate?.message}
-                >
-                    <Controller
-                        name="startDate"
-                        control={control}
-                        render={({ field }) => (
-                            <DatePicker
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="End date"
-                    invalid={Boolean(errors.endDate)}
-                    errorMessage={errors.endDate?.message}
-                >
-                    <Controller
-                        name="endDate"
-                        control={control}
-                        render={({ field }) => (
-                            <DatePicker
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="Event color"
-                    asterisk={true}
-                    invalid={Boolean(errors.color)}
-                    errorMessage={errors.color?.message}
-                >
-                    <Controller
-                        name="color"
-                        control={control}
-                        render={({ field }) => (
-                            <Select<ColorOption>
-                                options={colorOptions}
-                                value={colorOptions.filter(
-                                    (option) => option.value === field.value,
-                                )}
-                                components={{
-                                    Option: CustomSelectOption,
-                                    Control: CustomControl,
-                                }}
-                                onChange={(selected) => {
-                                    field.onChange(selected?.value)
-                                }}
-                            />
-                        )}
-                    />
-                </FormItem>
+                <div className='mt-4'>
+                    <div className='mb-6'>
+                        <ScrollBar
+                            className={classNames('overflow-y-auto h-96')}
+                        >
+                            {/* <FormItem
+                                label="Naming Series"
+                            >
+                                <Controller
+                                    name="naming_series"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Input
+                                            {...field}
+                                            disabled
+                                        />
+                                    )}
+                                />
+                            </FormItem> */}
+                            <FormItem
+                                label="Leave Type"
+                                invalid={!!errors.leave_type}
+                                errorMessage={errors.leave_type?.message}
+                            >
+                                <Controller
+                                    name="leave_type"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Select
+                                            options={isLeaveLoading ? [{ value: '', label: 'Loading...' }] : leaveTypeList}
+                                            value={leaveTypeList.find(option => option.value === field.value) || null}
+                                            onChange={(option) => {
+                                                field.onChange(option ? option.value : '')
+                                                setTotalAllocatedLeave(option?.totalAllocated ?? null)
+                                            }}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+
+                            {totalAllocatedLeave !== null && (
+                                <div className="text-sm text-gray-600 mb-2">
+                                    <strong>Total Leave Allocated:</strong> {totalAllocatedLeave}
+                                </div>
+                            )}
+
+                            <FormItem
+                                label="From Date"
+                                invalid={!!errors.from_date}
+                                errorMessage={errors.from_date?.message}
+                            >
+                                <Controller
+                                    name="from_date"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <DatePicker {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="To Date"
+                                invalid={!!errors.to_date}
+                                errorMessage={errors.to_date?.message}
+                            >
+                                <Controller
+                                    name="to_date"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <DatePicker {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem>
+                                <Controller
+                                    name="half_day"
+                                    control={control}
+                                    render={({ field: { value, onChange } }) =>
+                                        <Checkbox
+                                            checked={value}
+                                            onChange={onChange}
+                                        >
+                                            Half Day
+                                        </Checkbox>
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="Reason"
+                                invalid={!!errors.description}
+                                errorMessage={errors.description?.message}
+                            >
+                                <Controller
+                                    name="description"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Input {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="Posting Date"
+                                invalid={!!errors.posting_date}
+                                errorMessage={errors.posting_date?.message}
+                            >
+                                <Controller
+                                    name="posting_date"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <DatePicker {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                            {/* <FormItem
+                                label="Leave Address"
+                                invalid={!!errors.leaveAddress}
+                                errorMessage={errors.leaveAddress?.message}
+                            >
+                                <Controller
+                                    name="leaveAddress"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Input {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem> */}
+                            {/* <FormItem
+                                label="Phone No"
+                                invalid={!!errors.phoneNo}
+                                errorMessage={errors.phoneNo?.message}
+                            >
+                                <Controller
+                                    name="phoneNo"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Input
+                                            type="tel"
+                                            {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem> */}
+                            {/* <FormItem
+                                label="Work Reassign To"
+                                invalid={!!errors.custom_work_reassign_to}
+                                errorMessage={errors.custom_work_reassign_to?.message}
+                            >
+                                <Controller
+                                    name="custom_work_reassign_to"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Select
+                                            options={
+                                                isEmployeeLoading
+                                                    ? [{ value: '', label: 'Loading...' }]
+                                                    : employeeNameList
+                                            }
+                                            value={
+                                                employeeNameList.find(
+                                                    (option) =>
+                                                        option.value === field.value,
+                                                ) || null
+                                            }
+                                            onChange={(option) =>
+                                                field.onChange(option ? option.value : '')
+                                            }
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                            <FormItem
+                                label="Employees to be Notified"
+                                invalid={!!errors.custom_employees_to_be_notified}
+                                errorMessage={errors.custom_employees_to_be_notified?.message}
+                            >
+                                <Controller
+                                    name="custom_employees_to_be_notified"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Select
+                                            options={
+                                                isEmployeeLoading
+                                                    ? [{ value: '', label: 'Loading...' }]
+                                                    : employeeNameList
+                                            }
+                                            value={
+                                                employeeNameList.find(
+                                                    (option) =>
+                                                        option.value === field.value,
+                                                ) || null
+                                            }
+                                            onChange={(option) =>
+                                                field.onChange(option ? option.value : '')
+                                            }
+                                        />
+                                    }
+                                />
+                            </FormItem> */}
+                            <FormItem
+                                label="Message"
+                                invalid={!!errors.message}
+                                errorMessage={errors.message?.message}
+                            >
+                                <Controller
+                                    name="message"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Input {...field}
+                                        />
+                                    }
+                                />
+                            </FormItem>
+                        </ScrollBar>
+                    </div>
+                </div>
                 <FormItem className="mb-0 text-right rtl:text-left">
                     <Button block variant="solid" type="submit">
-                        {selected.type === 'NEW' ? 'Create' : 'Update'}
+                        Submit
                     </Button>
                 </FormItem>
             </Form>

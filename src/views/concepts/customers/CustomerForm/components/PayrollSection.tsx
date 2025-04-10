@@ -6,11 +6,14 @@ import { Controller } from 'react-hook-form'
 import { Button } from '@/components/ui/Button'
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
-import { FormSectionBaseProps } from '../types'
+import type { FormSectionBaseProps } from '../types'
 import ComputeCtcDrawer from '../../ComputeCtc/components/ComputeCtcDrawer'
 import { Select } from '@/components/ui/Select'
 
-type PayRollProps = FormSectionBaseProps
+type PayRollProps = {
+    salaryStructureList: { value: string; label: string }[];
+    isLoading: boolean,
+} & FormSectionBaseProps
 
 const ptLocationOptions = [
     { value: 'andhrapradesh', label: 'AndhraPradesh' },
@@ -22,8 +25,9 @@ const payGroupOptions = [
     { value: 'centillionManagement', label: 'Centilion Management' },
 ];
 
-const PayRollSection = ({ control, errors }: PayRollProps) => {
+const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: PayRollProps) => {
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const [selectedSalaryStructure, setSelectedSalaryStructure] = useState<{ value: string; label: string } | null>(null);
 
     const handleOnClick = () => {
         setDrawerOpen(true);
@@ -142,14 +146,14 @@ const PayRollSection = ({ control, errors }: PayRollProps) => {
                                 name="ptApplicable"
                                 control={control}
                                 render={({ field }) => (
-                                        <div className="flex items-center justify-between gap-4">
-                                            <Switcher
-                                                checked={field.value}
-                                                onChange={(checked) => {
-                                                    field.onChange(checked)
-                                                }}
-                                            />
-                                            <p>PT Applicable</p>
+                                    <div className="flex items-center justify-between gap-4">
+                                        <Switcher
+                                            checked={field.value}
+                                            onChange={(checked) => {
+                                                field.onChange(checked)
+                                            }}
+                                        />
+                                        <p>PT Applicable</p>
                                     </div>
                                 )}
                             />
@@ -245,16 +249,42 @@ const PayRollSection = ({ control, errors }: PayRollProps) => {
                             }
                         />
                     </FormItem>
-                    <FormItem className="inline-flex flex-wrap xl:flex gap-2">
-                        <Button variant="solid" onClick={handleOnClick}>
+                    <FormItem
+                        asterisk
+                        label="Salary Structure"
+                        invalid={Boolean(errors.custom_salary_structure)}
+                        errorMessage={errors.custom_salary_structure?.message}
+                    >
+                        <Controller
+                            name="custom_salary_structure"
+                            control={control}
+                            render={({ field }) =>
+                                <Select
+                                    options={isLoading ? [{ value: '', label: 'Loading...' }] : salaryStructureList}
+                                    value={salaryStructureList.find(option => option.value === field.value) || null}
+                                    onChange={(option) => {
+                                        field.onChange(option ? option.value : '')
+                                        setSelectedSalaryStructure(option)
+                                    }}
+                                />
+                            }
+                        />
+                    </FormItem>
+                    <div className="inline-flex flex-wrap xl:flex gap-2">
+                        <Button
+                            variant="solid"
+                            onClick={handleOnClick}
+                            disabled={!selectedSalaryStructure}
+                        >
                             Compute CTC
                         </Button>
-                    </FormItem>
+                    </div>
                 </div>
             </Card>
             <ComputeCtcDrawer
                 open={drawerOpen}
                 onDrawerOpen={setDrawerOpen}
+                selectedSalaryStructure={selectedSalaryStructure}
             />
         </>
     )

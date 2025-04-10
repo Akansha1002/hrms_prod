@@ -1,0 +1,3 @@
+import TaxExemptionDeclarationCreate from './TaxExemptionDeclarationCreate'
+
+export default TaxExemptionDeclarationCreate

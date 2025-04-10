@@ -1,15 +1,12 @@
 import ApiService from '@/services/ApiService'
 
-const API_URL = 'http://159.65.147.182:8000/api/resource/Education Details'
-
-
 export async function apiGetEducationDetailsList<T, U extends Record<string, unknown>>({
     name,
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
         // url: `${API_URL}?filters=[["employee_number", "=", ${name}]]`,
-        url: `${API_URL}?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
+        url: `/Education Details?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
         method: 'get',
         params,
     })
@@ -23,7 +20,7 @@ export async function apiGetEducationDetail<T, U extends Record<string, unknown>
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `/Education Details${name}`,
         method: 'get',
         params,
     })
@@ -35,7 +32,7 @@ export async function apiGetEducationDetail<T, U extends Record<string, unknown>
 export async function apiCreateEducationDetail<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: API_URL,
+        url: 'resource/Education Details',
         method: 'post',
         data,
     })
@@ -48,7 +45,7 @@ export async function apiUpdateEducationDetail<T, U extends Record<string, unkno
     name: string,
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Education Details/${name}`,
         method: 'put',
         data,
     })

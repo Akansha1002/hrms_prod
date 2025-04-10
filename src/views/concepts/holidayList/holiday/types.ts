@@ -1,7 +1,6 @@
 export type HolidayTableData = {
-    date: string,
+    holiday_date: string,
     description: string
-    reason: string
 }
 
 export type HolidayForm = {
@@ -14,3 +13,9 @@ export type HolidayForm = {
 export type SelectedCell = {
     type: string
 } & Partial<HolidayForm>
+
+export type HolidayListDetailResponse = {
+    data: {
+        holidays: HolidayTableData
+    }
+}

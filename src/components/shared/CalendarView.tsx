@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { CalendarOptions } from '@fullcalendar/core'
+import { Badge } from '../ui/Badge'
 
 type EventColors = Record<
     string,
@@ -26,27 +27,23 @@ const defaultColorList: Record<
     }
 > = {
     red: {
-        bg: 'bg-[#fbddd9]',
-        text: 'text-gray-900',
-    },
-    orange: {
-        bg: 'bg-[#ffc6ab]',
+        bg: 'bg-[#f87171]',
         text: 'text-gray-900',
     },
     yellow: {
-        bg: 'bg-[#ffd993]',
+        bg: 'bg-[#fde047]',
         text: 'text-gray-900',
     },
     green: {
-        bg: 'bg-[#bee9d3]',
+        bg: 'bg-[#4ade80]',
         text: 'text-gray-900',
     },
     blue: {
-        bg: 'bg-[#bce9fb]',
+        bg: 'bg-[#60a5fa]',
         text: 'text-gray-900',
     },
     purple: {
-        bg: 'bg-[#ccbbfc]',
+        bg: 'bg-[#c084fc]',
         text: 'text-gray-900',
     },
 }
@@ -76,22 +73,22 @@ const CalendarView = (props: CalendarViewProps) => {
                                 'custom-calendar-event',
                                 extendedProps.eventColor
                                     ? (eventColors(defaultColorList) ||
-                                          defaultColorList)[
-                                          extendedProps.eventColor
-                                      ]?.bg
+                                        defaultColorList)[
+                                        extendedProps.eventColor
+                                    ]?.bg
                                     : '',
                                 extendedProps.eventColor
                                     ? (eventColors(defaultColorList) ||
-                                          defaultColorList)[
-                                          extendedProps.eventColor
-                                      ]?.text
+                                        defaultColorList)[
+                                        extendedProps.eventColor
+                                    ]?.text
                                     : '',
                                 isEnd &&
-                                    !isStart &&
-                                    '!rounded-tl-none !rounded-bl-none !rtl:rounded-tr-none !rtl:rounded-br-none',
+                                !isStart &&
+                                '!rounded-tl-none !rounded-bl-none !rtl:rounded-tr-none !rtl:rounded-br-none',
                                 !isEnd &&
-                                    isStart &&
-                                    '!rounded-tr-none !rounded-br-none !rtl:rounded-tl-none !rtl:rounded-bl-none',
+                                isStart &&
+                                '!rounded-tr-none !rounded-br-none !rtl:rounded-tl-none !rtl:rounded-bl-none',
                             )}
                         >
                             {!(isEnd && !isStart) && (

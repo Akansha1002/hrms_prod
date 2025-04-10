@@ -43,22 +43,19 @@ const ProfileImageSection = ({ control }: ProfileImageSectionProps) => {
 
             try {
                 // Upload the image using the API
-                const uploadResponse = (await apiUploadEmployeeImage(
-                    formData,
-                )) as unknown as {
-                    message: {
-                        file_url: string
-                    }
-                }
+                const uploadResponse = await apiUploadEmployeeImage(formData)
+                //  as unknown as {
+                //     message: {
+                //         file_url: string
+                //     }
+                // }
                 console.log('Upload Response:', uploadResponse)
 
-                const uploadedImagePath = uploadResponse
-                if (!uploadedImagePath) {
+                if (!uploadResponse) {
                     throw new Error('Failed to upload employee image.')
                 }
-                console.log('uploadedImagePath:', uploadedImagePath)
 
-                // field.onChange(uploadedImagePath)
+                field.onChange(uploadResponse)
 
                 toast.push(
                     <Notification type="success">
@@ -96,16 +93,15 @@ const ProfileImageSection = ({ control }: ProfileImageSectionProps) => {
                                             size={100}
                                             className="border-4 border-white bg-gray-100 text-gray-300 shadow-lg"
                                             icon={<HiOutlineUser />}
-                                            // src={field.value}
                                             src={
                                                 typeof field.value === 'string'
                                                     ? field.value
                                                     : field.value instanceof
                                                         File
-                                                      ? URL.createObjectURL(
+                                                        ? URL.createObjectURL(
                                                             field.value,
                                                         )
-                                                      : undefined
+                                                        : undefined
                                             }
                                         />
                                     ) : (

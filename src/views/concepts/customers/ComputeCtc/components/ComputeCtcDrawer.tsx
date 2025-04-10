@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared";
-import { ComputeCtcSchema, SalaryData } from "../types";
+import { ComputeCtcSchema, GetSalaryStructureResponse, SalaryData } from "../types";
 import SalaryTable from "./SalaryTableSection"
 import { Form, FormItem } from '@/components/ui/Form'
 import { Button, Drawer, Input } from "@/components/ui";
@@ -8,33 +8,20 @@ import type { ZodType } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import JoiningBonusSection from "./JoiningBonusSection";
-
-const salaryData: SalaryData[] = [
-    { id: "", component: "Basic", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "House Rent Allowance", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Medical Allowance", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Conveyance Allowance", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Flexible Allowance Flag", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Flexible Allowance", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Bonus", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Monthly PLI", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Special Allowance", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Annual PLI", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Employer Contribution PF", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "Employer Contribution ESI", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-    { id: "", component: "PF Flag", previousEmployer: "0.00", period: "Monthly", proposedSalary: "", increasedAmount: "0", currency: "INR", exchangeRate: "1.0000000000", monthlyAmount: "0.00", baseCurrency: "0" },
-];
+import useSWR from "swr";
+import { apiGetSalaryStructureByName } from "@/services/SalaryStructureService";
 
 type ComputeCtcDrawerProps = {
     open: boolean
     onDrawerOpen: (open: boolean) => void
+    selectedSalaryStructure: { value: string; label: string }
     // onFormSubmit: (values: ComputeCtcSchema) => void
 }
 
 const validationSchema: ZodType<ComputeCtcSchema> = z.object({
     joiningBonus: z.string().optional(),
 })
-const ComputeCtcDrawer = ({ open, onDrawerOpen }: ComputeCtcDrawerProps) => {
+const ComputeCtcDrawer = ({ open, onDrawerOpen, selectedSalaryStructure }: ComputeCtcDrawerProps) => {
     const {
         handleSubmit,
         reset,
@@ -48,11 +35,28 @@ const ComputeCtcDrawer = ({ open, onDrawerOpen }: ComputeCtcDrawerProps) => {
     const handleDrawerClose = () => {
         onDrawerOpen(false)
     }
+    const name = selectedSalaryStructure?.value || ''
 
+    const { data, isLoading, mutate } = useSWR(
+        name
+            ? ['/api/salary Structure', { name: name }] : null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ([_, params]) => apiGetSalaryStructureByName<GetSalaryStructureResponse, { name: string }>(params),
+        {
+            revalidateOnFocus: false,
+            revalidateIfStale: false,
+            evalidateOnFocus: false,
+        },
+    )
+    const salaryStructureDetails = data?.data
+    const componentsData = [
+        ...(salaryStructureDetails?.earnings || []),
+        ...(salaryStructureDetails?.deductions || []),
+    ];
     return (
         <Drawer
             title="Compute CTC"
-            width={1500}
+            width={1000}
             isOpen={open}
             onClose={handleDrawerClose}
             onRequestClose={handleDrawerClose}
@@ -64,7 +68,7 @@ const ComputeCtcDrawer = ({ open, onDrawerOpen }: ComputeCtcDrawerProps) => {
                 <Container>
                     <div className="flex items-center justify-between">
                         <div className="gap-4 flex flex-col flex-auto">
-                            <Form
+                            <FormItem
                                 className="grid grid-cols-2 overflow-y-auto"
                             >
                                 <h6>CTC</h6>
@@ -73,13 +77,22 @@ const ComputeCtcDrawer = ({ open, onDrawerOpen }: ComputeCtcDrawerProps) => {
                                     type="text"
                                 />
                                 INR Yeraly
-                            </Form>
-                            <SalaryTable data={salaryData} />
-                            <FormItem className="inline-flex flex-wrap xl:flex gap-2">
-                                <Button variant="solid" >
+                            </FormItem>
+                            {isLoading ? (
+                                <p>Loading salary structure...</p>
+                            ) : componentsData ? (
+                                <SalaryTable data={componentsData} />
+                            ) : (
+                                <p>No salary structure details available.</p>
+                            )}
+
+                            <div>
+                                <Button
+                                    variant="solid"
+                                >
                                     Compute CTC
                                 </Button>
-                            </FormItem>
+                            </div>
                             <JoiningBonusSection control={control} errors={errors} />
                         </div>
                     </div>

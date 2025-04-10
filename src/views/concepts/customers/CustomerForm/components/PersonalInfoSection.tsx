@@ -117,7 +117,12 @@ const PersonalInfoSection = ({ control, errors, setValue }: PersonalInfoSectionP
                     <Controller
                         name="date_of_birth"
                         control={control}
-                        render={({ field }) => <Input type="date" {...field} />}
+                        render={({ field }) =>
+                            <Input
+                                type="date"
+                                {...field}
+                            />
+                        }
                     />
                 </FormItem>
                 <FormItem

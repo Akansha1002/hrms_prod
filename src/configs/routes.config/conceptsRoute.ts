@@ -22,23 +22,23 @@ const conceptsRoute: Routes = [
         ),
         authority: [ADMIN, USER],
     },
-    {
-        key: 'concepts.customers.customerEdit',
-        path: `${CONCEPTS_PREFIX_PATH}/customers/customer-edit/:id`,
-        component: lazy(
-            () => import('@/views/concepts/customers/CustomerEdit'),
-        ),
-        authority: [ADMIN, USER],
-        meta: {
-            header: {
-                title: 'Edit customer',
-                description:
-                    'Manage customer details, purchase history, and preferences.',
-                contained: true,
-            },
-            footer: false,
-        },
-    },
+    // {
+    //     key: 'concepts.customers.customerEdit',
+    //     path: `${CONCEPTS_PREFIX_PATH}/customers/customer-edit/:id`,
+    //     component: lazy(
+    //         () => import('@/views/concepts/customers/CustomerEdit'),
+    //     ),
+    //     authority: [ADMIN, USER],
+    //     meta: {
+    //         header: {
+    //             title: 'Edit customer',
+    //             description:
+    //                 'Manage customer details, purchase history, and preferences.',
+    //             contained: true,
+    //         },
+    //         footer: false,
+    //     },
+    // },
     {
         key: 'concepts.customers.customerCreate',
         path: `${CONCEPTS_PREFIX_PATH}/customers/customer-create`,
@@ -59,9 +59,7 @@ const conceptsRoute: Routes = [
     {
         key: 'concepts.customers.details',
         path: `${CONCEPTS_PREFIX_PATH}/customers/details/:name`,
-        component: lazy(
-            () => import('@/views/concepts/customers/Details'),
-        ),
+        component: lazy(() => import('@/views/concepts/customers/Details')),
         authority: [ADMIN, USER],
         meta: {
             pageContainerType: 'contained',
@@ -78,8 +76,7 @@ const conceptsRoute: Routes = [
         meta: {
             header: {
                 title: 'Contact Details',
-                description:
-                    'Employee Contact Details',
+                description: 'Employee Contact Details',
                 contained: true,
             },
             footer: false,
@@ -90,7 +87,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.familyDetails.list',
         path: `${CONCEPTS_PREFIX_PATH}/customers/family-details/list/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/FamilyDetails/FamilyDetailList'),
+            () =>
+                import(
+                    '@/views/concepts/customers/FamilyDetails/FamilyDetailList'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -103,7 +103,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.familyDetails.create',
         path: `${CONCEPTS_PREFIX_PATH}/customers/family-details/create/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/FamilyDetails/FamilyDetailCreate'),
+            () =>
+                import(
+                    '@/views/concepts/customers/FamilyDetails/FamilyDetailCreate'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -116,7 +119,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.familyDetails.edit',
         path: `${CONCEPTS_PREFIX_PATH}/customers/family-details/edit/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/FamilyDetails/FamilyDetailEdit'),
+            () =>
+                import(
+                    '@/views/concepts/customers/FamilyDetails/FamilyDetailEdit'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -125,12 +131,14 @@ const conceptsRoute: Routes = [
         },
     },
 
-
     {
         key: 'concepts.customers.educationDetails.create',
         path: `${CONCEPTS_PREFIX_PATH}/customers/education-details/create/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/EducationDetails/EducationDetailCreate'),
+            () =>
+                import(
+                    '@/views/concepts/customers/EducationDetails/EducationDetailCreate'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -143,7 +151,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.educationDetails.list',
         path: `${CONCEPTS_PREFIX_PATH}/customers/education-details/list/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/EducationDetails/EducationDetailList'),
+            () =>
+                import(
+                    '@/views/concepts/customers/EducationDetails/EducationDetailList'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -155,7 +166,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.educationDetails.edit',
         path: `${CONCEPTS_PREFIX_PATH}/customers/education-details/edit/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/EducationDetails/EducationDetailEdit'),
+            () =>
+                import(
+                    '@/views/concepts/customers/EducationDetails/EducationDetailEdit'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -175,8 +189,7 @@ const conceptsRoute: Routes = [
             // pageContainerType: 'contained',
             header: {
                 title: '',
-                description:
-                    'Employee Passport Detail Form',
+                description: 'Employee Passport Detail Form',
                 contained: true,
             },
             footer: false,
@@ -200,7 +213,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.pastEmploymentDetails.list',
         path: `${CONCEPTS_PREFIX_PATH}/customers/past-employment-details/list/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailList'),
+            () =>
+                import(
+                    '@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailList'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -213,7 +229,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.pastEmploymentDetails.create',
         path: `${CONCEPTS_PREFIX_PATH}/customers/past-employment-details/create/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailCreate'),
+            () =>
+                import(
+                    '@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailCreate'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -226,7 +245,10 @@ const conceptsRoute: Routes = [
         key: 'concepts.customers.pastEmploymentDetails.edit',
         path: `${CONCEPTS_PREFIX_PATH}/customers/past-employment-details/edit/:name`,
         component: lazy(
-            () => import('@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailEdit'),
+            () =>
+                import(
+                    '@/views/concepts/customers/PastEmploymentDetails/PastEmploymentDetailEdit'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
@@ -238,9 +260,7 @@ const conceptsRoute: Routes = [
     {
         key: 'concepts.customers.bankDetails',
         path: `${CONCEPTS_PREFIX_PATH}/customers/bank-details/:name`,
-        component: lazy(
-            () => import('@/views/concepts/customers/BankDetails'),
-        ),
+        component: lazy(() => import('@/views/concepts/customers/BankDetails')),
         authority: [ADMIN, USER],
         meta: {
             pageContainerType: 'contained',
@@ -259,8 +279,7 @@ const conceptsRoute: Routes = [
             // pageContainerType: 'contained',
             header: {
                 title: '',
-                description:
-                    'Employee Driving License Form',
+                description: 'Employee Driving License Form',
                 contained: true,
             },
             footer: false,
@@ -319,8 +338,6 @@ const conceptsRoute: Routes = [
         meta: {
             header: {
                 title: 'Create Leave',
-                // description:
-                //     'Quickly manage product details, stock, and availability.',
                 contained: true,
             },
             footer: false,
@@ -328,13 +345,54 @@ const conceptsRoute: Routes = [
     },
 
     {
-        key: 'concepts.leave.leaveEdit',
-        path: `${CONCEPTS_PREFIX_PATH}/leave/leave-edit`,
-        component: lazy(() => import('@/views/concepts/leave/LeaveEdit')),
+        key: 'concepts.leave.leaveAllocation.list',
+        path: `${CONCEPTS_PREFIX_PATH}/leave/leave-allocation/list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/leave/LeaveAllocation/LeaveAllocationList'
+                ),
+        ),
         authority: [ADMIN, USER],
         meta: {
             header: {
-                title: 'Edit Leave',
+                title: 'Leave Allocation',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.leave.leaveApplication.list',
+        path: `${CONCEPTS_PREFIX_PATH}/leave/leave-application/list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/leave/LeaveApplication/LeaveApplicationList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: 'Leave Application',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.leave.leaveApplication',
+        path: `${CONCEPTS_PREFIX_PATH}/leave/leave-application/:id`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/leave/LeaveApplication/LeaveApplicationEdit'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: 'Leave Application',
                 contained: true,
             },
             footer: false,
@@ -350,34 +408,79 @@ const conceptsRoute: Routes = [
             pageBackgroundType: 'plain',
         },
     },
-
-    // Holiday Master
     {
-        key: 'concepts.holidayList.holidayList',
-        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday-list`,
-        component: lazy(() => import('@/views/concepts/holidayList/HolidayList')),
+        key: 'concepts.attendance.tracker',
+        path: `${CONCEPTS_PREFIX_PATH}/attendance/tracker`,
+        component: lazy(() => import('@/views/concepts/attendance/Tracker')),
         authority: [ADMIN, USER],
         meta: {
             pageContainerType: 'contained',
             pageBackgroundType: 'plain',
         },
     },
-    // {
-    //     key: 'concepts.holidayList.holiday',
-    //     path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
-    //     component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
-    //     authority: [ADMIN, USER],
-    //     meta: {
-    //         pageContainerType: 'contained',
-    //         pageBackgroundType: 'plain',
-    //     },
-    // },
+    {
+        key: 'concepts.attendance.regularization',
+        path: `${CONCEPTS_PREFIX_PATH}/attendance/regularization`,
+        component: lazy(
+            () => import('@/views/concepts/attendance/Regularisation'),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.attendance.regularization',
+        path: `${CONCEPTS_PREFIX_PATH}/attendance/regularization-create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/attendance/Regularisation/AttendanceRegularisationCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: 'New Attendance Regularisation',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+
+    // Holiday Master
+    {
+        key: 'concepts.holidayList.holidayList',
+        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday-list`,
+        component: lazy(
+            () => import('@/views/concepts/holidayList/HolidayList'),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+        },
+    },
+    {
+        key: 'concepts.holidayList.holiday',
+        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
+        component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+        },
+    },
 
     //Salary Adjustments
     {
         key: 'concepts.salaryAdjustment',
         path: `${CONCEPTS_PREFIX_PATH}/salaryAdjustment`,
-        component: lazy(() => import('@/views/concepts/salaryAdjustment/SalaryAdjustment')),
+        component: lazy(
+            () => import('@/views/concepts/salaryAdjustment/SalaryAdjustment'),
+        ),
         authority: [ADMIN, USER],
         meta: {
             pageContainerType: 'contained',
@@ -397,6 +500,71 @@ const conceptsRoute: Routes = [
                 title: '',
                 description:
                     'Manage customer details, track purchases, and update preferences easily.',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+
+    // Payroll
+
+    {
+        key: 'concepts.payroll.list',
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/list`,
+        component: lazy(
+            () =>
+                import('@/views/concepts/payroll/TaxExemptionDeclarationList'),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+        },
+    },
+    {
+        key: 'concepts.payroll.create',
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/payroll/TaxExemptionDeclarationCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+        },
+    },
+    {
+        key: 'concepts.payroll.taxExemptionProofSubmission',
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
+        component: lazy(
+            () => import('@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionList'),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: '',
+                description:
+                    '',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.payroll.taxExemptionProofSubmission',
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission/create`,
+        component: lazy(
+            () => import('@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionCreate'),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: 'New Employee Tax Exemption Proof Submission',
+                description:
+                    '',
                 contained: true,
             },
             footer: false,

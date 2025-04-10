@@ -33,7 +33,7 @@ const ActionColumn = () => {
             status: 'active',
             compensationDate: '',
         });
-     setDrawerOpen(true);   
+        setDrawerOpen(true);
     };
 
     return (
@@ -64,11 +64,11 @@ const ActionColumn = () => {
 const columnHelper = createColumnHelper<HolidayTableData>()
 
 const columns = [
-    columnHelper.accessor('date', {
+    columnHelper.accessor('holiday_date', {
         header: 'Holiday Date',
         cell: (props) => {
-            const { date } = props.row.original
-            return <div className="heading-text font-semibold">{date}</div>
+            const { holiday_date } = props.row.original
+            return <div className="heading-text font-semibold">{holiday_date}</div>
         },
     }),
     columnHelper.accessor('description', {
@@ -78,11 +78,11 @@ const columns = [
             return <div className="heading-text font-semibold">{description}</div>
         },
     }),
-    columnHelper.accessor('reason', {
+    columnHelper.accessor('description', {
         header: 'Holiday Reason',
         cell: (props) => {
-            const { reason } = props.row.original
-            return <div className="heading-text font-semibold">{reason}</div>
+            const { description } = props.row.original
+            return <div className="heading-text font-semibold">{description}</div>
         },
     }),
     {

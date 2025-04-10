@@ -124,6 +124,10 @@ export type GetEmployeesListResponse = {
     total: number
 }
 
+export type Filter= {
+    status: string
+}
+
 export type EmployeeData = {
     name: string;
     owner: string;

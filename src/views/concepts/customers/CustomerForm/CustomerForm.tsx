@@ -22,6 +22,7 @@ import { apiGetEmploymentTypeList } from '@/services/EmployementTypeService'
 import { apiGetShiftTypeList } from '@/services/ShiftTypeService'
 import { apiGetDepartmentList } from '@/services/DepartmentService'
 import { apiGetDesignationList } from '@/services/DesignationService'
+import { apiGetSalaryStructureList } from '@/services/SalaryStructureService'
 
 type EmployeeFormProps = {
     onFormSubmit: (values: EmployeeFormSchema) => void
@@ -86,8 +87,8 @@ const validationSchema: ZodType<EmployeeFormSchema> = z.object({
     custom_old_employee_number: z.string().optional().nullable(),
     originalHireDate: z.string().optional().nullable(),
 
-    //  PayRollfields
-    pan_number: z.string().optional().nullable(),
+    //  PayRollfields`
+    pan_number: z.string().regex(/^[A-Z]{5}[0-9]{4}[A-Z]$/, "Invalid PAN number").optional().nullable(),
     custom_pf_number: z.string().optional().nullable(),
     custom_esi_number: z.string().optional().nullable(),
     custom_pt_location: z.string().optional().nullable(),
@@ -95,6 +96,7 @@ const validationSchema: ZodType<EmployeeFormSchema> = z.object({
     salary_mode: z.string().optional().nullable(),
     custom_applied_from: z.string().optional().nullable(),
     custom_pay_group: z.string().optional().nullable(),
+    custom_salary_structure: z.string().min(1, { message: 'Salary Structure required' }),
 })
 
 const CustomerForm = (props: EmployeeFormProps) => {
@@ -163,12 +165,13 @@ const CustomerForm = (props: EmployeeFormProps) => {
     const { data, error, isLoading, mutate } = useSWR(
         'fetch-all-data',
         async () => {
-            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes] = await Promise.all([
+            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes, salaryStructureRes] = await Promise.all([
                 apiGetHolidayList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetEmploymentTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetShiftTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDepartmentList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDesignationList<{ data: { name: string }[] }, Record<string, unknown>>({}),
+                apiGetSalaryStructureList<{ data: { name: string }[] }, Record<string, unknown>>({}),
             ]);
 
             return {
@@ -177,6 +180,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
                 shiftTypeList: shiftRes?.data || [],
                 departmentList: departmentRes?.data || [],
                 designationList: designationRes?.data || [],
+                salaryStructureList: salaryStructureRes?.data || [],
             };
         },
         { revalidateOnFocus: false },
@@ -195,19 +199,24 @@ const CustomerForm = (props: EmployeeFormProps) => {
             label: employment.name,
         })) || []
 
-    const departmentList = data?.departmentList.map((shift) => ({
-        value: shift.name,
-        label: shift.name,
+    const departmentList = data?.departmentList.map((department) => ({
+        value: department.name,
+        label: department.name,
     })) || [];
 
-    const designationList = data?.designationList.map((shift) => ({
-        value: shift.name,
-        label: shift.name,
+    const designationList = data?.designationList.map((designation) => ({
+        value: designation.name,
+        label: designation.name,
     })) || [];
 
     const shiftTypeList = data?.shiftTypeList.map((shift) => ({
         value: shift.name,
         label: shift.name,
+    })) || [];
+
+    const salaryStructureList = data?.salaryStructureList.map((salary) => ({
+        value: salary.name,
+        label: salary.name,
     })) || [];
 
     const [step, setStep] = useState(0)
@@ -239,7 +248,16 @@ const CustomerForm = (props: EmployeeFormProps) => {
                 />
             ),
         },
-        { component: <PayRollSection control={control} errors={errors} setValue={setValue} /> }
+        {
+            component:
+                <PayRollSection
+                    control={control}
+                    errors={errors}
+                    setValue={setValue}
+                    salaryStructureList={salaryStructureList}
+                    isLoading={isLoading}
+                />
+        }
     ]
 
     const onChange = (nextStep: number) => {

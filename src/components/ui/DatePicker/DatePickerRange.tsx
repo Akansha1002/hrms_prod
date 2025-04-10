@@ -16,16 +16,16 @@ export type DatePickerRangeValue = [Date | null, Date | null]
 
 export interface DatePickerRangeProps
     extends CommonProps,
-        Omit<
-            CalendarSharedProps,
-            | 'onMonthChange'
-            | 'onChange'
-            | 'isDateInRange'
-            | 'isDateFirstInRange'
-            | 'isDateLastInRange'
-            | 'month'
-        >,
-        BasePickerSharedProps {
+    Omit<
+        CalendarSharedProps,
+        | 'onMonthChange'
+        | 'onChange'
+        | 'isDateInRange'
+        | 'isDateFirstInRange'
+        | 'isDateLastInRange'
+        | 'month'
+    >,
+    BasePickerSharedProps {
     closePickerOnChange?: boolean
     defaultOpen?: boolean
     defaultValue?: DatePickerRangeValue

@@ -1,8 +1,13 @@
-import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import useSWR from 'swr'
+import { TbTrash } from 'react-icons/tb'
 import Container from '@/components/shared/Container'
-import Button from '@/components/ui/Button'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import Notification from '@/components/ui/Notification'
 import toast from '@/components/ui/toast'
+import Button from '@/components/ui/Button'
+import CustomerForm from '../CustomerForm'
 import {
     apiAddEmployeeImage,
     apiCreateEmployee,
@@ -10,12 +15,7 @@ import {
 } from '@/services/CustomersService'
 import { apiCreateEmployeeDetails } from '@/services/EmployeeDetailService'
 import { apiRegisterNewUser } from '@/services/UserService'
-import { useState } from 'react'
-import { TbTrash } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
-import useSWR from 'swr'
 import type { EmployeeFormSchema } from '../CustomerForm'
-import CustomerForm from '../CustomerForm'
 
 interface UserData {
     email: string
@@ -26,13 +26,11 @@ interface UserData {
 const CustomerEdit = () => {
     const navigate = useNavigate()
 
-    const [discardConfirmationOpen, setDiscardConfirmationOpen] =
-        useState(false)
+    const [discardConfirmationOpen, setDiscardConfirmationOpen] = useState(false)
     const [isSubmiting, setIsSubmiting] = useState(false)
 
     const {
         data: employeeData,
-        isLoading,
         mutate: refreshEmployeeList,
     } = useSWR(
         ['/api/resource/Employee', {}], // API endpoint for fetching employees
@@ -58,10 +56,8 @@ const CustomerEdit = () => {
                 user_type: 'System User',
                 roles: [{ role: 'Employee' }],
             }
-            const userResponse = (await apiRegisterNewUser<
-                UserData,
-                typeof userPayload
-            >(userPayload)) as { data: UserData }
+
+            const userResponse = (await apiRegisterNewUser<UserData, typeof userPayload>(userPayload)) as { data: UserData }
             if (!userResponse.data) {
                 throw new Error(
                     'Failed to create user. Unexpected response format.',
@@ -71,9 +67,9 @@ const CustomerEdit = () => {
                 ...values,
                 user_id: values.user_email,
             })) as { data: { name: string } }
-            // const addImagePayload = { image: values.image }
+            const name = response.data.name
             const addImageResponse = await apiAddEmployeeImage(
-                response.data.name,
+                name,
                 { image: values.image },
             )
             if (!addImageResponse) {
@@ -174,7 +170,7 @@ const CustomerEdit = () => {
                     custom_contractor: '',
                     custom_experience_in_category: '',
                     custom_experience_in_months: '',
-                    notice_number_of_days: 30,
+                    notice_number_of_days: '30',
                     custom_secretary: '',
                     custom_old_employee_number: '',
                     originalHireDate: '',

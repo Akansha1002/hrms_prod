@@ -1,7 +1,5 @@
 import ApiService from '@/services/ApiService'
 
-const API_URL = 'http://159.65.147.182:8000/api/resource/Employee Details'
-
 /**
  * Fetch employee details by employee ID
  */
@@ -10,7 +8,7 @@ export async function apiGetEmployeeDetails<T, U extends Record<string, unknown>
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Employee Details/${name}`,
         method: 'get',
         params,
     })
@@ -22,7 +20,7 @@ export async function apiGetEmployeeDetails<T, U extends Record<string, unknown>
 export async function apiCreateEmployeeDetails<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: API_URL,
+        url: 'resource/Employee Details',
         method: 'post',
         data,
     })
@@ -35,7 +33,7 @@ export async function apiUpdateEmployeeDetails<T, U extends Record<string, unkno
     name: string,
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Employee Details/${name}`,
         method: 'put',
         data,
     })

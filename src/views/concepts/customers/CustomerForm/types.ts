@@ -68,6 +68,7 @@ export type PayRollfields = {
     salary_mode?: string | null
     custom_applied_from?: string | null
     custom_pay_group?: string | null
+    custom_salary_structure: string 
 }
 
 export type EmployeeFormSchema = PersonalInfoFields &

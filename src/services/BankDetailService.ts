@@ -1,7 +1,5 @@
 import ApiService from '@/services/ApiService'
 
-const API_URL = 'http://159.65.147.182:8000/api/resource/Bank Details'
-
 /**
  * Fetch Bank details by employee ID
  */
@@ -10,7 +8,7 @@ export async function apiGetBankDetails<T, U extends Record<string, unknown>>({
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Bank Details/${name}`,
         method: 'get',
         params,
     })
@@ -22,7 +20,7 @@ export async function apiGetBankDetails<T, U extends Record<string, unknown>>({
 export async function apiCreateBankDetails<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: API_URL,
+        url: 'resource/Bank Details',
         method: 'post',
         data,
     })
@@ -35,7 +33,7 @@ export async function apiUpdateBankDetails<T, U extends Record<string, unknown>>
     name: string,
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Bank Details/${name}`,
         method: 'put',
         data,
     })

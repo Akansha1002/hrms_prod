@@ -9,38 +9,38 @@ import {
     CellContext,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { SalaryData } from "../types";
+import { SalaryStructureComponents, SalaryStructureDetails } from "../types";
 
 // Define the type for the table data
 type SalaryTableProps = {
-    data: SalaryData[];
+    data: SalaryStructureComponents[];
 };
 
 const { Tr, Td, TBody, THead, Th } = Table;
 
-const columnHelper = createColumnHelper<SalaryData>();
+const columnHelper = createColumnHelper<SalaryStructureComponents>();
 
 const columns = [
     columnHelper.accessor("id", {
         header: "#",
         cell: (props) => <div className="heading-text font-semibold">{props.row.index + 1}</div>,
     }),
-    columnHelper.accessor("component", {
+    columnHelper.accessor("salary_component", {
         header: "Component",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.component}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.salary_component}</div>,
     }),
-    columnHelper.accessor("previousEmployer", {
+    columnHelper.accessor("previous_employer", {
         header: "Previous Employer",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.previousEmployer}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.previous_employer}</div>,
     }),
-    columnHelper.accessor("period", {
+    columnHelper.accessor("payroll_frequency", {
         header: "Period",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.period}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.payroll_frequency}</div>,
     }),
-    columnHelper.accessor("proposedSalary", {
+    columnHelper.accessor("amount_based_on_formula", {
         header: "Proposed Salary",
         cell: (props) => {
-            const [salary, setSalary] = useState(props.row.original.proposedSalary);
+            const [salary, setSalary] = useState(props.row.original.amount_based_on_formula);
             return (
                 // <input
                 //     className="heading-text font-semibold border border-gray-300 px-2 py-1 rounded"
@@ -50,31 +50,31 @@ const columns = [
                         placeholder="0.00"
                         type="text"
                         value={salary}
-                        onChange={(e) => setSalary(e.target.value)}
+                        // onChange={(e) => setSalary(e.target.value)}
                     />
                 </div>
             );
         },
     }),
-    columnHelper.accessor("increasedAmount", {
+    columnHelper.accessor("increased_amount", {
         header: "Increased Amount",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.increasedAmount}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.increased_amount}</div>,
     }),
     columnHelper.accessor("currency", {
         header: "Currency",
         cell: (props) => <div className="heading-text font-semibold">{props.row.original.currency}</div>,
     }),
-    columnHelper.accessor("exchangeRate", {
+    columnHelper.accessor("exchange_rate", {
         header: "Exchange Rate",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.exchangeRate}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.exchange_rate}</div>,
     }),
-    columnHelper.accessor("monthlyAmount", {
+    columnHelper.accessor("monthly_amount", {
         header: "Monthly Amount",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.monthlyAmount}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.monthly_amount}</div>,
     }),
-    columnHelper.accessor("baseCurrency", {
+    columnHelper.accessor("base_currency", {
         header: "Base Currency",
-        cell: (props) => <div className="heading-text font-semibold">{props.row.original.baseCurrency}</div>,
+        cell: (props) => <div className="heading-text font-semibold">{props.row.original.base_currency}</div>,
     }),
 ];
 

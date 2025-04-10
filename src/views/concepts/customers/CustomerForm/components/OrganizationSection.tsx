@@ -111,7 +111,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                         render={({ field }) => <Input type="date" {...field} />}
                     />
                 </FormItem>
-                <FormItem
+                {/* <FormItem
                     label="Effective From"
                     invalid={Boolean(errors.effectiveFrom)}
                     errorMessage={errors.effectiveFrom?.message}
@@ -128,7 +128,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                             />
                         )}
                     />
-                </FormItem>
+                </FormItem> */}
                 <FormItem
                     label="Position"
                     invalid={Boolean(errors.position)}
@@ -292,7 +292,6 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     <Controller
                         name="reports_to"
                         control={control}
-                        // render={({ field }) => <Input type="text" {...field} />}
                         render={({ field }) => (
                             <Select
                                 options={

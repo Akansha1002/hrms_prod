@@ -9,7 +9,8 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: '/api',
+    // apiPrefix: '/api',
+      apiPrefix: 'http://159.65.147.182:8000/api/',
     // authenticatedEntryPath: '/home',
     authenticatedEntryPath: '/concepts/customers/customer-create',
     unAuthenticatedEntryPath: '/sign-in',

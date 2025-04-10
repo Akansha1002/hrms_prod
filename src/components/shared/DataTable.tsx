@@ -24,11 +24,13 @@ import {
     ColumnSort,
     Row,
     CellContext,
+    ColumnFiltersState,
 } from '@tanstack/react-table'
 import type { TableProps } from '@/components/ui/Table'
 import type { SkeletonProps } from '@/components/ui/Skeleton'
 import type { Ref, ChangeEvent, ReactNode } from 'react'
 import type { CheckboxProps } from '@/components/ui/Checkbox'
+import { Filter } from './Filter'
 
 export type OnSortParam = { order: 'asc' | 'desc' | ''; key: string | number }
 
@@ -139,6 +141,7 @@ function DataTable<T>(props: DataTableProps<T>) {
     const { pageSize, pageIndex, total } = pagingData
 
     const [sorting, setSorting] = useState<ColumnSort[] | null>(null)
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const pageSizeOption = useMemo(
         () =>
@@ -187,8 +190,8 @@ function DataTable<T>(props: DataTableProps<T>) {
                             checked={
                                 indeterminateCheckboxChecked
                                     ? indeterminateCheckboxChecked(
-                                          table.getRowModel().rows,
-                                      )
+                                        table.getRowModel().rows,
+                                    )
                                     : table.getIsAllRowsSelected()
                             }
                             indeterminate={table.getIsSomeRowsSelected()}
@@ -240,8 +243,10 @@ function DataTable<T>(props: DataTableProps<T>) {
         onSortingChange: (sorter) => {
             setSorting(sorter as ColumnSort[])
         },
+        onColumnFiltersChange: setColumnFilters,
         state: {
             sorting: sorting as ColumnSort[],
+            columnFilters
         },
     })
 
@@ -282,29 +287,24 @@ function DataTable<T>(props: DataTableProps<T>) {
                                     <Th
                                         key={header.id}
                                         colSpan={header.colSpan}
+
                                     >
                                         {header.isPlaceholder ? null : (
                                             <div
                                                 className={classNames(
                                                     header.column.getCanSort() &&
-                                                        'cursor-pointer select-none point',
+                                                    'cursor-pointer select-none point',
                                                     loading &&
-                                                        'pointer-events-none',
+                                                    'pointer-events-none',
                                                 )}
                                                 onClick={header.column.getToggleSortingHandler()}
                                             >
-                                                {flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext(),
-                                                )}
-                                                {header.column.getCanSort() && (
-                                                    <Sorter
-                                                        sort={header.column.getIsSorted()}
-                                                    />
-                                                )}
+                                                {flexRender(header.column.columnDef.header, header.getContext())}
+
+                                                {header.column.getCanSort() && <Sorter sort={header.column.getIsSorted()} />}
                                             </div>
                                         )}
+
                                     </Th>
                                 )
                             })}
@@ -323,7 +323,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                         {noData ? (
                             <Tr>
                                 <Td
-                                    className="hover:bg-transparent"
+                                    className="hover:bg-transparent "
                                     colSpan={finalColumns.length}
                                 >
                                     <div className="flex flex-col items-center gap-4">

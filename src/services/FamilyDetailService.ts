@@ -1,14 +1,11 @@
 import ApiService from '@/services/ApiService'
 
-const API_URL = 'http://159.65.147.182:8000/api/resource/Family Details'
-
-
 export async function apiGetFamilyDetailsList<T, U extends Record<string, unknown>>({
     name,
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
+        url: `/Family Details?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
         method: 'get',
         params,
     })
@@ -22,7 +19,7 @@ export async function apiGetFamilyDetail<T, U extends Record<string, unknown>>({
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `/Family Details/${name}`,
         method: 'get',
         params,
     })
@@ -34,7 +31,7 @@ export async function apiGetFamilyDetail<T, U extends Record<string, unknown>>({
 export async function apiCreateFamilyDetail<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: API_URL,
+        url: 'resource/Family Details',
         method: 'post',
         data,
     })
@@ -47,7 +44,7 @@ export async function apiUpdateFamilyDetail<T, U extends Record<string, unknown>
     name: string,
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `${API_URL}/${name}`,
+        url: `resource/Family Details/${name}`,
         method: 'put',
         data,
     })

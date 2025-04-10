@@ -1,6 +1,10 @@
 export type HolidayListTableData = {
-    id: string
+    holiday_list_name: string
     from_date: string
     to_date: string
-    total_holidays:string
+    total_holidays: string
+}
+
+export type GetHolidayListResponse = {
+    data: HolidayListTableData
 }

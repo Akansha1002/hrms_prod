@@ -10,10 +10,10 @@ import {
 import Tooltip from '@/components/ui/Tooltip'
 import { TbPencil } from 'react-icons/tb'
 import { useNavigate } from "react-router-dom"
-import { TableData } from "../types"
+import { LeaveTypeListData } from "../types"
 
 type LeaveTableprops = {
-    data: TableData[]
+    data: LeaveTypeListData[]
 }
 
 const { Tr, Td, TBody, THead, Th } = Table
@@ -40,62 +40,75 @@ const ActionColumn = () => {
     )
 }
 
-const columnHelper = createColumnHelper<TableData>()
+const columnHelper = createColumnHelper<LeaveTypeListData>()
 
 const columns = [
-    columnHelper.accessor('leaveCode', {
-        header: 'Leave Code',
-        cell: (props) => {
-            const { leaveCode } = props.row.original
-            return <div className="heading-text font-semibold">{leaveCode}</div>
-        },
-    }),
-    columnHelper.accessor('leaveName', {
+    // columnHelper.accessor('leaveCode', {
+    //     header: 'Leave Code',
+    //     cell: (props) => {
+    //         const { leaveCode } = props.row.original
+    //         return <div className="heading-text font-semibold">{leaveCode}</div>
+    //     },
+    // }),
+    columnHelper.accessor('leave_type_name', {
         header: 'Leave Name',
         cell: (props) => {
-            const { leaveName } = props.row.original
-            return <div className="heading-text font-semibold">{leaveName}</div>
+            const { leave_type_name } = props.row.original
+            return <div className="heading-text font-semibold">{leave_type_name}</div>
         },
     }),
-    columnHelper.accessor('sex', {
-        header: 'Sex',
+    // columnHelper.accessor('sex', {
+    //     header: 'Sex',
+    //     cell: (props) => {
+    //         const { sex } = props.row.original
+    //         return <div className="heading-text font-semibold">{sex}</div>
+    //     },
+    // }),
+    // columnHelper.accessor('status', {
+    //     header: 'Status',
+    //     cell: (props) => {
+    //         const { status } = props.row.original
+    //         return <div className="heading-text font-semibold">{status}</div>
+    //     },
+    // }),
+
+    //additional add 
+    columnHelper.accessor('max_continuous_days_allowed', {
+        header: 'Maximum Consecutive Leaves Allowed ',
         cell: (props) => {
-            const { sex } = props.row.original
-            return <div className="heading-text font-semibold">{sex}</div>
+            const { max_continuous_days_allowed } = props.row.original
+            return <div className="heading-text font-semibold">{max_continuous_days_allowed}</div>
         },
     }),
-    columnHelper.accessor('status', {
-        header: 'Status',
-        cell: (props) => {
-            const { status } = props.row.original
-            return <div className="heading-text font-semibold">{status}</div>
-        },
-    }),
-    columnHelper.accessor('encashable', {
+    columnHelper.accessor('allow_encashment', {
         header: 'Encashable',
         cell: (props) => {
-            const { encashable } = props.row.original
-            return <div className="heading-text font-semibold">{encashable}</div>
+            const { allow_encashment } = props.row.original
+            return <div className="heading-text font-semibold">
+                {allow_encashment === 1 ? 'Yes' : 'No'}
+            </div>
         },
     }),
-    columnHelper.accessor('truncation', {
-        header: 'Truncation',
-        cell: (props) => {
-            const { truncation } = props.row.original
-            return <div className="heading-text font-semibold">{truncation}</div>
-        },
-    }),
-    columnHelper.accessor('transfer', {
+    // columnHelper.accessor('truncation', {
+    //     header: 'Truncation',
+    //     cell: (props) => {
+    //         const { truncation } = props.row.original
+    //         return <div className="heading-text font-semibold">{truncation}</div>
+    //     },
+    // }),
+    columnHelper.accessor('is_carry_forward', {
         header: 'Transfer',
         cell: (props) => {
-            const { transfer } = props.row.original
-            return <div className="heading-text font-semibold">{transfer}</div>
+            const { is_carry_forward } = props.row.original
+            return <div className="heading-text font-semibold">
+                {is_carry_forward === 1 ? 'Yes' : 'No'}
+            </div>
         },
     }),
     {
         header: 'Action',
         id: 'action',
-        cell: (props: CellContext<TableData, unknown>) => (
+        cell: (props: CellContext<LeaveTypeListData, unknown>) => (
             <ActionColumn
             />
         ),
