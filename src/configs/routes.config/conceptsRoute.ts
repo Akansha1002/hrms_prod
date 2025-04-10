@@ -463,16 +463,16 @@ const conceptsRoute: Routes = [
             pageBackgroundType: 'plain',
         },
     },
-    {
-        key: 'concepts.holidayList.holiday',
-        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
-        component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
-        authority: [ADMIN, USER],
-        meta: {
-            pageContainerType: 'contained',
-            pageBackgroundType: 'plain',
-        },
-    },
+    // {
+    //     key: 'concepts.holidayList.holiday',
+    //     path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
+    //     component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
+    //     authority: [ADMIN, USER],
+    //     meta: {
+    //         pageContainerType: 'contained',
+    //         pageBackgroundType: 'plain',
+    //     },
+    // },
 
     //Salary Adjustments
     {
