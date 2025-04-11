@@ -12,6 +12,8 @@ export type SignInResponse = {
         avatar: string
         email: string
     }
+    message: string
+    full_name: string
 }
 
 export type SignUpResponse = SignInResponse
@@ -35,6 +37,7 @@ export type AuthRequestStatus = 'success' | 'failed' | ''
 export type AuthResult = Promise<{
     status: AuthRequestStatus
     message: string
+    full_name?:string
 }>
 
 export type User = {

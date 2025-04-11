@@ -11,8 +11,7 @@ import { z } from 'zod'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import { apiSignIn } from '@/services/AuthService'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -35,9 +34,9 @@ const validationSchema: ZodType<SignInFormSchema> = z.object({
 })
 
 const SignInForm = (props: SignInFormProps) => {
-    const [isSubmitting, setSubmitting] = useState<boolean>(false)
-
     const { disableSubmit = false, className, setMessage, passwordHint } = props
+    const [isSubmitting, setSubmitting] = useState(false)
+    const { signIn } = useAuth()
 
     const {
         handleSubmit,
@@ -45,13 +44,12 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            usr: 'admin-01@ecme.com',
-            pwd: '123Qwe',
+            usr: '',
+            pwd: '',
         },
         resolver: zodResolver(validationSchema),
     })
 
-    const { signIn } = useAuth()
 
     const onSignIn = async (values: SignInFormSchema) => {
         const { usr, pwd } = values
@@ -75,10 +73,9 @@ const SignInForm = (props: SignInFormProps) => {
             //         Cookies.set(name, value, { path: '/' })
             //     })
             // }
-            const result = await signIn({ usr, pwd })
-
-            if (result?.status === 'failed') {
-                setMessage?.(result.message)
+            const response = await signIn({ usr, pwd })
+            if (response.message !== 'Logged In') {
+                setMessage?.('Login failed')
             }
         }
 
@@ -98,7 +95,7 @@ const SignInForm = (props: SignInFormProps) => {
                         control={control}
                         render={({ field }) => (
                             <Input
-                                type="email"
+                                // type="email"
                                 placeholder="Email"
                                 autoComplete="off"
                                 {...field}
@@ -111,7 +108,7 @@ const SignInForm = (props: SignInFormProps) => {
                     invalid={Boolean(errors.pwd)}
                     errorMessage={errors.pwd?.message}
                     className={classNames(
-                        passwordHint && 'mb-0',
+                        passwordHint ? 'mb-0' : '',
                         errors.pwd?.message && 'mb-8',
                     )}
                 >

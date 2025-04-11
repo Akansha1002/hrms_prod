@@ -80,19 +80,22 @@ function AuthProvider({ children }: AuthProviderProps) {
                 redirect()
                 return {
                     status: 'success',
-                    message: '',
+                    message: resp.message,
+                    full_name: resp.full_name || '',
                 }
             }
             return {
                 status: 'failed',
-                message: 'Unable to sign in',
-            }
+                message: 'Unable to sign up',
+            };
+
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         } catch (errors: any) {
             return {
                 status: 'failed',
-                message: errors?.response?.data?.message || errors.toString(),
-            }
+                message: errors?.response?.message || 'An error occurred',
+                full_name: '',
+            };
         }
     }
 
