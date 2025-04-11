@@ -23,22 +23,22 @@ const conceptsNavigationConfig: NavigationTree[] = [
             },
         },
         subMenu: [
-            {
-                key: 'concepts.dashboards',
-                path: `${CONCEPTS_PREFIX_PATH}/dashboards`,
-                title: 'Dashboards',
-                translateKey: 'nav.dashboards',
-                icon: 'dashboard',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [ADMIN, USER],
-                meta: {
-                    description: {
-                        translateKey: 'nav.dashboardDesc',
-                        label: 'Schedule and events',
-                    },
-                },
-                subMenu: [],
-            },
+            // {
+            //     key: 'concepts.dashboards',
+            //     path: `${CONCEPTS_PREFIX_PATH}/dashboards`,
+            //     title: 'Dashboards',
+            //     translateKey: 'nav.dashboards',
+            //     icon: 'dashboard',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [ADMIN, USER],
+            //     meta: {
+            //         description: {
+            //             translateKey: 'nav.dashboardDesc',
+            //             label: 'Schedule and events',
+            //         },
+            //     },
+            //     subMenu: [],
+            // },
 
             {
                 key: 'concepts.customers',
