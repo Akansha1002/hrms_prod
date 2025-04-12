@@ -22,9 +22,17 @@ interface SignInFormProps extends CommonProps {
 type SignInFormSchema = {
     usr: string
     pwd: string
+    // email: string
+    // password: string
 }
 
 const validationSchema: ZodType<SignInFormSchema> = z.object({
+    // email: z
+    //     .string({ required_error: 'Please enter your email' })
+    //     .min(1, { message: 'Please enter your email' }),
+    // password: z
+    //     .string({ required_error: 'Please enter your password' })
+    //     .min(1, { message: 'Please enter your password' }),
     usr: z
         .string({ required_error: 'Please enter your email' })
         .min(1, { message: 'Please enter your email' }),
@@ -44,6 +52,8 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
+            // password: '',
+            // email: '',
             usr: '',
             pwd: '',
         },
@@ -52,7 +62,12 @@ const SignInForm = (props: SignInFormProps) => {
 
 
     const onSignIn = async (values: SignInFormSchema) => {
-        const { usr, pwd } = values
+        const {
+            // email,
+            // password
+            usr,
+            pwd,
+        } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
@@ -74,9 +89,9 @@ const SignInForm = (props: SignInFormProps) => {
             //     })
             // }
             const response = await signIn({ usr, pwd })
-            if (response.message !== 'Logged In') {
-                setMessage?.('Login failed')
-            }
+            // if (response.message !== 'Logged In') {
+            //     setMessage?.('Login failed')
+            // }
         }
 
         setSubmitting(false)
