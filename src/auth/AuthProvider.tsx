@@ -58,6 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
 
     const handleSignIn = (tokens: Token, user?: User) => {
+        localStorage.setItem('accessToken', tokens.accessToken)
         setToken(tokens.accessToken)
         setSessionSignedIn(true)
 
@@ -67,6 +68,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
 
     const handleSignOut = () => {
+        // localStorage.removeItem('accessToken')
         setToken('')
         setUser({})
         setSessionSignedIn(false)
@@ -76,17 +78,26 @@ function AuthProvider({ children }: AuthProviderProps) {
         try {
             const resp = await apiSignIn(values)
             if (resp) {
-                handleSignIn({ accessToken: resp.token }, resp.user)
+                const apikey = resp.message?.api_key || ''
+                const apisecret = resp.message?.api_secret || ''
+                const token = `${apikey}:${apisecret}`
+                handleSignIn({ accessToken: token }, resp.user)
                 redirect()
                 return {
                     status: 'success',
-                    message: resp.message,
+                    message: {
+                        api_key: resp.message.api_key || '',
+                        api_secret: resp.message.api_secret || '',
+                    },
                     full_name: resp.full_name || '',
                 }
             }
             return {
                 status: 'failed',
-                message: 'Unable to sign up',
+                message: {
+                    api_key: '',
+                    api_secret: '',
+                },
             };
 
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -107,12 +118,18 @@ function AuthProvider({ children }: AuthProviderProps) {
                 redirect()
                 return {
                     status: 'success',
-                    message: '',
+                    message: {
+                        api_key: resp.message?.api_key || '',
+                        api_secret: resp.message?.api_secret || '',
+                    },
                 }
             }
             return {
                 status: 'failed',
-                message: 'Unable to sign up',
+                message: {
+                    api_key: '',
+                    api_secret: '',
+                },
             }
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         } catch (errors: any) {

@@ -1,4 +1,6 @@
 export type SignInCredential = {
+    // email: string
+    // password: string
     usr: string
     pwd: string
 }
@@ -12,7 +14,10 @@ export type SignInResponse = {
         avatar: string
         email: string
     }
-    message: string
+    message: {
+        api_key: string
+        api_secret: string
+    }
     full_name: string
 }
 
@@ -36,8 +41,11 @@ export type AuthRequestStatus = 'success' | 'failed' | ''
 
 export type AuthResult = Promise<{
     status: AuthRequestStatus
-    message: string
-    full_name?:string
+    message: {
+        api_key: string
+        api_secret: string
+    }
+    full_name?: string
 }>
 
 export type User = {

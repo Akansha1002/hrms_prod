@@ -22,7 +22,10 @@ const defaultFunctionPlaceHolder = async (): AuthResult => {
     await new Promise((resolve) => setTimeout(resolve, 0))
     return {
         status: '',
-        message: '',
+        message: {
+            api_key: '',
+            api_secret: '',
+        },
     }
 }
 
@@ -30,8 +33,8 @@ const defaultOAuthSignInPlaceHolder = (
     callback: (payload: OauthSignInCallbackPayload) => void,
 ): void => {
     callback({
-        onSignIn: () => {},
-        redirect: () => {},
+        onSignIn: () => { },
+        redirect: () => { },
     })
 }
 
@@ -40,7 +43,7 @@ const AuthContext = createContext<Auth>({
     user: {},
     signIn: async () => defaultFunctionPlaceHolder(),
     signUp: async () => defaultFunctionPlaceHolder(),
-    signOut: () => {},
+    signOut: () => { },
     oAuthSignIn: defaultOAuthSignInPlaceHolder,
 })
 

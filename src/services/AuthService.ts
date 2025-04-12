@@ -12,6 +12,7 @@ import type {
 export async function apiSignIn(data: SignInCredential) {
     return ApiService.fetchDataWithAxios<SignInResponse>({
         url: "method/login",
+        // url: "method/hrms_centillion.api.api.generate_api_keys",
         method: 'post',
         data,
     })
