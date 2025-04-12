@@ -115,7 +115,7 @@ const Calendar = () => {
             };
             await apiAddLeaveApplication({
                 ...values,
-                employee: 'HR-EMP-00034',
+                employee: 'HR-EMP-00003',
                 leave_approver: 'Administrator',
                 company: 'Anavadya (Demo)',
             });
@@ -147,7 +147,7 @@ const Calendar = () => {
                 selected={selectedCell}
                 submit={handleSubmit}
                 onDialogOpen={setDialogOpen}
-                employeeId="HR-EMP-00034"
+                employeeId="HR-EMP-00003"
             />
             {/* <LeaveRequestDialog
                 // open={drawerOpen}

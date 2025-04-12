@@ -5,7 +5,7 @@ export async function apiGetLeaveTypeList<
     U extends Record<string, unknown>,
 >({ params: U }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Leave Type?fields=["*"]`,
+        url: `resource/Leave Type?fields=["*"]`,
         method: 'get',
     })
 }
@@ -18,7 +18,7 @@ export async function apiGetLeaveApplicationList<
 
     const [dataRes, countRes] = await Promise.all([
         ApiService.fetchDataWithAxios<T>({
-            url: '/Leave Application',
+            url: 'resource/Leave Application',
             method: 'get',
             params: {
                 fields: JSON.stringify(['*']),
@@ -30,7 +30,7 @@ export async function apiGetLeaveApplicationList<
             },
         }),
         ApiService.fetchDataWithAxios<{ data: any[] }>({
-            url: '/Leave Application',
+            url: 'resource/Leave Application',
             method: 'get',
             params: {
                 fields: JSON.stringify(['name']),
@@ -51,7 +51,7 @@ export async function apiGetLeaveApplication<
     U extends Record<string, unknown>,
 >({ id, ...params }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Leave Application/${id}`,
+        url: `resource/Leave Application/${id}`,
         method: 'get',
         params,
     })
@@ -62,7 +62,7 @@ export async function apiAddLeaveApplication<
     U extends Record<string, unknown>,
 >(data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Leave Application`,
+        url: `resource/Leave Application`,
         method: 'post',
         data,
     })
