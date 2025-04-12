@@ -5,7 +5,7 @@ export async function apiGetFamilyDetailsList<T, U extends Record<string, unknow
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Family Details?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
+        url: `resource/Family Details?filters=${encodeURIComponent(JSON.stringify([["employee_number", "=", name]]))}&fields=["*"]`,
         method: 'get',
         params,
     })
@@ -19,7 +19,7 @@ export async function apiGetFamilyDetail<T, U extends Record<string, unknown>>({
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Family Details/${name}`,
+        url: `resource/Family Details/${name}`,
         method: 'get',
         params,
     })

@@ -8,7 +8,7 @@ export async function apiGetContactDetails<T, U extends Record<string, unknown>>
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Contact Details/${name}`,
+        url: `resource/Contact Details/${name}`,
         method: 'get',
         params,
     })
@@ -20,7 +20,7 @@ export async function apiGetContactDetails<T, U extends Record<string, unknown>>
 export async function apiCreateContactDetails<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: '/Contact Details',
+        url: 'resource/Contact Details',
         method: 'post',
         data,
     })

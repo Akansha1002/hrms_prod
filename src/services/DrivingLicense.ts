@@ -8,7 +8,7 @@ export async function apiGetDrivingLicense<T, U extends Record<string, unknown>>
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `/Driving License/${name}`,
+        url: `resource/Driving License/${name}`,
         method: 'get',
         params,
     })
@@ -20,7 +20,7 @@ export async function apiGetDrivingLicense<T, U extends Record<string, unknown>>
 export async function apiCreateDrivingLicense<T, U extends Record<string, unknown>>(
     data: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: '/Driving License',
+        url: 'resource/Driving License',
         method: 'post',
         data,
     })

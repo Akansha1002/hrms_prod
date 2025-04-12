@@ -15,6 +15,10 @@ const AxiosBase = axios.create({
 
 AxiosBase.interceptors.request.use(
     (config) => {
+        // const token = localStorage.getItem('accessToken') 
+        // if (token && config.headers) {
+        //     config.headers['Authorization'] = `token ${token}`
+        // }
         return AxiosRequestIntrceptorConfigCallback(config)
     },
     (error) => {
