@@ -14,6 +14,7 @@ const PermanentAddress = ({ control, errors, data }: PermanentAddressProps) => {
             <h4 className="mb-6">Permanent Address</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
+                    asterisk
                     label="Permanent Address "
                     invalid={Boolean(errors.permanent_address_1)}
                     errorMessage={errors.permanent_address_1?.message}
@@ -49,6 +50,7 @@ const PermanentAddress = ({ control, errors, data }: PermanentAddressProps) => {
                 </FormItem> */}
 
                 <FormItem
+                    asterisk
                     label="Country"
                     invalid={Boolean(errors.permanent_address_country)}
                     errorMessage={errors.permanent_address_country?.message}
@@ -83,6 +85,7 @@ const PermanentAddress = ({ control, errors, data }: PermanentAddressProps) => {
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="State"
                     invalid={Boolean(errors.permanent_address_state)}
                     errorMessage={errors.permanent_address_state?.message}
@@ -152,6 +155,7 @@ const PermanentAddress = ({ control, errors, data }: PermanentAddressProps) => {
                 </FormItem>
 
                 <FormItem
+                    asterisk
                     label="Contact Number"
                     invalid={Boolean(errors.permanent_address_contact_number)}
                     errorMessage={errors.permanent_address_contact_number?.message}

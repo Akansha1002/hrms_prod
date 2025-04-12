@@ -14,6 +14,7 @@ const DetailSection = ({ control, errors, data }: DetailSectionProps) => {
             <h4 className="mb-6">Family Details</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
+                    asterisk
                     label="Relationship"
                     invalid={Boolean(errors.relationship)}
                     errorMessage={errors.relationship?.message}
@@ -32,6 +33,7 @@ const DetailSection = ({ control, errors, data }: DetailSectionProps) => {
                 </FormItem>
 
                 <FormItem
+                    asterisk
                     label="Name"
                     invalid={Boolean(errors.relation_name)}
                     errorMessage={errors.relation_name?.message}

@@ -15,6 +15,7 @@ const PassportForm = ({ control, errors, data }: PassportFormProps) => {
             <h4 className="mb-6">Passport</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
+                asterisk
                     label="Name as in Passport"
                     invalid={Boolean(errors.name_as_in_passport)}
                     errorMessage={errors.name_as_in_passport?.message}
@@ -32,6 +33,7 @@ const PassportForm = ({ control, errors, data }: PassportFormProps) => {
                 </FormItem>
 
                 <FormItem
+                asterisk
                     label="Passport No."
                     invalid={Boolean(errors.passport_number)}
                     errorMessage={errors.passport_number?.message}
