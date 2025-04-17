@@ -7,7 +7,8 @@ import type { AxiosError } from 'axios'
 const AxiosBase = axios.create({
     timeout: 60000,
     headers: {
-        'Authorization': 'token 4d72ffee5959a1c:3acd9c854f137ef',
+        // 'Authorization': 'token 4d72ffee5959a1c:3acd9c854f137ef',
+        'Authorization': 'token 4d72ffee5959a1c:147e5e4ffc04bfb',
     },
 
     baseURL: appConfig.apiPrefix,
