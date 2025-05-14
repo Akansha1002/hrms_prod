@@ -14,6 +14,7 @@ type AddressSectionProps = {
     departmentList: { value: string; label: string }[];
     designationList: { value: string; label: string }[];
     managerList: { value: string; label: string }[];
+    costCenterList: { value: string; label: string }[];
     isLoading: boolean,
 }
 
@@ -83,7 +84,7 @@ const gradeOptions = [
     { value: 'seniorManagement', label: 'Senior Management' },
 ]
 
-const OrganizationSection = ({ control, errors, setValue, departmentList, designationList,managerList, isLoading }: AddressSectionProps) => {
+const OrganizationSection = ({ control, errors, setValue, departmentList, designationList, managerList, costCenterList, isLoading }: AddressSectionProps) => {
     const firstName = useWatch({ control, name: "first_name" });
     const lastName = useWatch({ control, name: "last_name" });
 
@@ -267,7 +268,13 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     <Controller
                         name="payroll_cost_center"
                         control={control}
-                        render={({ field }) => <Input type="text" {...field} />}
+                        render={({ field }) => (
+                            <Select
+                                options={isLoading ? [{ value: '', label: 'Loading...' }] : costCenterList}
+                                value={costCenterList.find(option => option.value === field.value) || null}
+                                onChange={(option) => field.onChange(option ? option.value : '')}
+                            />
+                        )}
                     />
                 </FormItem>
                 <FormItem

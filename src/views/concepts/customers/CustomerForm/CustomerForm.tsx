@@ -23,6 +23,7 @@ import { apiGetShiftTypeList } from '@/services/ShiftTypeService'
 import { apiGetDepartmentList } from '@/services/DepartmentService'
 import { apiGetDesignationList } from '@/services/DesignationService'
 import { apiGetSalaryStructureList } from '@/services/SalaryStructureService'
+import { apiGetCostCenterList } from '@/services/CostCenterService'
 
 type EmployeeFormProps = {
     onFormSubmit: (values: EmployeeFormSchema) => void
@@ -165,13 +166,14 @@ const CustomerForm = (props: EmployeeFormProps) => {
     const { data, error, isLoading, mutate } = useSWR(
         'fetch-all-data',
         async () => {
-            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes, salaryStructureRes] = await Promise.all([
+            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes, salaryStructureRes, costCenterRes] = await Promise.all([
                 apiGetHolidayList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetEmploymentTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetShiftTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDepartmentList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDesignationList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetSalaryStructureList<{ data: { name: string }[] }, Record<string, unknown>>({}),
+                 apiGetCostCenterList<{ data: { name: string }[] }, Record<string, unknown>>({}),
             ]);
 
             return {
@@ -181,6 +183,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
                 departmentList: departmentRes?.data || [],
                 designationList: designationRes?.data || [],
                 salaryStructureList: salaryStructureRes?.data || [],
+                 costCenterList: costCenterRes?.data || [],
             };
         },
         { revalidateOnFocus: false },
@@ -219,6 +222,11 @@ const CustomerForm = (props: EmployeeFormProps) => {
         label: salary.name,
     })) || [];
 
+     const costCenterList = data?.costCenterList.map((costCenter) => ({
+        value: costCenter.name,
+        label: costCenter.name,
+    })) || [];
+
     const [step, setStep] = useState(0)
 
     const steps = [
@@ -233,6 +241,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
                     designationList={designationList}
                     isLoading={isLoading}
                     managerList={managerList}
+                    costCenterList={costCenterList}
                 />
         },
         {
