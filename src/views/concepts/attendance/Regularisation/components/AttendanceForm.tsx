@@ -81,16 +81,16 @@ const AttendanceForm = ({ control, errors, data }: AttendanceFormProps) => {
             render={({ field }) => (
               <Select
                 options={[
-                  { value: "pending", label: "Pending" },
-                  { value: "approved", label: "Approved" },
-                  { value: "rejected", label: "Rejected" },
+                  { value: "Pending", label: "Pending" },
+                  { value: "Approved", label: "Approved" },
+                  { value: "Rejected", label: "Rejected" },
                 ]}
                 value={
                   [
-                    { value: "pending", label: "Pending" },
-                    { value: "approved", label: "Approved" },
-                    { value: "rejected", label: "Rejected" },
-                    { value: "done", label: "Done" },
+                    { value: "Pending", label: "Pending" },
+                    { value: "Approved", label: "Approved" },
+                    { value: "Rejected", label: "Rejected" },
+                    { value: "Done", label: "Done" },
                   ].find(option => option.value === field.value) || null
                 }
                 onChange={(option) => field.onChange(option ? option.value : "")}
