@@ -16,7 +16,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:3000',
-        target: 'https://uat-api.anavadya.io/',
+        target: 'https://uat-api.anavadya.io',
         changeOrigin: true,
         secure: false
       }
