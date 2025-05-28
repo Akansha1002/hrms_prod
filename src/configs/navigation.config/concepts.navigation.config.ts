@@ -836,22 +836,7 @@ const conceptsNavigationConfig: NavigationTree[] = [
                     },
                 ],
             },
-            {
-                key: 'concepts.holidayList.holidayList',
-                path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday-list`,
-                title: 'Holiday Master',
-                translateKey: 'nav.holidayLsit.holidayList',
-                icon: 'calendar',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [ADMIN, USER],
-                meta: {
-                    description: {
-                        translateKey: 'nav.holidayDesc',
-                        label: 'Schedule and events',
-                    },
-                },
-                subMenu: [],
-            },
+            
             // {
             //     key: 'concepts.holidayList.holiday',
             //     path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/Hyderabad`,

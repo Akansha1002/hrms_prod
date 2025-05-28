@@ -606,30 +606,6 @@ const conceptsRoute: Routes = [
         },
     },
 
-    // Holiday Master
-    {
-        key: 'concepts.holidayList.holidayList',
-        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday-list`,
-        component: lazy(
-            () => import('@/views/concepts/holidayList/HolidayList'),
-        ),
-        authority: [ADMIN, USER],
-        meta: {
-            pageContainerType: 'contained',
-            pageBackgroundType: 'plain',
-        },
-    },
-    {
-        key: 'concepts.holidayList.holiday',
-        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
-        component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
-        authority: [ADMIN, USER],
-        meta: {
-            pageContainerType: 'contained',
-            pageBackgroundType: 'plain',
-        },
-    },
-
     //Salary Adjustments
     {
         key: 'concepts.salaryAdjustment',
