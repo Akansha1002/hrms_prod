@@ -9,11 +9,13 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    // apiPrefix: '/api',
-      apiPrefix: 'https://uat-api.anavadya.io/api/',
-      // apiPrefix: 'http://139.59.72.197/api',
+    apiPrefix: '/api',
+      // apiPrefix: 'http://159.65.147.182:8000/api/',
+      // apiPrefix: 'http://139.59.72.197/api/',
+
     // authenticatedEntryPath: '/home',
-    authenticatedEntryPath: '/concepts/customers/customer-create',
+    // authenticatedEntryPath: '/concepts/customers/customer-create',
+    authenticatedEntryPath: '/concepts/dashboards',
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
     accessTokenPersistStrategy: 'cookies',

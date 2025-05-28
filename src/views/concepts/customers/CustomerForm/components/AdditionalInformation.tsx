@@ -31,13 +31,6 @@ const attendanceOptions = [
     { value: 'tracker', label: 'Tracker' }
 ];
 
-const shiftTypeOptions = [
-    { value: 'custom', label: 'Custom' },
-    { value: 'general', label: 'General' },
-    { value: 'evening', label: 'Evening' },
-    { value: 'generalAus', label: 'General-Aus' }
-];
-
 const shiftGroupOptions = [
     { value: 'telecomWireless', label: 'Telecom Wireless' },
     { value: 'telecomWireline', label: 'Telecom Wireline' },
@@ -131,7 +124,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                         }
                     />
                 </FormItem>
-                <FormItem
+                {/* <FormItem
                     label="Shift Group"
                     invalid={Boolean(errors.custom_shift_group)}
                     errorMessage={errors.custom_shift_group?.message}
@@ -147,7 +140,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                             />
                         }
                     />
-                </FormItem>
+                </FormItem> */}
                 <FormItem
                     label="Employment Status"
                     invalid={Boolean(errors.custom_employment_status)}
@@ -288,7 +281,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                     <Controller
                         name="notice_number_of_days"
                         control={control}
-                        defaultValue={'30'}
+                        defaultValue={'90'}
                         render={({ field }) =>
                             <Input
                                 type="text"
@@ -297,7 +290,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                         }
                     />
                 </FormItem>
-                <FormItem
+                {/* <FormItem
                     label="Secretary"
                     invalid={Boolean(errors.custom_secretary)}
                     errorMessage={errors.custom_secretary?.message}
@@ -312,7 +305,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                             />
                         }
                     />
-                </FormItem>
+                </FormItem> */}
                 <div className="flex items-center justify-between gap-8">
                     <FormItem>
                         <Controller
@@ -351,7 +344,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                         />
                     </FormItem>
                 </div>
-                <div className="flex items-center justify-between gap-8">
+                {/* <div className="flex items-center justify-between gap-8">
                     <FormItem>
                         <Controller
                             name="systemUser"
@@ -388,7 +381,7 @@ const AdditionalInformation = ({ control, errors, holidayList, shiftTypeList, em
                             }
                         />
                     </FormItem>
-                </div>
+                </div> */}
             </div>
         </Card>
     )

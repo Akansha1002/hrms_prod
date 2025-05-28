@@ -6,7 +6,7 @@ import Container from '@/components/shared/Container'
 import BottomStickyBar from '@/components/template/BottomStickyBar'
 import isEmpty from 'lodash/isEmpty'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
@@ -16,7 +16,7 @@ import ExemptionProofs from './components/ExemptionProofs'
 import HRAExemption from './components/HRAExemption'
 import useSWR from 'swr'
 import { apiGetEmployeeNameList } from '@/services/HolidayService'
-import { apiGetCompany, apiGetCurrency, apiGetEmployeeTaxExemptionSubCategories, apiGetPayrollPeriod } from '@/services/TaxExemptionDeclarationService'
+import { apiGetCompany, apiGetEmployeeTaxExemptionSubCategories, apiGetPayrollPeriod } from '@/services/TaxExemptionDeclarationService'
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -28,31 +28,35 @@ type ProofSubmissionFormProps = {
 const validationSchema: ZodType<ProofSubmissionFormSchema> = z.object({
     //employee
     employee: z.string().min(1, 'Employee is required'),
-    employee_name: z.string().optional(),
     currency: z.string().min(1, 'Currency is required'),
-    submission_date: z.string().min(1, 'Submission date is required'),
     payroll_period: z.string().min(1, 'Payroll Period is required'),
     company: z.string().min(1, 'Company is required'),
-
-    //Exemption Proofs
-    no: z.string().optional(),
-    exemption_sub_category: z.string().optional(),
-    exemption_category: z.string().optional(),
-    maximum_exemption_amount: z.string().optional(),
-    actual_amount: z.string().optional(),
-    type_of_proof: z.string().optional(),
-    attach_proof: z.string().optional(),
+    submission_date: z.string().min(1, 'Submission date is required'),
 
     //House Rent Allowance
     house_rent_payment_amount: z.string().optional(),
     rented_in_metro_city: z.boolean().optional(),
     rented_from_date: z.string().optional(),
     rented_to_date: z.string().optional(),
+
+    //Exemption Proofs
+    tax_exemption_proofs: z.array(
+        z.object({
+            // exemption_sub_category: z.string().min(1, 'Sub category is required'),
+            // exemption_category: z.string().min(1, 'Category is required'),
+            // max_amount: z.string().min(1, 'Max amount must be >= 0'),
+            // type_of_proof: z.string().min(1, 'Proof type is required'),
+            exemption_sub_category: z.string().optional(),
+            exemption_category: z.string().optional(),
+            max_amount: z.string().optional(),
+            amount: z.string().optional(),
+            type_of_proof: z.string().optional(),
+            attach_proof: z.string().optional(),
+        })).optional()
 })
 
-const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
-    const [hasChanges, setHasChanges] = useState(false);
 
+const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
     const {
         onFormSubmit,
         defaultValues = {},
@@ -64,11 +68,10 @@ const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
         reset,
         formState: { errors },
         control,
-        setValue,
-        setError,
     } = useForm<ProofSubmissionFormSchema>({
         defaultValues: {
             currency: 'INR',
+            tax_exemption_proofs: [],
             ...defaultValues,
         },
         resolver: zodResolver(validationSchema),
@@ -81,18 +84,18 @@ const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(defaultValues)])
 
-    const onSubmit = (values: ProofSubmissionFormSchema) => {
-        onFormSubmit?.(values)
-    }
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'tax_exemption_proofs',
+    })
 
-    const { data, error, isLoading } = useSWR(
+    const { data, isLoading } = useSWR(
         'fetch-all-data',
         async () => {
             const [employeeRes, payrollPeriodRes, companyRes, currencyRes, subCategoryRes] = await Promise.all([
                 apiGetEmployeeNameList<{ data: { name: string; employee_name: string }[] }, Record<string, unknown>>({}),
                 apiGetPayrollPeriod<{ data: { name: string }[] }>(),
                 apiGetCompany<{ data: { name: string }[] }>(),
-                apiGetCurrency<{ data: { name: string }[] }>(),
                 apiGetEmployeeTaxExemptionSubCategories<{ data: { name: string }[] }>(),
                 apiGetEmployeeTaxExemptionSubCategories<{ data: { name: string; exemption_category: string; max_amount: string }[] }>(),
             ]);
@@ -127,12 +130,6 @@ const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
             label: company.name,
         })) || []
 
-    const currencyList =
-        data?.currencyList?.map((currency) => ({
-            value: currency.name,
-            label: currency.name,
-        })) || []
-
     const subCategoryList =
         data?.subCategoryList?.map((subCategory) => ({
             value: subCategory.name,
@@ -140,6 +137,12 @@ const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
             category: subCategory.exemption_category,
             max_amount: subCategory.max_amount,
         })) || []
+
+    const onSubmit = (values: ProofSubmissionFormSchema) => {
+        onFormSubmit?.(values)
+    }
+
+    const [employeeName, setEmployeeName] = useState<string>('')
 
     return (
         <Form
@@ -161,25 +164,27 @@ const ProofSubmissionForm = (props: ProofSubmissionFormProps) => {
                                     control={control}
                                     errors={errors}
                                     employeeData={employeeNameList}
+                                    employeeName={employeeName}
+                                    setEmployeeName={setEmployeeName}
                                     payrollPeriodList={payrollPeriodList}
                                     companyList={companyList}
-                                    currencyList={currencyList}
                                     isLoading={isLoading}
-                                    setValue={setValue}
-                                    onChange={() => setHasChanges(true)}
+                                // setValue={setValue}
                                 />}
                             </TabContent>
                             <TabContent value="exemptionProofs">
                                 <div className="gap-4 flex flex-col flex-auto">
                                     {<ExemptionProofs
+                                        control={control}
+                                        fields={fields}
+                                        append={append}
+                                        remove={remove}
                                         subCategoryList={subCategoryList}
                                         isLoading={isLoading}
-                                        setValue={setValue}
                                     />}
                                     {<HRAExemption
                                         control={control}
                                         errors={errors}
-                                        setValue={setValue}
                                     />}
                                 </div>
                             </TabContent>

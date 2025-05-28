@@ -8,11 +8,11 @@ import type { TableQueries } from '@/@types/common'
 import useEmployeeList from '../hooks/useEmployeeList'
 import { Employee } from '../types'
 
-
 const statusColor: Record<string, string> = {
     Approved: 'bg-success-subtle text-success',
     Pending: 'bg-error-subtle text-error',
     'Pending Employee End': 'bg-warning-subtle text-warning',
+    'Verification from HR Manager': 'bg-primary-subtle text-primary',
 }
 
 const EmployeeColumn = ({ row }: { row: Employee }) => {
@@ -48,7 +48,7 @@ const EmployeeListTable = () => {
                 cell: (props) => {
                     const row = props.row.original
                     return <EmployeeColumn row={row} />
-                }
+                },
             },
             {
                 header: 'Status',
@@ -57,8 +57,14 @@ const EmployeeListTable = () => {
                     const row = props.row.original
                     return (
                         <div className="flex items-center">
-                            <Tag className={statusColor[row.employee_onboarding_status]}>
-                                <span className="capitalize">{row.employee_onboarding_status}</span>
+                            <Tag
+                                className={
+                                    statusColor[row.employee_onboarding_status]
+                                }
+                            >
+                                <span className="capitalize">
+                                    {row.employee_onboarding_status}
+                                </span>
                             </Tag>
                         </div>
                     )

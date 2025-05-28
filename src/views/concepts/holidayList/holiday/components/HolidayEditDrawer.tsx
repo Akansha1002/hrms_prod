@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import dayjs from 'dayjs'
 import { Drawer } from '@/components/ui'
-import { SelectedCell } from '../../../holidayList/holiday/types'
+import { SelectedCell } from '../types'
 
 const statusOptions = [
     { value: 'active', label: 'Active' },

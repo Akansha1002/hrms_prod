@@ -22,9 +22,11 @@ const defaultFunctionPlaceHolder = async (): AuthResult => {
     await new Promise((resolve) => setTimeout(resolve, 0))
     return {
         status: '',
+        // message: '',
         message: {
             api_key: '',
             api_secret: '',
+            sid: '',
         },
     }
 }

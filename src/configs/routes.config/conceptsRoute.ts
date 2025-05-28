@@ -314,6 +314,162 @@ const conceptsRoute: Routes = [
         },
     },
 
+    // Separation and Transfer
+
+    {
+        key: 'concepts.customers.employeeSeparationList',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-separation-list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeSeparation/EmployeeSeparationList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeSeparationCreate',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-separation-create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeSeparation/EmployeeSeparationCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeTransferList',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-transfer-list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeTransfer/EmployeeTransferList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeTransferCreate',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-transfer-create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeTransfer/EmployeeTransferCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeAttendanceList',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-attendance-list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeAttendance/EmployeeAttendanceList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeAttendanceCreate',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-attendance-create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeAttendance/EmployeeAttendanceCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeePromotion.list',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-promotion/list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeePromotion/EmployeePromotionList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeePromotion.create',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-promotion/create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeePromotion/EmployeePromotionCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeSkillMap.list',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-skill-map/list`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeSkillMap/EmployeeSkillMapList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeSkillMap.create',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-skill-map/create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/customers/EmployeeSkillMap/EmployeeSkillMapCreate'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            footer: false,
+        },
+    },
+
     {
         key: 'concepts.leave.leaveList',
         path: `${CONCEPTS_PREFIX_PATH}/leave/leave-list`,
@@ -463,16 +619,16 @@ const conceptsRoute: Routes = [
             pageBackgroundType: 'plain',
         },
     },
-    // {
-    //     key: 'concepts.holidayList.holiday',
-    //     path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
-    //     component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
-    //     authority: [ADMIN, USER],
-    //     meta: {
-    //         pageContainerType: 'contained',
-    //         pageBackgroundType: 'plain',
-    //     },
-    // },
+    {
+        key: 'concepts.holidayList.holiday',
+        path: `${CONCEPTS_PREFIX_PATH}/holidayList/holiday/:id`,
+        component: lazy(() => import('@/views/concepts/holidayList/Holiday')),
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            pageBackgroundType: 'plain',
+        },
+    },
 
     //Salary Adjustments
     {
@@ -510,20 +666,24 @@ const conceptsRoute: Routes = [
 
     {
         key: 'concepts.payroll.list',
-        path: `${CONCEPTS_PREFIX_PATH}/payroll/list`,
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/listTaxExemptionDeclaration`,
         component: lazy(
             () =>
                 import('@/views/concepts/payroll/TaxExemptionDeclarationList'),
         ),
         authority: [ADMIN, USER],
         meta: {
-            pageContainerType: 'contained',
-            pageBackgroundType: 'plain',
+            header: {
+                title: '',
+                description: '',
+                contained: true,
+            },
+            footer: false,
         },
     },
     {
         key: 'concepts.payroll.create',
-        path: `${CONCEPTS_PREFIX_PATH}/payroll/create`,
+        path: `${CONCEPTS_PREFIX_PATH}/payroll/createTaxExemptionDeclaration`,
         component: lazy(
             () =>
                 import(
@@ -532,22 +692,28 @@ const conceptsRoute: Routes = [
         ),
         authority: [ADMIN, USER],
         meta: {
-            pageContainerType: 'contained',
-            pageBackgroundType: 'plain',
+            header: {
+                title: '',
+                description: '',
+                contained: true,
+            },
+            footer: false,
         },
     },
     {
         key: 'concepts.payroll.taxExemptionProofSubmission',
         path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
         component: lazy(
-            () => import('@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionList'),
+            () =>
+                import(
+                    '@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionList'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
             header: {
                 title: '',
-                description:
-                    '',
+                description: '',
                 contained: true,
             },
             footer: false,
@@ -557,19 +723,141 @@ const conceptsRoute: Routes = [
         key: 'concepts.payroll.taxExemptionProofSubmission',
         path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission/create`,
         component: lazy(
-            () => import('@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionCreate'),
+            () =>
+                import(
+                    '@/views/concepts/payroll/TaxExemptionProofSubmission/ProofSubmissionCreate'
+                ),
         ),
         authority: [ADMIN, USER],
         meta: {
             header: {
                 title: 'New Employee Tax Exemption Proof Submission',
-                description:
-                    '',
+                description: '',
                 contained: true,
             },
             footer: false,
         },
     },
+
+    // Exit Interview
+    {
+        key: 'concepts.exitInterview.list',
+        path: `${CONCEPTS_PREFIX_PATH}/exitInterview/list`,
+        component: lazy(
+            () => import('@/views/concepts/exitInterview/ExitInterviewList'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.exitInterview.create',
+        path: `${CONCEPTS_PREFIX_PATH}/exitInterview/create`,
+        component: lazy(
+            () => import('@/views/concepts/exitInterview/ExitInterviewCreate'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    //Performance
+    {
+        key: 'concepts.performance.employeePerformanceFeedback',
+        path: `${CONCEPTS_PREFIX_PATH}/performance/employee-performance-feedback`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/performance/EmployeePerformanceFeedback/PerformanceFeedbackList'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: '',
+                description: '',
+                contained: true,
+            },
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.performance.employeePerformanceFeedback',
+        path: `${CONCEPTS_PREFIX_PATH}/performance/employee-performance-feedback/create`,
+        component: lazy(
+            () =>
+                import(
+                    '@/views/concepts/performance/EmployeePerformanceFeedback/PerformanceFeedbackForm'
+                ),
+        ),
+        authority: [ADMIN, USER],
+        meta: {
+            header: {
+                title: 'New Employee Performance Feedback',
+                description: '',
+                contained: true,
+            },
+        },
+    },
+
+    // Appraisal
+    {
+        key: 'concepts.appraisal.list',
+        path: `${CONCEPTS_PREFIX_PATH}/appraisal/list`,
+        component: lazy(
+            () => import('@/views/concepts/appraisal/AppraisalList'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+    {
+        key: 'concepts.appraisal.create',
+        path: `${CONCEPTS_PREFIX_PATH}/appraisal/create`,
+        component: lazy(
+            () => import('@/views/concepts/appraisal/AppraisalCreate'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    //Resignation
+    {
+        key: 'concepts.customers.employeeDeactivation.recordResignation.list',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/record-resignation/list`,
+        component: lazy(
+            () => import('@/views/concepts/customers/EmployeeDeactivation/RecordResignation/ResignationList'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            footer: false,
+        },
+    },
+
+    {
+        key: 'concepts.customers.employeeDeactivation.recordResignation.create',
+        path: `${CONCEPTS_PREFIX_PATH}/customers/record-resignation/create`,
+        component: lazy(
+            () => import('@/views/concepts/customers/EmployeeDeactivation/RecordResignation/ResignationForm'),
+        ),
+
+        authority: [ADMIN, USER],
+        meta: {
+            pageContainerType: 'contained',
+            footer: false,
+        },
+    }
 ]
 
 export default conceptsRoute

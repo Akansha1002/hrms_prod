@@ -37,7 +37,7 @@ const FamilyDetailCreate = () => {
         try {
             const response = await apiCreateFamilyDetail({
                 ...values,
-                employee_number: familyDetailData?.employee_number,
+                employee_number: name
             })
             if (response) {
                 toast.push(

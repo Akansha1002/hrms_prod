@@ -15,7 +15,7 @@ const DetailColumn = ({ row }: { row: PastEmploymentDetail }) => {
         <>
             <Link
                 className={`hover:underline ml-2 rtl:mr-2 font-semibold text-gray-900 dark:text-gray-100`}
-                to={`/concepts/customers/past-employment-details/edit/${row.name}`}
+                to={`/concepts/customers/past-employment-details/create/${row.name}`}
             >
                 {row.company_name}
             </Link>

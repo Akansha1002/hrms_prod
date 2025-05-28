@@ -69,7 +69,7 @@ const HRAExemption = ({ control, errors }: HRAExemptionProps) => {
                                         control={control}
                                         render={({ field }) =>
                                             <Input
-                                                type="text"
+                                                type="date"
                                                 {...field}
                                             />
                                         }
@@ -85,7 +85,7 @@ const HRAExemption = ({ control, errors }: HRAExemptionProps) => {
                                         control={control}
                                         render={({ field }) =>
                                             <Input
-                                                type="text"
+                                                type="date"
                                                 {...field}
                                             />
                                         }

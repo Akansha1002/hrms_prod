@@ -27,6 +27,15 @@ export async function getChairmanMessages<T>(): Promise<ApiResponse<T>> {
     })
 }
 
+
+export async function getAllChairmanMessages<T>() {
+    return ApiService.fetchDataWithAxios<T>({
+        url: 'resource/Chairman Message?fields=["*"]',
+        method: 'get',
+
+    })
+}
+
 // Update Chairman Message Entry
 export async function updateChairmanMessage<
     T,

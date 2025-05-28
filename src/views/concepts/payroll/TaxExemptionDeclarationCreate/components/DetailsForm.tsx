@@ -7,7 +7,7 @@ import { Select } from "@/components/ui/Select"
 
 import useSWR from "swr"
 import { apiGetEmployeeNameList } from "@/services/HolidayService"
-import { DetailsSchema } from "./Details"
+import { DetailsSchema } from "../TaxExemptionDeclarationCreate"
 import { apiGetCompany, apiGetCurrency, apiGetPayrollPeriod } from "@/services/TaxExemptionDeclarationService"
 import { co } from "@fullcalendar/core/internal-common"
 import { symbol } from "zod"
@@ -84,7 +84,7 @@ const DetailsForm = ({ control, errors, data, watch, setValue }: DetailsFormProp
     })) || []
 
 
-  const employee_number = watch('employee_number')
+  const employee_number = watch('employee')
 
   useEffect(() => {
     const matched = employeeOptions.find(emp => emp.value === employee_number)
@@ -103,9 +103,10 @@ const DetailsForm = ({ control, errors, data, watch, setValue }: DetailsFormProp
           label="Employee Number"
           invalid={Boolean(errors.reports_to)}
           errorMessage={errors.reports_to?.message}
+          asterisk={true}
         >
           <Controller
-            name="employee_number"
+            name="employee"
             control={control}
             render={({ field }) => (
               <Select
@@ -140,7 +141,7 @@ const DetailsForm = ({ control, errors, data, watch, setValue }: DetailsFormProp
               <Input
                 className="w-full border rounded px-2 py-1 bg-gray-100 text-gray-800"
                 value={
-                  employeeOptions.find((opt) => opt.value === watch('employee_number'))?.label.split(' (')[0] || ''
+                  employeeOptions.find((opt) => opt.value === watch('employee'))?.label.split(' (')[0] || ''
                 }
                 readOnly
               />
@@ -180,9 +181,10 @@ const DetailsForm = ({ control, errors, data, watch, setValue }: DetailsFormProp
           label="Payroll"
           invalid={Boolean(errors.reports_to)}
           errorMessage={errors.reports_to?.message}
+          asterisk={true}
         >
           <Controller
-            name="payroll"
+            name="payroll_period"
             control={control}
             render={({ field }) => (
               <Select
@@ -208,26 +210,33 @@ const DetailsForm = ({ control, errors, data, watch, setValue }: DetailsFormProp
           label="Currency"
           invalid={Boolean(errors.reports_to)}
           errorMessage={errors.reports_to?.message}
+          asterisk={true}
         >
           <Controller
             name="currency"
             control={control}
             render={({ field }) => (
-              <Select
-                options={
-                  isCurrencyLoading
-                    ? [{ value: '', label: 'Loading...' }]
-                    : currencyOptions
-                }
-                value={
-                  currencyOptions.find(
-                    (option) =>
-                      option.value === field.value,
-                  ) || null
-                }
-                onChange={(option) =>
-                  field.onChange(option ? option.value : '')
-                }
+              // <Select
+              //   options={
+              //     isCurrencyLoading
+              //       ? [{ value: '', label: 'Loading...' }]
+              //       : currencyOptions
+              //   }
+              //   value={
+              //     currencyOptions.find(
+              //       (option) =>
+              //         option.value === field.value || option.value === 'INR',
+              //     ) || null
+              //   }
+              //   onChange={(option) =>
+              //     field.onChange(option ? option.value : '')
+              //   }
+              // />
+
+              <Input
+                value={field.value || 'INR'}
+                onChange={(event) => field.onChange(event.target.value)}
+                readOnly
               />
             )}
           />

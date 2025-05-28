@@ -1,7 +1,5 @@
 import ApiService from './ApiService'
 
-const BASE_URL = 'http://159.65.147.182:8000/api/resource/News'
-
 interface ApiResponse<T> {
     ok: boolean
     status: number

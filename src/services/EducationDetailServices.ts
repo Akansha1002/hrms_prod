@@ -20,7 +20,7 @@ export async function apiGetEducationDetail<T, U extends Record<string, unknown>
     ...params
 }: U) {
     return ApiService.fetchDataWithAxios<T>({
-        url: `resource/Education Details/${name}`,
+        url: `resource/Education Details${name}`,
         method: 'get',
         params,
     })

@@ -14,7 +14,6 @@ const FormSection = ({ control, errors, data }: EducationDetailsProps) => {
             <h4 className="mb-6">Education Details</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    asterisk
                     label="Type of Establishment"
                     invalid={Boolean(errors.type_of_establishment)}
                     errorMessage={errors.type_of_establishment?.message}
@@ -32,7 +31,6 @@ const FormSection = ({ control, errors, data }: EducationDetailsProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    asterisk
                     label="Name of Establishment"
                     invalid={Boolean(errors.name_of_establishment)}
                     errorMessage={errors.name_of_establishment?.message}
@@ -67,7 +65,6 @@ const FormSection = ({ control, errors, data }: EducationDetailsProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    asterisk
                     label="Passing Year"
                     invalid={Boolean(errors.passing_year)}
                     errorMessage={errors.passing_year?.message}

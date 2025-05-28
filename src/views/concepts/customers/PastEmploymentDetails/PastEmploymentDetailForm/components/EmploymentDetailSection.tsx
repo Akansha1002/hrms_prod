@@ -15,7 +15,6 @@ const EmploymentDetails = ({ control, errors, data }: EmploymentDetailsProps) =>
             <h4 className="mb-6">Past Employment Details</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    asterisk
                     label="Company Name"
                     invalid={Boolean(errors.company_name)}
                     errorMessage={errors.company_name?.message}
@@ -42,7 +41,6 @@ const EmploymentDetails = ({ control, errors, data }: EmploymentDetailsProps) =>
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="From Date"
                     invalid={Boolean(errors.from_date)}
                     errorMessage={errors.from_date?.message}
@@ -56,7 +54,6 @@ const EmploymentDetails = ({ control, errors, data }: EmploymentDetailsProps) =>
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="To Date"
                     invalid={Boolean(errors.to_date)}
                     errorMessage={errors.to_date?.message}
@@ -70,7 +67,6 @@ const EmploymentDetails = ({ control, errors, data }: EmploymentDetailsProps) =>
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="Job Title"
                     invalid={Boolean(errors.job_title)}
                     errorMessage={errors.job_title?.message}

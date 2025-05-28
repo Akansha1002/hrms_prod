@@ -1,10 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Tag from '@/components/ui/Tag'
 import DataTable from '@/components/shared/DataTable'
 import { Link } from 'react-router-dom'
-import { apiGetEmployeeTaxDeclarations } from '@/services/TaxExemptionDeclarationService'
+import cloneDeep from 'lodash/cloneDeep'
 
-import type { ColumnDef } from '@/components/shared/DataTable'
+import { FaEdit } from 'react-icons/fa'
+import Button from '@/components/ui/Button'
+
+import  useTaxDeclarationList  from '../hooks/useTaxDeclarationList'
+import { EmployeeTaxExemptionDeclaration } from '../types'
+import type { TableQueries } from '@/@types/common'
+import type { OnSortParam, Row } from '@/components/shared/DataTable'
 
 const statusColor: Record<string, string> = {
   Approved: 'bg-success-subtle text-success',
@@ -12,7 +18,7 @@ const statusColor: Record<string, string> = {
   'Pending Employee End': 'bg-warning-subtle text-warning',
 }
 
-const EmployeeColumn = ({ row }: { row: any }) => (
+const EmployeeColumn = ({ row }: { row: EmployeeTaxExemptionDeclaration }) => (
   <Link
     className="hover:underline ml-2 rtl:mr-2 font-semibold text-gray-900 dark:text-gray-100"
     to={`/concepts/customers/details/${row.name}`}
@@ -22,30 +28,18 @@ const EmployeeColumn = ({ row }: { row: any }) => (
 )
 
 const TaxExemptionDeclarationListTable = () => {
-  const [data, setData] = useState<any[]>([])
+  const {
+    declarationList = [],
+    declarationTotal,
+    tableData,
+    isLoading,
+    selectedDeclarations,
+    setTableData,
+    setSelectAllDeclarations,
+    setSelectedDeclarations,
+  } = useTaxDeclarationList()
 
-  useEffect(() => {
-    const fetchEmployeeTaxDeclarations = async () => {
-      try {
-        const response = await apiGetEmployeeTaxDeclarations()
-        console.log('API Response:', response)
-
-        if (response?.data && Array.isArray(response.data)) {
-          setData(response.data)
-        } else {
-          console.warn('Unexpected API response format', response)
-          setData([])
-        }
-      } catch (error) {
-        console.error('Error fetching employee tax declarations:', error)
-        setData([])
-      }
-    }
-
-    fetchEmployeeTaxDeclarations()
-  }, [])
-
-  const columns: ColumnDef<any>[] = useMemo(
+  const columns = useMemo(
     () => [
       {
         header: 'Employee Name',
@@ -78,11 +72,74 @@ const TaxExemptionDeclarationListTable = () => {
         header: 'ID',
         accessorKey: 'name',
       },
+      
     ],
     []
   )
 
-  return <DataTable selectable columns={columns} data={data} />
+  const handleSetTableData = (data: TableQueries) => {
+    setTableData(data)
+    if (selectedDeclarations.length > 0) {
+      setSelectAllDeclarations([])
+    }
+  }
+
+  const handlePaginationChange = (page: number) => {
+    const newTableData = cloneDeep(tableData)
+    newTableData.pageIndex = page
+    handleSetTableData(newTableData)
+  }
+
+  const handleSelectChange = (value: number) => {
+    const newTableData = cloneDeep(tableData)
+    newTableData.pageSize = Number(value)
+    newTableData.pageIndex = 1
+    handleSetTableData(newTableData)
+  }
+
+  const handleSort = (sort: OnSortParam) => {
+    const newTableData = cloneDeep(tableData)
+    newTableData.sort = sort
+    handleSetTableData(newTableData)
+  }
+
+  const handleRowSelect = (checked: boolean, row: EmployeeTaxExemptionDeclaration) => {
+    setSelectedDeclarations(checked, row)
+  }
+
+  const handleAllRowSelect = (checked: boolean, rows: Row<EmployeeTaxExemptionDeclaration>[]) => {
+    if (checked) {
+      const originalRows = rows.map((row) => row.original)
+      setSelectAllDeclarations(originalRows)
+    } else {
+      setSelectAllDeclarations([])
+    }
+  }
+
+  return (
+    <DataTable
+      selectable
+      columns={columns}
+      data={declarationList}
+      noData={!isLoading && declarationList.length === 0}
+      loading={isLoading}
+      skeletonAvatarColumns={[0]}
+      skeletonAvatarProps={{ width: 28, height: 28 }}
+      pagingData={{
+        total: declarationTotal,
+        pageIndex: tableData.pageIndex as number,
+        pageSize: tableData.pageSize as number,
+      }}
+      checkboxChecked={(row) =>
+        selectedDeclarations.some((selected) => selected.name === row.name)
+      }
+      onPaginationChange={handlePaginationChange}
+      onSelectChange={handleSelectChange}
+      onSort={handleSort}
+      onCheckBoxChange={handleRowSelect}
+      onIndeterminateCheckBoxChange={handleAllRowSelect}
+    />
+  )
 }
 
 export default TaxExemptionDeclarationListTable

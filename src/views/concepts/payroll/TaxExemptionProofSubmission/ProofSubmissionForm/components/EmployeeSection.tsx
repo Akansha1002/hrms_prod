@@ -1,37 +1,35 @@
+import { useEffect, useState } from 'react'
 import Card from '@/components/ui/Card'
 import Input from '@/components/ui/Input'
 import { FormItem } from '@/components/ui/Form'
 import Select from '@/components/ui/Select'
-import { Controller } from 'react-hook-form'
+import { Controller, useWatch } from 'react-hook-form'
 import { FormSectionBaseProps } from '../types'
-import { useEffect } from 'react'
-import { cu } from '@fullcalendar/core/internal-common'
 
 type EmployeeSectionProps = FormSectionBaseProps & {
-  onChange: () => void;
-  setValue: any;
+  // setValue: any;
   employeeData: { value: string; label: string; name: string }[];
+  employeeName: string;
+  setEmployeeName: (name: string) => void;
   payrollPeriodList: { value: string; label: string }[];
   companyList: { value: string; label: string }[];
-  currencyList: { value: string; label: string }[];
   isLoading: boolean;
 }
 
-const EmployeeSection = ({ control, errors, onChange, employeeData, payrollPeriodList, companyList, currencyList, isLoading, setValue }: EmployeeSectionProps) => {
+const EmployeeSection = ({ control, errors, employeeData, employeeName, setEmployeeName, payrollPeriodList, companyList, isLoading }: EmployeeSectionProps) => {
+
+  // useEffect(() => {
+  //   const today = new Date().toISOString().split('T')[0];
+  //   setValue('submission_date', today);
+  // }, [setValue]);
 
   const handleEmployeeChange = (selectedValue: string) => {
     const selectedEmployee = employeeData.find(emp => emp.value === selectedValue);
 
-    setValue('employee', selectedValue);
-    setValue('employee_name', selectedEmployee?.name || '');
-
-    onChange();
+    // setValue('employee', selectedValue);
+    setEmployeeName(selectedEmployee?.name || '');
   };
 
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    setValue('submission_date', today);
-  }, [setValue]);
 
 
   return (
@@ -51,7 +49,7 @@ const EmployeeSection = ({ control, errors, onChange, employeeData, payrollPerio
               <Select
                 options={
                   isLoading
-                    ? [{ value: '', label: 'Loading...' }]
+                    ? [{ value: '', label: 'Loading...', name: '' }]
                     : employeeData
                 }
                 value={
@@ -61,9 +59,8 @@ const EmployeeSection = ({ control, errors, onChange, employeeData, payrollPerio
                   ) || null
                 }
                 onChange={(option) => {
-                  // field.onChange(option ? option.value : '')
-                  const selectedValue = option ? option.value : '';
-                  handleEmployeeChange(selectedValue);
+                  handleEmployeeChange(option?.value || '');
+                  field.onChange(option?.value || '');
                 }}
               />
             )}
@@ -88,20 +85,11 @@ const EmployeeSection = ({ control, errors, onChange, employeeData, payrollPerio
         </FormItem>
         <FormItem
           label="Employee Name"
-          invalid={Boolean(errors.employee_name)}
-          errorMessage={errors.employee_name?.message}
         >
-          <Controller
-            name="employee_name"
-            control={control}
-            render={({ field }) =>
-              <Input
-                type="text"
-                disabled
-                value={field.value}
-                onChange={field.onChange}
-              />
-            }
+          <Input
+            type="text"
+            readOnly
+            value={employeeName}
           />
         </FormItem>
         <FormItem
@@ -144,23 +132,23 @@ const EmployeeSection = ({ control, errors, onChange, employeeData, payrollPerio
             control={control}
             render={({ field }) =>
               // <Select
-                // options={isLoading
-                //   ? [{ value: '', label: 'Loading...' }]
-                //   : currencyList
-                // }
-                // value={
-                //   currencyList.find(
-                //     (option) =>
-                //       option.value === field.value,
-                //   ) || null
-                // }
-                // onChange={(option) => {
-                //   field.onChange(option ? option.value : '')
-                // }}
+              // options={isLoading
+              //   ? [{ value: '', label: 'Loading...' }]
+              //   : currencyList
+              // }
+              // value={
+              //   currencyList.find(
+              //     (option) =>
+              //       option.value === field.value,
+              //   ) || null
+              // }
+              // onChange={(option) => {
+              //   field.onChange(option ? option.value : '')
+              // }}
               // />
               <Input
                 type="text"
-                disabled
+                readOnly
                 value={field.value}
                 onChange={field.onChange}
               />

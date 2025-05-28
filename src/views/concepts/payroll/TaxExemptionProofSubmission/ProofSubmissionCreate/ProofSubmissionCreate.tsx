@@ -18,6 +18,7 @@ const ProofSubmissionCreate = () => {
     const navigate = useNavigate();
 
     const handleFormSubmit = async (values: ProofSubmissionFormSchema) => {
+        console.log('values proof', values)
         setIsSubmiting(true)
         try {
             const response = await apiCreateProofSubmission(values)
@@ -36,8 +37,22 @@ const ProofSubmissionCreate = () => {
         }
     }
 
+
+    const handleConfirmDiscard = () => {
+        setDiscardConfirmationOpen(true)
+        toast.push(
+            <Notification type="success">Employee Skill Map discard!</Notification>,
+            { placement: 'top-center' },
+        )
+        navigate(`/concepts/payroll/tax-exemption-proof-submission/list`)
+    }
+
     const handleBack = () => {
         history.back()
+    }
+
+    const handleCancel = () => {
+        setDiscardConfirmationOpen(false)
     }
 
     const handleDiscard = () => {
@@ -47,6 +62,27 @@ const ProofSubmissionCreate = () => {
     return (
         <>
             <ProofSubmissionForm
+                defaultValues={{
+                    employee: '',
+                    currency: 'INR',
+                    payroll_period: 'FY-25',
+                    submission_date: new Date().toISOString().split('T')[0],
+                    company: 'Anavadya',
+                    house_rent_payment_amount: '',
+                    rented_in_metro_city: false,
+                    rented_from_date: '',
+                    rented_to_date: '',
+                    tax_exemption_proofs: [
+                        {
+                            exemption_sub_category: '',
+                            exemption_category: '',
+                            max_amount: '',
+                            amount: '',
+                            type_of_proof: '',
+                            attach_proof: ''
+                        },
+                    ],
+                }}
                 onFormSubmit={handleFormSubmit}
             >
                 <Container>
@@ -75,7 +111,6 @@ const ProofSubmissionCreate = () => {
                             <Button
                                 variant="solid"
                                 type="submit"
-                                // onClick={() => document.getElementById("employeeForm")?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))}
                                 loading={isSubmiting}
                             >
                                 Create
@@ -84,6 +119,20 @@ const ProofSubmissionCreate = () => {
                     </div>
                 </Container>
             </ProofSubmissionForm>
+            <ConfirmDialog
+                isOpen={discardConfirmationOpen}
+                type="danger"
+                title="Discard changes"
+                onClose={handleCancel}
+                onRequestClose={handleCancel}
+                onCancel={handleCancel}
+                onConfirm={handleConfirmDiscard}
+            >
+                <p>
+                    Are you sure you want discard this? This action can&apos;t
+                    be undo.{' '}
+                </p>
+            </ConfirmDialog>
         </>
     )
 }

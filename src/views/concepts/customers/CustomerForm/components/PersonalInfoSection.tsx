@@ -18,6 +18,7 @@ const salutationOptions = [
 const genderOptions = [
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' },
+    { value: 'Other', label: 'Other' },
 ]
 
 const PersonalInfoSection = ({ control, errors, setValue }: PersonalInfoSectionProps) => {

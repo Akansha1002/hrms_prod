@@ -11,15 +11,7 @@ import TabNav from "@/components/ui/Tabs/TabNav";
 import { getCelebrations } from "@/services/CelebrationService";
 import { getNotices } from "@/services/NoticeService";
 
-interface Celebration {
-  employee_name: string;
-  name: string;
-  employee: string;
-  type: string;
-  date: string;
-  message: string;
-  status: string;
-}
+
 
 interface Notice {
   name: string;
@@ -31,23 +23,18 @@ interface Notice {
 }
 
 export const FootTabs = () => {
-  const [celebrations, setCelebrations] = useState<Celebration[]>([]);
+
   const [notices, setNotices] = useState<Notice[]>([]);
 
   useEffect(() => {
-    async function fetchCelebrations() {
-      const response = await getCelebrations<{ data: Celebration[] }>();
-      if (response) {
-        setCelebrations(response.data);
-      }
-    }
+
     async function fetchNotices() {
       const response = await getNotices<{ data: Notice[] }>();
       if (response) {
         setNotices(response.data);
       }
     }
-    fetchCelebrations();
+
     fetchNotices();
   }, []);
 
@@ -61,33 +48,7 @@ export const FootTabs = () => {
         </TabList>
         <div className="p-4">
           {/* \U0001f389 Celebrations Tab with Swiper */}
-          <TabContent value="tab1">
-            {celebrations.length > 0 ? (
-              <Swiper
-                modules={[Autoplay, Pagination, Navigation]}
-                pagination={{ dynamicBullets: true }}
-                navigation
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
-                loop={true}
-                className="w-full"
-              >
-                {celebrations.map((event) => (
-                  <SwiperSlide key={event.name} className="p-5">
-                    <div className="p-4 bg-white shadow-md rounded-lg">
-                      <h2 className="text-xl font-bold">{event.type}</h2>
-                      <p className="text-sm text-gray-500">
-                        {event.employee_name} - {event.status} on{" "}
-                        {new Date(event.date).toLocaleDateString()}
-                      </p>
-                      <p className="mt-2">{event.message}</p>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              <p>No upcoming celebrations.</p>
-            )}
-          </TabContent>
+
 
           {/* \U0001f4e2 Notices Tab with Swiper */}
           <TabContent value="tab3">

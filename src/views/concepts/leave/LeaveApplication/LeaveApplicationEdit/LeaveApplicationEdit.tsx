@@ -8,7 +8,7 @@ import NoUserFound from '@/assets/svg/NoUserFound'
 import { TbTrash, TbArrowNarrowLeft } from 'react-icons/tb'
 import { useParams, useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
-import { apiGetLeaveAllocations, apiGetLeaveApplication, apiUpdateLeaveApplication } from '@/services/LeaveService'
+import { apiGetLeaveAllocations, apiGetLeaveApplicationList, apiUpdateLeaveApplication } from '@/services/LeaveService'
 import { GetLeaveApplicationListResponse } from '../LeaveApplicationList/types'
 import LeaveApplicationForm, { LeaveApplicationFormSchema } from '../LeaveApplicationForm'
 import { GetAllocatedLeaveTableData } from '../LeaveApplicationForm/types'
@@ -21,7 +21,7 @@ const LeaveApplicationEdit = () => {
     const { data, isLoading, mutate } = useSWR(
         id ? ['/api/resource/LeaveApplication', { id }] : null,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ([_, params]) => apiGetLeaveApplication<GetLeaveApplicationListResponse, { id: string }>(params),
+        ([_, params]) => apiGetLeaveApplicationList<GetLeaveApplicationListResponse, { id: string }>(params),
         {
             revalidateOnFocus: false,
             revalidateIfStale: false,

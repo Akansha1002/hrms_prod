@@ -18,3 +18,19 @@ export async function apiRegisterNewUser<T, U extends Record<string, unknown>>(
         data,
     })
 }
+
+// get workflow states
+export async function apiGetWorkflowStates<T, U extends Record<string, unknown>>({
+    workflow_name,
+    ...params
+}: U) {
+    return ApiService.fetchDataWithAxios<T>({
+        url: 'method/hrms_centillion.api.api.get_editable_states_for_user',
+        method: 'get',
+        params: {
+            workflow_name: "Onboarding Workflow",
+            ...params,
+        },
+        withCredentials: true,
+    });
+}

@@ -1,6 +1,7 @@
 import Select, { Option as DefaultOption } from '@/components/ui/Select'
 import { components } from 'react-select'
 import type { ControlProps, OptionProps } from 'react-select'
+import useTaxDeclarationList from '../hooks/useTaxDeclarationList'
 
 
 const { Control } = components
@@ -48,7 +49,12 @@ const CustomControl = ({ children, ...props }: ControlProps<StatusOption>) => {
 }
 
 const TaxExemptionDeclarationListFilter = () => {
+  const { filterData, setFilterData } =
+  useTaxDeclarationList()
 
+  const handleStatusChange = (status: string) => {
+    setFilterData({ ...filterData, status })
+  }
   return (
     <div className='flex items-center'>
       <Select<StatusOption, false>
@@ -65,7 +71,9 @@ const TaxExemptionDeclarationListFilter = () => {
           value: '',
           dotBackground: 'bg-gray-200',
         }}
-
+        onChange={(option) =>
+          handleStatusChange(option?.value || '')
+        }
       />
     </div>
   )

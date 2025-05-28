@@ -8,7 +8,7 @@ type LicenseDetailsProps = FormSectionBaseProps & {
     data?: Record<string, any>
 }
 
-const DrivingLicenseForm = ({ control, errors, data }: LicenseDetailsProps) => {
+const DrivingLicenseForm = ({ control, errors,data }: LicenseDetailsProps) => {
     return (
         <Card>
             <h4 className="mb-6">Driving License</h4>
@@ -31,7 +31,6 @@ const DrivingLicenseForm = ({ control, errors, data }: LicenseDetailsProps) => {
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="Driving License No."
                     invalid={Boolean(errors.driving_license_number)}
                     errorMessage={errors.driving_license_number?.message}
@@ -62,7 +61,6 @@ const DrivingLicenseForm = ({ control, errors, data }: LicenseDetailsProps) => {
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="Issue Date"
                     invalid={Boolean(errors.issue_date)}
                     errorMessage={errors.issue_date?.message}
@@ -78,7 +76,6 @@ const DrivingLicenseForm = ({ control, errors, data }: LicenseDetailsProps) => {
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="Valid Till"
                     invalid={Boolean(errors.valid_till)}
                     errorMessage={errors.valid_till?.message}

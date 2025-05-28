@@ -19,10 +19,16 @@ export async function createGallery<T, U extends Record<string, unknown>>(
 }
 
 // Read Gallery Entries
+
 export async function getGallery<T>(): Promise<ApiResponse<T>> {
     return ApiService.fetchDataWithAxios<ApiResponse<T>>({
         url: `resource/Gallery?fields=["*"]`,
+
         method: 'get',
+
+        params: {
+            fields: JSON.stringify(['*']),
+        },
     })
 }
 

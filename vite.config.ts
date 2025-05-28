@@ -15,7 +15,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        // target: 'http://localhost:3000',
+        target: 'https://uat-api.anavadya.io/',
         changeOrigin: true,
         secure: false
       }
@@ -26,5 +27,3 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000, // Set the limit to 1000kB (1MB) or more
   }
 })
-
-

@@ -24,6 +24,20 @@ import { apiGetDepartmentList } from '@/services/DepartmentService'
 import { apiGetDesignationList } from '@/services/DesignationService'
 import { apiGetSalaryStructureList } from '@/services/SalaryStructureService'
 import { apiGetCostCenterList } from '@/services/CostCenterService'
+import { apiGetGradeList } from '@/services/EmployeeGradeService'
+
+function addMonthsExact(date: Date, months: number): Date {
+    const newDate = new Date(date)
+    const day = newDate.getDate()
+
+    newDate.setMonth(newDate.getMonth() + months)
+
+    if (newDate.getDate() < day) {
+        newDate.setDate(0)
+    }
+
+    return newDate
+}
 
 type EmployeeFormProps = {
     onFormSubmit: (values: EmployeeFormSchema) => void
@@ -58,17 +72,17 @@ const validationSchema: ZodType<EmployeeFormSchema> = z.object({
     //  OrganizationFields
     date_of_joining: z.string().min(1, { message: 'Date of Joining required' }),
     effectiveFrom: z.string().optional().nullable(),
-    position: z.string().optional().nullable(),
-    orgStructure: z.string().optional().nullable(),
-    custom_location: z.string().optional().nullable(),
+    position: z.string().min(1, { message: 'Position required' }),
+    orgStructure: z.string().min(1, { message: 'Organization Structure required' }),
+    custom_location: z.string().min(1, { message: 'Location required' }),
     department: z.string().optional().nullable(),
-    designation: z.string().optional().nullable(),
-    grade: z.string().optional().nullable(),
+    designation: z.string().min(1, { message: 'Designation required' }),
+    grade: z.string().min(1, { message: 'Grade required' }),
     payroll_cost_center: z.string().optional().nullable(),
     // officialEmail: z.string().optional().nullable(),
-    reports_to: z.string().optional().nullable(),
-    custom_functional_manager: z.string().optional().nullable(),
-    custom_peoples_manager: z.string().optional().nullable(),
+    reports_to: z.string().min(1, { message: 'Reporting Manager required' }),
+    custom_functional_manager: z.string().min(1, { message: 'Functional Manager required' }),
+    custom_peoples_manager: z.string().min(1, { message: 'People Manager required' }),
 
     // AdditionalInformationFields
     calendar: z.string().optional().nullable(),
@@ -96,14 +110,14 @@ const validationSchema: ZodType<EmployeeFormSchema> = z.object({
     custom_gl_code: z.string().optional().nullable(),
     salary_mode: z.string().optional().nullable(),
     custom_applied_from: z.string().optional().nullable(),
-    custom_pay_group: z.string().optional().nullable(),
+    custom_pay_group: z.string().min(1, { message: 'Pay Group required' }),
     custom_salary_structure: z.string().min(1, { message: 'Salary Structure required' }),
 })
 
 const CustomerForm = (props: EmployeeFormProps) => {
     const {
         onFormSubmit,
-        defaultValues = {},
+        defaultValues = {} as EmployeeFormSchema,
         newEmployee = false,
         children,
     } = props
@@ -115,6 +129,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
         control,
         setValue,
         setError,
+        watch
     } = useForm<EmployeeFormSchema>({
         defaultValues,
         resolver: zodResolver(validationSchema),
@@ -123,9 +138,41 @@ const CustomerForm = (props: EmployeeFormProps) => {
     useEffect(() => {
         if (!isEmpty(defaultValues)) {
             reset(defaultValues)
+
+            // const hasCustomJoiningDate = Boolean(defaultValues.date_of_joining)
+            // const joiningDate = hasCustomJoiningDate
+            //     ? new Date(defaultValues.date_of_joining)
+            //     : new Date()
+
+            // const confirmationDate = new Date(joiningDate)
+            // confirmationDate.setMonth(confirmationDate.getMonth() + 3)
+
+            const joiningDate = defaultValues.date_of_joining
+                ? new Date(defaultValues.date_of_joining)
+                : new Date()
+
+            const confirmationDate = addMonthsExact(joiningDate, 3)
+            const formatted = confirmationDate.toISOString().split('T')[0]
+
+            setValue('final_confirmation_date', formatted)
+
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(defaultValues)])
+    }, [JSON.stringify(defaultValues), reset, setValue])
+
+    useEffect(() => {
+        const subscription = watch((value, { name }) => {
+            if (name === 'date_of_joining' && value?.date_of_joining) {
+                const joiningDate = new Date(value.date_of_joining)
+                // const confirmationDate = new Date(joiningDate)
+                const confirmationDate = addMonthsExact(joiningDate, 3)
+                confirmationDate.setMonth(confirmationDate.getMonth() + 3)
+                const formattedDate = confirmationDate.toISOString().split('T')[0]
+                setValue('final_confirmation_date', formattedDate)
+            }
+        })
+        return () => subscription.unsubscribe()
+    }, [watch, setValue])
 
     const onSubmit = (values: EmployeeFormSchema) => {
         onFormSubmit?.(values)
@@ -166,14 +213,15 @@ const CustomerForm = (props: EmployeeFormProps) => {
     const { data, error, isLoading, mutate } = useSWR(
         'fetch-all-data',
         async () => {
-            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes, salaryStructureRes, costCenterRes] = await Promise.all([
+            const [holidayRes, employmentRes, shiftRes, departmentRes, designationRes, gradeRes, salaryStructureRes, costCenterRes] = await Promise.all([
                 apiGetHolidayList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetEmploymentTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetShiftTypeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDepartmentList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetDesignationList<{ data: { name: string }[] }, Record<string, unknown>>({}),
+                apiGetGradeList<{ data: { name: string }[] }, Record<string, unknown>>({}),
                 apiGetSalaryStructureList<{ data: { name: string }[] }, Record<string, unknown>>({}),
-                 apiGetCostCenterList<{ data: { name: string }[] }, Record<string, unknown>>({}),
+                apiGetCostCenterList<{ data: { name: string }[] }, Record<string, unknown>>({}),
             ]);
 
             return {
@@ -182,8 +230,9 @@ const CustomerForm = (props: EmployeeFormProps) => {
                 shiftTypeList: shiftRes?.data || [],
                 departmentList: departmentRes?.data || [],
                 designationList: designationRes?.data || [],
+                gradeList: gradeRes?.data || [],
                 salaryStructureList: salaryStructureRes?.data || [],
-                 costCenterList: costCenterRes?.data || [],
+                costCenterList: costCenterRes?.data || [],
             };
         },
         { revalidateOnFocus: false },
@@ -212,6 +261,11 @@ const CustomerForm = (props: EmployeeFormProps) => {
         label: designation.name,
     })) || [];
 
+    const gradeList = data?.gradeList.map((grade) => ({
+        value: grade.name,
+        label: grade.name,
+    })) || [];
+
     const shiftTypeList = data?.shiftTypeList.map((shift) => ({
         value: shift.name,
         label: shift.name,
@@ -222,7 +276,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
         label: salary.name,
     })) || [];
 
-     const costCenterList = data?.costCenterList.map((costCenter) => ({
+    const costCenterList = data?.costCenterList.map((costCenter) => ({
         value: costCenter.name,
         label: costCenter.name,
     })) || [];
@@ -239,6 +293,7 @@ const CustomerForm = (props: EmployeeFormProps) => {
                     setValue={setValue}
                     departmentList={departmentList}
                     designationList={designationList}
+                    gradeList={gradeList}
                     isLoading={isLoading}
                     managerList={managerList}
                     costCenterList={costCenterList}

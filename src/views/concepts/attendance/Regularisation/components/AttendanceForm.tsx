@@ -77,7 +77,7 @@ const AttendanceForm = ({ control, errors, data }: AttendanceFormProps) => {
           <Controller
             name="status"
             control={control}
-            defaultValue={data?.status || "pending"}
+            defaultValue={data?.status || "Pending"}
             render={({ field }) => (
               <Select
                 options={[

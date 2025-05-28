@@ -20,23 +20,23 @@ interface SignInFormProps extends CommonProps {
 }
 
 type SignInFormSchema = {
-    usr: string
-    pwd: string
-    // email: string
-    // password: string
+    // usr: string
+    // pwd: string
+    email: string
+    password: string
 }
 
 const validationSchema: ZodType<SignInFormSchema> = z.object({
-    // email: z
+    // usr: z
     //     .string({ required_error: 'Please enter your email' })
     //     .min(1, { message: 'Please enter your email' }),
-    // password: z
+    // pwd: z
     //     .string({ required_error: 'Please enter your password' })
     //     .min(1, { message: 'Please enter your password' }),
-    usr: z
+    email: z
         .string({ required_error: 'Please enter your email' })
         .min(1, { message: 'Please enter your email' }),
-    pwd: z
+    password: z
         .string({ required_error: 'Please enter your password' })
         .min(1, { message: 'Please enter your password' }),
 })
@@ -52,10 +52,10 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            // password: '',
-            // email: '',
-            usr: '',
-            pwd: '',
+            // usr: '',
+            // pwd: '',
+            password: '',
+            email: '',
         },
         resolver: zodResolver(validationSchema),
     })
@@ -63,10 +63,10 @@ const SignInForm = (props: SignInFormProps) => {
 
     const onSignIn = async (values: SignInFormSchema) => {
         const {
-            // email,
-            // password
-            usr,
-            pwd,
+            email,
+            password
+            //  usr,
+            //   pwd
         } = values
 
         if (!disableSubmit) {
@@ -88,7 +88,12 @@ const SignInForm = (props: SignInFormProps) => {
             //         Cookies.set(name, value, { path: '/' })
             //     })
             // }
-            const response = await signIn({ usr, pwd })
+            const response = await signIn({
+                email,
+                password,
+                // usr,
+                //  pwd 
+            })
             // if (response.message !== 'Logged In') {
             //     setMessage?.('Login failed')
             // }
@@ -102,11 +107,11 @@ const SignInForm = (props: SignInFormProps) => {
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
                     label="Email"
-                    invalid={Boolean(errors.usr)}
-                    errorMessage={errors.usr?.message}
+                    invalid={Boolean(errors.email)}
+                    errorMessage={errors.email?.message}
                 >
                     <Controller
-                        name="usr"
+                        name="email"
                         control={control}
                         render={({ field }) => (
                             <Input
@@ -120,15 +125,15 @@ const SignInForm = (props: SignInFormProps) => {
                 </FormItem>
                 <FormItem
                     label="Password"
-                    invalid={Boolean(errors.pwd)}
-                    errorMessage={errors.pwd?.message}
+                    invalid={Boolean(errors.password)}
+                    errorMessage={errors.password?.message}
                     className={classNames(
                         passwordHint ? 'mb-0' : '',
-                        errors.pwd?.message && 'mb-8',
+                        errors.password?.message && 'mb-8',
                     )}
                 >
                     <Controller
-                        name="pwd"
+                        name="password"
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => (

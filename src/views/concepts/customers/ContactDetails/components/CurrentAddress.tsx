@@ -15,7 +15,6 @@ const CurrentAddress = ({ control, errors, data }: CurrentAddressProps) => {
             <h4 className="mb-6">Current Address</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    asterisk
                     label="Current Address"
                     invalid={Boolean(errors.current_address_1)}
                     errorMessage={errors.current_address_1?.message}
@@ -51,7 +50,6 @@ const CurrentAddress = ({ control, errors, data }: CurrentAddressProps) => {
                 </FormItem> */}
 
                 <FormItem
-                    asterisk
                     label="Country"
                     invalid={Boolean(errors.current_address_country)}
                     errorMessage={errors.current_address_country?.message}
@@ -86,7 +84,6 @@ const CurrentAddress = ({ control, errors, data }: CurrentAddressProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    asterisk
                     label="State"
                     invalid={Boolean(errors.current_address_state)}
                     errorMessage={errors.current_address_state?.message}
@@ -156,7 +153,6 @@ const CurrentAddress = ({ control, errors, data }: CurrentAddressProps) => {
                 </FormItem>
 
                 <FormItem
-                    asterisk
                     label="Contact Number"
                     invalid={Boolean(errors.current_address_contact_number)}
                     errorMessage={errors.current_address_contact_number?.message}

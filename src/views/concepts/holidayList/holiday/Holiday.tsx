@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { HolidayListDetailResponse, HolidayTableData } from '../../holidayList/holiday/types';
+import { HolidayListDetailResponse, HolidayTableData } from './types';
 import HolidayTable from './components/HolidayTable';
 import useSWR from 'swr';
 import { apiGetHolidayListDetails } from '@/services/HolidayService';

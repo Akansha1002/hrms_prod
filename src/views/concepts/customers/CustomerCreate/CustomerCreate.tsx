@@ -143,7 +143,7 @@ const CustomerEdit = () => {
                     gender: '',
                     image: '',
 
-                    date_of_joining: '',
+                    date_of_joining: new Date().toISOString().split('T')[0],
                     effectiveFrom: '',
                     position: '',
                     orgStructure: '',
@@ -170,7 +170,7 @@ const CustomerEdit = () => {
                     custom_contractor: '',
                     custom_experience_in_category: '',
                     custom_experience_in_months: '',
-                    notice_number_of_days: '30',
+                    notice_number_of_days: '90',
                     custom_secretary: '',
                     custom_old_employee_number: '',
                     originalHireDate: '',

@@ -7,29 +7,48 @@ interface ApiResponse<T> {
     message?: string
 }
 
-// Get Employee Tax Exemption Declarations List
-export async function apiGetEmployeeTaxDeclarations<T>(): Promise<
-    ApiResponse<T>
-> {
-    return ApiService.fetchDataWithAxios<ApiResponse<T>>({
-        url: `resource/Employee Tax Exemption Declaration?fields=["*"]`,
-        method: 'get',
-    })
-}
+export async function apiGetEmployeeTaxDeclarations<
+    T extends { data: any },
+    U extends Record<string, unknown>,
+>(params: U) {
+    const filters = []
 
-// export async function apiGetEmployeeTaxExemptionSubCategories<T>() {
-//     return ApiService.fetchDataWithAxios<T>({
-//         url: '/resource/Employee Tax Exemption Sub Category',
-//         method: 'get',
-//         baseURL: 'http://139.59.72.197/api',
-//         headers: {
-//             Authorization: 'token 4d72ffee5959a1c:a93d40a489a949d',
-//         },
-//         params: {
-//             fields: JSON.stringify(['*']),
-//         },
-//     })
-// }
+    if (params.status) {
+        filters.push(['status', '=', params.status])
+    }
+
+    if (params.query) {
+        filters.push(['employee_name', 'like', `%${params.query}%`])
+    }
+
+    const [dataRes, countRes] = await Promise.all([
+        ApiService.fetchDataWithAxios<T>({
+            url: '/resource/Employee Tax Exemption Declaration?fields=["*"]',
+            method: 'get',
+            params: {
+                limit_start:
+                    ((params.pageIndex as number) - 1) *
+                    (params.pageSize as number),
+                limit_page_length: params.pageSize,
+                filters: JSON.stringify(filters),
+            },
+        }),
+        ApiService.fetchDataWithAxios<{ data: any[] }>({
+            url: '/resource/Employee Tax Exemption Declaration',
+            method: 'get',
+            params: {
+                limit_page_length: 0,
+                filters: JSON.stringify(filters),
+                fields: '["name"]',
+            },
+        }),
+    ])
+
+    return {
+        data: dataRes.data,
+        total: countRes.data?.length || 0,
+    }
+}
 
 export async function apiGetEmployeeTaxExemptionSubCategories<T>(): Promise<
     ApiResponse<T>

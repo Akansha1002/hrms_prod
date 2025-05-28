@@ -1,8 +1,8 @@
 
 import { useEffect } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, UseFormReturn } from "react-hook-form"
-import { z } from "zod"
+
+import { UseFormReturn } from "react-hook-form"
+
 import isEmpty from "lodash/isEmpty"
 
 import Container from "@/components/shared/Container"
@@ -10,19 +10,10 @@ import BottomStickyBar from "@/components/template/BottomStickyBar"
 import { Form } from "@/components/ui/Form"
 import type { CommonProps } from "@/@types/common"
 import DetailsForm from "./DetailsForm"
-import { set } from "lodash"
+
+import { DetailsSchema } from "../TaxExemptionDeclarationCreate"
 
 
-const validationSchema = z.object({
-  employee_number: z.string().min(1, "Employee number is required"),
-  employee_name: z.string().nullable(),
-  company: z.string().nullable(),
-  payroll: z.string().nullable(),
-  currency: z.string().nullable(),
-})
-
-
-export type DetailsSchema = z.infer<typeof validationSchema>
 
 type DetailsProps = {
   form: UseFormReturn<DetailsSchema>,

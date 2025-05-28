@@ -17,10 +17,10 @@ type EducationDetailsProps = {
 } & CommonProps
 
 const validationSchema: ZodType<EducationDetailsSchema> = z.object({
-    type_of_establishment: z.string().min(1, { message: 'Type of Establishment is required' }),
-    name_of_establishment: z.string().min(1, { message: 'Name of Establishment is required' }),
+    type_of_establishment: z.string().optional(),
+    name_of_establishment: z.string().optional(),
     discipline: z.string().optional(),
-    passing_year: z.string().min(1, { message: 'Passing Year is required' }),
+    passing_year: z.string().optional(),
     grade: z.string().optional(),
     level: z.string().optional(),
 
@@ -79,7 +79,7 @@ const EducationDetailForm = (props: EducationDetailsProps) => {
             <Container>
                 <div className="flex items-center justify-between">
                     <div className="gap-4 flex flex-col flex-auto">
-                        <FormSection control={control} errors={errors} data={defaultValues} />
+                        <FormSection control={control} errors={errors} data={defaultValues}/>
                     </div>
                 </div>
             </Container>

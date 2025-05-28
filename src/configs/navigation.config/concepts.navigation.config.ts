@@ -23,22 +23,22 @@ const conceptsNavigationConfig: NavigationTree[] = [
             },
         },
         subMenu: [
-            // {
-            //     key: 'concepts.dashboards',
-            //     path: `${CONCEPTS_PREFIX_PATH}/dashboards`,
-            //     title: 'Dashboards',
-            //     translateKey: 'nav.dashboards',
-            //     icon: 'dashboard',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [ADMIN, USER],
-            //     meta: {
-            //         description: {
-            //             translateKey: 'nav.dashboardDesc',
-            //             label: 'Schedule and events',
-            //         },
-            //     },
-            //     subMenu: [],
-            // },
+            {
+                key: 'concepts.dashboards',
+                path: `${CONCEPTS_PREFIX_PATH}/dashboards`,
+                title: 'Dashboards',
+                translateKey: 'nav.dashboards',
+                icon: 'dashboard',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.dashboardDesc',
+                        label: 'Schedule and events',
+                    },
+                },
+                subMenu: [],
+            },
 
             {
                 key: 'concepts.customers',
@@ -425,41 +425,208 @@ const conceptsNavigationConfig: NavigationTree[] = [
                     //     },
                     //     subMenu: [],
                     // },
+                    {
+                        key: 'concepts.customers.employeeOnboarding',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-onboarding`,
+                        title: 'Employee Onboarding',
+                        translateKey:
+                            'nav.conceptsCustomers.employeeOnboarding',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeOnboardingDesc',
+                                label: 'Employee Onboarding',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                    {
+                        key: 'concepts.customers.employeeMovement',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-movement`,
+                        title: 'Employee Movement',
+                        translateKey: 'nav.conceptsCustomers.employeeMovement',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeMovementDesc',
+                                label: 'Employee Movement',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                    {
+                        key: 'concepts.customers.employeeSeparation',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-separation-list`,
+                        title: 'Employee Separation',
+                        translateKey:
+                            'nav.conceptsCustomers.employeeSeparation',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeSeparation',
+                                label: 'Employee Separation',
+                            },
+                        },
+                        subMenu: [],
+                    },
                     // {
-                    //     key: 'concepts.customers.employeeOnboarding',
-                    //     path: `${CONCEPTS_PREFIX_PATH}/customers/employee-onboarding`,
-                    //     title: 'Employee Onboarding',
+                    //     key: 'concepts.customers.employeeAttendance',
+                    //     path: `${CONCEPTS_PREFIX_PATH}/customers/employee-attendance-list`,
+                    //     title: 'Employee Attendance',
                     //     translateKey:
-                    //         'nav.conceptsCustomers.employeeOnboarding',
+                    //         'nav.conceptsCustomers.employeeAttendance',
                     //     icon: 'customerList',
                     //     type: NAV_ITEM_TYPE_ITEM,
                     //     authority: [ADMIN, USER],
                     //     meta: {
                     //         description: {
                     //             translateKey:
-                    //                 'nav.conceptsCustomers.employeeOnboardingDesc',
-                    //             label: 'Employee Onboarding',
+                    //                 'nav.conceptsCustomers.employeeAttendance',
+                    //             label: 'Employee Attendance',
                     //         },
                     //     },
                     //     subMenu: [],
                     // },
-                    // {
-                    //     key: 'concepts.customers.employeeMovement',
-                    //     path: `${CONCEPTS_PREFIX_PATH}/customers/employee-movement`,
-                    //     title: 'Employee Movement',
-                    //     translateKey: 'nav.conceptsCustomers.employeeMovement',
-                    //     icon: 'customerList',
-                    //     type: NAV_ITEM_TYPE_ITEM,
-                    //     authority: [ADMIN, USER],
-                    //     meta: {
-                    //         description: {
-                    //             translateKey:
-                    //                 'nav.conceptsCustomers.employeeMovementDesc',
-                    //             label: 'Employee Movement',
-                    //         },
-                    //     },
-                    //     subMenu: [],
-                    // },
+                    {
+                        key: 'concepts.customers.employeeTransfer',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-transfer-list`,
+                        title: 'Employee Transfer',
+                        translateKey: 'nav.conceptsCustomers.employeeTransfer',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeTransfer',
+                                label: 'Employee Transfer',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                    {
+                        key: 'concepts.customers.employeePromotion',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-promotion`,
+                        title: 'Employee Promotion',
+                        translateKey: 'nav.conceptsCustomers.employeePromotion',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_COLLAPSE,
+
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeePromotionDesc',
+                                label: 'Employee Promotion',
+                            },
+                        },
+                        subMenu: [
+                            {
+                                key: 'concepts.customers.employeePromotion.list',
+                                path: `${CONCEPTS_PREFIX_PATH}/customers/employee-promotion/list`,
+                                title: 'List',
+                                translateKey:
+                                    'nav.conceptsCustomers.employeePromotion.list',
+                                icon: 'customerList',
+                                type: NAV_ITEM_TYPE_ITEM,
+                                authority: [ADMIN, USER],
+                                meta: {
+                                    description: {
+                                        translateKey:
+                                            'nav.conceptsCustomers.employeePromotion.listDesc',
+                                        label: 'List',
+                                    },
+                                },
+                                subMenu: [],
+                            },
+                        ],
+                    },
+
+                    {
+                        key: 'concepts.customers.employeeSkillMap',
+                        path: `${CONCEPTS_PREFIX_PATH}/customers/employee-skill-map`,
+                        title: 'Employee Skill Map',
+                        translateKey: 'nav.conceptsCustomers.employeeSkillMap',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_COLLAPSE,
+
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeSkillMapDesc',
+                                label: 'Employee Skill Map',
+                            },
+                        },
+                        subMenu: [
+                            {
+                                key: 'concepts.customers.employeeSkillMap.list',
+                                path: `${CONCEPTS_PREFIX_PATH}/customers/employee-skill-map/list`,
+                                title: 'List',
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeSkillMap.list',
+                                icon: 'customerList',
+                                type: NAV_ITEM_TYPE_ITEM,
+                                authority: [ADMIN, USER],
+                                meta: {
+                                    description: {
+                                        translateKey:
+                                            'nav.conceptsCustomers.employeeSkillMap.listDesc',
+                                        label: 'List',
+                                    },
+                                },
+                                subMenu: [],
+                            },
+                        ],
+                    },
+
+                    //Employee Deactivation
+                    {
+                        key: 'concepts.customers.employeeDeactivation',
+                        path: '',
+                        title: 'Employee Deactivation',
+                        translateKey: 'nav.conceptsCustomers.employeeDeactivation',
+                        icon: 'customerList',
+                        type: NAV_ITEM_TYPE_COLLAPSE,
+
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeDeactivationDesc',
+                                label: 'Employee Deactivation',
+                            },
+                        },
+                        subMenu: [
+                            {
+                                key: 'concepts.customers.employeeDeactivation.recordResignation.list',
+                                path: `${CONCEPTS_PREFIX_PATH}/customers/record-resignation/list`,
+                                title: 'Record Resignation',
+                                translateKey:
+                                    'nav.conceptsCustomers.employeeDeactivation.recordResignation.list',
+                                icon: 'customerList',
+                                type: NAV_ITEM_TYPE_ITEM,
+                                authority: [ADMIN, USER],
+                                meta: {
+                                    description: {
+                                        translateKey:
+                                            'nav.conceptsCustomers.employeeDeactivation.recordResignation.listDesc',
+                                        label: 'Record Resignation',
+                                    },
+                                },
+                                subMenu: [],
+                            },
+                        ],
+                    }
                 ],
             },
             //Leave
@@ -701,109 +868,181 @@ const conceptsNavigationConfig: NavigationTree[] = [
             //     },
             //     subMenu: [],
             // },
-            // {
-            //     key: 'concepts.salaryAdjustment',
-            //     path: `${CONCEPTS_PREFIX_PATH}/salaryAdjustment`,
-            //     title: 'Salary Adjustment',
-            //     translateKey: 'nav.SalaryAdjustment',
-            //     icon: 'calendar',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [ADMIN, USER],
-            //     meta: {
-            //         description: {
-            //             translateKey: 'nav.holidayDesc',
-            //             label: 'Schedule and events',
-            //         },
-            //     },
-            //     subMenu: [],
-            // },
-            // {
-            //     key: 'concepts.confirmation',
-            //     path: '',
-            //     title: 'Confirmation',
-            //     translateKey: 'nav.conceptsConfirmation.confirmation',
-            //     icon: 'fileManager',
-            //     type: NAV_ITEM_TYPE_COLLAPSE,
-            //     authority: [ADMIN, USER],
-            //     meta: {
-            //         description: {
-            //             translateKey:
-            //                 'nav.conceptsConfirmation.confirmationDesc',
-            //             label: 'Employee Appraisal Confirmation',
-            //         },
-            //     },
-            //     subMenu: [
-            //         {
-            //             key: 'concepts.confirmation.confirmationAppraisal',
-            //             path: `${CONCEPTS_PREFIX_PATH}/confirmation/confirmation-appraisal`,
-            //             title: 'Confirmation Appraisal',
-            //             translateKey:
-            //                 'nav.conceptsConfirmation.confirmationAppraisal',
-            //             icon: 'confirmationAppraisal',
-            //             type: NAV_ITEM_TYPE_ITEM,
-            //             authority: [ADMIN, USER],
-            //             meta: {
-            //                 description: {
-            //                     translateKey:
-            //                         'nav.conceptsConfirmation.confirmationAppraisalDesc',
-            //                     label: '',
-            //                 },
-            //             },
-            //             subMenu: [],
-            //         },
-            //     ],
-            // },
-            // {
-            //     key: 'concepts.payroll',
-            //     path: '',
-            //     title: 'Payroll',
-            //     translateKey: 'nav.payroll',
-            //     icon: 'calendar',
-            //     type: NAV_ITEM_TYPE_COLLAPSE,
-            //     authority: [ADMIN, USER],
-            //     meta: {
-            //         description: {
-            //             translateKey: 'nav.payrollDesc',
-            //             label: '',
-            //         },
-            //     },
-            //     subMenu: [
-            //         {
-            //             key: 'concepts.payroll.list',
-            //             path: `${CONCEPTS_PREFIX_PATH}/payroll/list`,
-            //             title: 'Employee Tax Exemption Declaration',
-            //             translateKey: 'nav.payroll.list',
-            //             icon: 'attendance',
-            //             type: NAV_ITEM_TYPE_ITEM,
-            //             authority: [ADMIN, USER],
-            //             meta: {
-            //                 description: {
-            //                     translateKey: 'nav.payroll.list',
-            //                     label: 'Payroll List',
-            //                 },
-            //             },
-            //             subMenu: [],
-            //         },
-            //         {
-            //             key: 'concepts.payroll.taxExemptionProofSubmission',
-            //             path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
-            //             title: 'Employee Tax Exemption Proof Submission',
-            //             translateKey:
-            //                 'nav.conceptsPayroll.taxExemptionProofSubmission',
-            //             icon: 'Tax',
-            //             type: NAV_ITEM_TYPE_ITEM,
-            //             authority: [ADMIN, USER],
-            //             meta: {
-            //                 description: {
-            //                     translateKey:
-            //                         'nav.conceptsPayroll.taxExemptionProofSubmissionDesc',
-            //                     label: '',
-            //                 },
-            //             },
-            //             subMenu: [],
-            //         },
-            //     ],
-            // },
+            {
+                key: 'concepts.salaryAdjustment',
+                path: `${CONCEPTS_PREFIX_PATH}/salaryAdjustment`,
+                title: 'Salary Adjustment',
+                translateKey: 'nav.SalaryAdjustment',
+                icon: 'calendar',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.holidayDesc',
+                        label: 'Schedule and events',
+                    },
+                },
+                subMenu: [],
+            },
+
+            {
+                key: 'concepts.confirmation',
+                path: '',
+                title: 'Confirmation',
+                translateKey: 'nav.conceptsConfirmation.confirmation',
+                icon: 'fileManager',
+                type: NAV_ITEM_TYPE_COLLAPSE,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey:
+                            'nav.conceptsConfirmation.confirmationDesc',
+                        label: 'Employee Appraisal Confirmation',
+                    },
+                },
+                subMenu: [
+                    {
+                        key: 'concepts.confirmation.confirmationAppraisal',
+                        path: `${CONCEPTS_PREFIX_PATH}/confirmation/confirmation-appraisal`,
+                        title: 'Confirmation Appraisal',
+                        translateKey:
+                            'nav.conceptsConfirmation.confirmationAppraisal',
+                        icon: 'confirmationAppraisal',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsConfirmation.confirmationAppraisalDesc',
+                                label: '',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                ],
+            },
+
+            {
+                key: 'concepts.payroll',
+                path: '',
+                title: 'Payroll',
+                translateKey: 'nav.payroll',
+                icon: 'calendar',
+                type: NAV_ITEM_TYPE_COLLAPSE,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.payrollDesc',
+                        label: '',
+                    },
+                },
+                subMenu: [
+                    {
+                        key: 'concepts.payroll.list',
+                        path: `${CONCEPTS_PREFIX_PATH}/payroll/listTaxExemptionDeclaration`,
+                        title: 'Employee Tax Exemption Declaration',
+                        translateKey: 'nav.payroll.list',
+                        icon: 'attendance',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey: 'nav.payroll.list',
+                                label: 'Payroll List',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                    {
+                        key: 'concepts.payroll.taxExemptionProofSubmission',
+                        path: `${CONCEPTS_PREFIX_PATH}/payroll/tax-exemption-proof-submission`,
+                        title: 'Employee Tax Exemption Proof Submission',
+                        translateKey:
+                            'nav.conceptsPayroll.taxExemptionProofSubmission',
+                        icon: 'Tax',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey:
+                                    'nav.conceptsPayroll.taxExemptionProofSubmissionDesc',
+                                label: '',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                ],
+            },
+
+            {
+                key: 'concepts.exitInterview.list',
+                path: `${CONCEPTS_PREFIX_PATH}/exitInterview/list`,
+                title: 'Exit Interview',
+                translateKey: 'nav.exitInterview.list',
+                icon: 'exit',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.exitInterview',
+                        label: '',
+                    },
+                },
+                subMenu: [],
+            },
+
+            //Performace
+            {
+                key: 'concepts.performance',
+                path: '',
+                title: 'Performance',
+                translateKey: 'nav.performance',
+                icon: 'calendar',
+                type: NAV_ITEM_TYPE_COLLAPSE,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.performanceDesc',
+                        label: '',
+                    },
+                },
+                subMenu: [
+                    {
+                        key: 'concepts.performance.list',
+                        path: `${CONCEPTS_PREFIX_PATH}/performance/employee-performance-feedback`,
+                        title: 'Performance Feedback',
+                        translateKey: 'nav.performance.list',
+                        icon: 'attendance',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [ADMIN, USER],
+                        meta: {
+                            description: {
+                                translateKey: 'nav.performance.list',
+                                label: 'Performance List',
+                            },
+                        },
+                        subMenu: [],
+                    },
+                ],
+            },
+
+            //Appraisal
+            {
+                key: 'concepts.appraisal.list',
+                path: `${CONCEPTS_PREFIX_PATH}/appraisal/list`,
+                title: 'Appraisal',
+                translateKey: 'nav.appraisal.list',
+                icon: 'exit',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [ADMIN, USER],
+                meta: {
+                    description: {
+                        translateKey: 'nav.appraisal',
+                        label: '',
+                    },
+                },
+                subMenu: [],
+            },
         ],
     },
 ]

@@ -6,20 +6,21 @@ import type { AxiosError } from 'axios'
 
 const AxiosBase = axios.create({
     timeout: 60000,
-    headers: {
-        // 'Authorization': 'token 4d72ffee5959a1c:3acd9c854f137ef',
-        'Authorization': 'token 4d72ffee5959a1c:147e5e4ffc04bfb',
-    },
+    // headers: {
 
+    //     // "authorization": "token 22383aa5b27f69b:9278831c98f894e",
+    //     "authorization": "token 4d72ffee5959a1c:a93d40a489a949d",
+
+    // },
     baseURL: appConfig.apiPrefix,
 })
 
 AxiosBase.interceptors.request.use(
     (config) => {
-        // const token = localStorage.getItem('accessToken') 
-        // if (token && config.headers) {
-        //     config.headers['Authorization'] = `token ${token}`
-        // }
+        const token = localStorage.getItem('accessToken')
+        if (token && config.headers) {
+            config.headers['authorization'] = `token ${token}`
+        }
         return AxiosRequestIntrceptorConfigCallback(config)
     },
     (error) => {

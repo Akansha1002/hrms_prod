@@ -13,6 +13,7 @@ type AddressSectionProps = {
     setValue: any;
     departmentList: { value: string; label: string }[];
     designationList: { value: string; label: string }[];
+    gradeList: { value: string; label: string }[];
     managerList: { value: string; label: string }[];
     costCenterList: { value: string; label: string }[];
     isLoading: boolean,
@@ -52,39 +53,7 @@ const locationOptions = [
     { value: 'visakhapatnam', label: 'Visakhapatnam' },
 ]
 
-const departmentOptions = [
-    { value: 'rob-robotics', label: 'ROB-Robotics' },
-    {
-        value: 'rob-seniorHardwareEngineer',
-        label: 'ROB-Senior Hardware Engineer',
-    },
-    { value: 'sof-software', label: 'Sof-Software' },
-    { value: 'tel-telecomWireline', label: 'Tel-Telecom Wireline' },
-    { value: 'wir-telecomWireless', label: 'Wir-Telecom Wireless' },
-]
-
-const designationOptions = [
-    { value: 'juniorTelecomEngineer', label: 'Junior Telecom Engineer' },
-    { value: 'seniorTelecomEngineer', label: 'Senior Telecom Engineer' },
-    { value: 'telecomEngineer', label: 'Telecom Engineer' },
-    { value: 'telecomTechnician', label: 'Telecom Technician' },
-    { value: 'traineeTelecomEngineer', label: 'Trainee Telecom Engineer' },
-    { value: 'roboticsEngineer', label: 'Robotics Engineer' },
-    { value: 'softwareDeveloper', label: 'Software Developer' },
-]
-
-const gradeOptions = [
-    { value: 'associate', label: 'Associate' },
-    { value: 'consultant', label: 'Consultant' },
-    { value: 'executiveManagement', label: 'Executive Management' },
-    { value: 'expatriate', label: 'Expatriate' },
-    { value: 'intern', label: 'Intern' },
-    { value: 'juniorManagement', label: 'Junior Management' },
-    { value: 'middleManagement', label: 'Middle Management' },
-    { value: 'seniorManagement', label: 'Senior Management' },
-]
-
-const OrganizationSection = ({ control, errors, setValue, departmentList, designationList, managerList, costCenterList, isLoading }: AddressSectionProps) => {
+const OrganizationSection = ({ control, errors, setValue, departmentList, designationList, gradeList, managerList, costCenterList, isLoading }: AddressSectionProps) => {
     const firstName = useWatch({ control, name: "first_name" });
     const lastName = useWatch({ control, name: "last_name" });
 
@@ -96,6 +65,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
             setValue("user_email", "");
         }
     }, [firstName, lastName, setValue]);
+
     return (
         <Card>
             <h4 className="mb-6">Organization</h4>
@@ -109,7 +79,13 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     <Controller
                         name="date_of_joining"
                         control={control}
-                        render={({ field }) => <Input type="date" {...field} />}
+                        defaultValue={new Date().toISOString().split('T')[0]}
+                        render={({ field }) =>
+                            <Input
+                                type="date"
+                                {...field}
+                            />
+                        }
                     />
                 </FormItem>
                 {/* <FormItem
@@ -131,6 +107,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem> */}
                 <FormItem
+                    asterisk
                     label="Position"
                     invalid={Boolean(errors.position)}
                     errorMessage={errors.position?.message}
@@ -155,6 +132,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="Organization Structure"
                     invalid={Boolean(errors.orgStructure)}
                     errorMessage={errors.orgStructure?.message}
@@ -179,6 +157,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="Location"
                     invalid={Boolean(errors.custom_location)}
                     errorMessage={errors.custom_location?.message}
@@ -220,6 +199,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="Designation"
                     invalid={Boolean(errors.designation)}
                     errorMessage={errors.designation?.message}
@@ -236,7 +216,8 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                         )}
                     />
                 </FormItem>
-                {/* <FormItem
+                <FormItem
+                    asterisk
                     label="Grade"
                     invalid={Boolean(errors.grade)}
                     errorMessage={errors.grade?.message}
@@ -246,9 +227,9 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                         control={control}
                         render={({ field }) => (
                             <Select
-                                options={gradeOptions}
+                                options={isLoading ? [{ value: '', label: 'Loading...' }] : gradeList}
                                 value={
-                                    gradeOptions.find(
+                                    gradeList.find(
                                         (option) =>
                                             option.value === field.value,
                                     ) || null
@@ -259,7 +240,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                             />
                         )}
                     />
-                </FormItem> */}
+                </FormItem>
                 <FormItem
                     label="Cost Center"
                     invalid={Boolean(errors.payroll_cost_center)}
@@ -292,6 +273,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="Reporting Manager"
                     invalid={Boolean(errors.reports_to)}
                     errorMessage={errors.reports_to?.message}
@@ -320,6 +302,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="Functional Manager"
                     invalid={Boolean(errors.custom_functional_manager)}
                     errorMessage={errors.custom_functional_manager?.message}
@@ -349,6 +332,7 @@ const OrganizationSection = ({ control, errors, setValue, departmentList, design
                     />
                 </FormItem>
                 <FormItem
+                    asterisk
                     label="People Manager"
                     invalid={Boolean(errors.custom_peoples_manager)}
                     errorMessage={errors.custom_peoples_manager?.message}

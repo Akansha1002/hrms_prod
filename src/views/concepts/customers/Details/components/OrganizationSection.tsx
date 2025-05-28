@@ -40,44 +40,6 @@ const organizationStructureOptions = [
     },
 ]
 
-const locationOptions = [
-    { value: 'hyderabad', label: 'Hyderabad' },
-    { value: 'victoria', label: 'Victoria' },
-    { value: 'visakhapatnam', label: 'Visakhapatnam' },
-]
-
-const departmentOptions = [
-    { value: 'rob-robotics', label: 'ROB-Robotics' },
-    {
-        value: 'rob-seniorHardwareEngineer',
-        label: 'ROB-Senior Hardware Engineer',
-    },
-    { value: 'sof-software', label: 'Sof-Software' },
-    { value: 'tel-telecomWireline', label: 'Tel-Telecom Wireline' },
-    { value: 'wir-telecomWireless', label: 'Wir-Telecom Wireless' },
-]
-
-const designationOptions = [
-    { value: 'juniorTelecomEngineer', label: 'Junior Telecom Engineer' },
-    { value: 'seniorTelecomEngineer', label: 'Senior Telecom Engineer' },
-    { value: 'telecomEngineer', label: 'Telecom Engineer' },
-    { value: 'telecomTechnician', label: 'Telecom Technician' },
-    { value: 'traineeTelecomEngineer', label: 'Trainee Telecom Engineer' },
-    { value: 'roboticsEngineer', label: 'Robotics Engineer' },
-    { value: 'softwareDeveloper', label: 'Software Developer' },
-]
-
-const gradeOptions = [
-    { value: 'associate', label: 'Associate' },
-    { value: 'consultant', label: 'Consultant' },
-    { value: 'executiveManagement', label: 'Executive Management' },
-    { value: 'expatriate', label: 'Expatriate' },
-    { value: 'intern', label: 'Intern' },
-    { value: 'juniorManagement', label: 'Junior Management' },
-    { value: 'middleManagement', label: 'Middle Management' },
-    { value: 'seniorManagement', label: 'Senior Management' },
-]
-
 const OrganizationSection = ({
     data,
     onChange,
@@ -198,7 +160,7 @@ const OrganizationSection = ({
                         }
                     /> */}
                 </FormItem>
-                {/* <FormItem label="Grade">
+                <FormItem label="Grade">
                     <Input
                         type='text'
                         defaultValue={data?.grade}
@@ -206,7 +168,7 @@ const OrganizationSection = ({
                             handleInputChange('grade', e.target.value)
                         }
                     />
-                    <Select
+                    {/* <Select
                         options={gradeOptions}
                         defaultValue={gradeOptions.find(
                             (option) => option.value === data?.grade,
@@ -214,8 +176,8 @@ const OrganizationSection = ({
                         onChange={(option) =>
                             handleInputChange('grade', option?.value || '')
                         }
-                    />
-                </FormItem> */}
+                    /> */}
+                </FormItem>
                 <FormItem label="Cost Center">
                     <Input
                         type="text"

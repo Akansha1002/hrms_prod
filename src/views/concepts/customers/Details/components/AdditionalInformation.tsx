@@ -103,7 +103,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                         onChange={(option) => handleInputChange("custom_shift_type", option?.value || '')}
                     />
                 </FormItem>
-                <FormItem
+                {/* <FormItem
                     label="Shift Group"
                 >
                     <Select
@@ -111,7 +111,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                         defaultValue={shiftGroupOptions.find(option => option.value === data?.custom_shift_group)}
                         onChange={(option) => handleInputChange("custom_shift_group", option?.value || '')}
                     />
-                </FormItem>
+                </FormItem> */}
                 <FormItem
                     label="Employment Status"
                 >
@@ -193,7 +193,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                         onChange={(e) => handleInputChange("notice_number_of_days", e.target.value)}
                     />
                 </FormItem>
-                <FormItem
+                {/* <FormItem
                     label="Secretary"
                 >
                     <Input
@@ -201,7 +201,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                         defaultValue={data?.custom_secretary || ''}
                         onChange={(e) => handleInputChange("custom_secretary", e.target.value)}
                     />
-                </FormItem>
+                </FormItem> */}
                 <div className="flex items-center justify-between gap-8">
                     <FormItem>
                         <div className="flex items-center justify-between gap-8">
@@ -241,7 +241,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                         />
                     </FormItem>
                 </div>
-                <div className="flex items-center justify-between gap-8">
+                {/* <div className="flex items-center justify-between gap-8">
                     <FormItem>
                         <div className="flex items-center justify-between gap-8">
                             <div className="flex items-center justify-between gap-1">
@@ -259,7 +259,7 @@ const AdditionalInformation = ({ data, onChange, setUpdatedValues }: AdditionalI
                             type="date"
                         />
                     </FormItem>
-                </div>
+                </div> */}
             </div>
         </Card>
     )

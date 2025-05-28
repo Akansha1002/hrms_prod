@@ -17,7 +17,6 @@ const GovernmemtData = ({ control, errors, data }: GovernmemtDataProps) => {
             <h4 className="mb-6">Government Data</h4>
             <div className="grid md:grid-cols-2 gap-4">
                 <FormItem
-                    asterisk
                     label="Aadhar No."
                     invalid={Boolean(errors.aadhar_number)}
                     errorMessage={errors.aadhar_number?.message}
@@ -38,7 +37,6 @@ const GovernmemtData = ({ control, errors, data }: GovernmemtDataProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    asterisk
                     label="PAN Number"
                     invalid={Boolean(errors.pan_number)}
                     errorMessage={errors.pan_number?.message}

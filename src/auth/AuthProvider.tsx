@@ -68,7 +68,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
 
     const handleSignOut = () => {
-        // localStorage.removeItem('accessToken')
         setToken('')
         setUser({})
         setSessionSignedIn(false)
@@ -81,22 +80,26 @@ function AuthProvider({ children }: AuthProviderProps) {
                 const apikey = resp.message?.api_key || ''
                 const apisecret = resp.message?.api_secret || ''
                 const token = `${apikey}:${apisecret}`
-                handleSignIn({ accessToken: token }, resp.user)
+                handleSignIn({ accessToken: `${resp.message.api_key}:${resp.message.api_secret}` }, resp.user,)
                 redirect()
                 return {
                     status: 'success',
+                    // message: resp.message
                     message: {
                         api_key: resp.message.api_key || '',
                         api_secret: resp.message.api_secret || '',
+                        sid: resp.message.sid || '',
                     },
                     full_name: resp.full_name || '',
                 }
             }
             return {
                 status: 'failed',
+                // message: 'Unable to sign up',
                 message: {
                     api_key: '',
                     api_secret: '',
+                    sid: '',
                 },
             };
 
@@ -121,14 +124,17 @@ function AuthProvider({ children }: AuthProviderProps) {
                     message: {
                         api_key: resp.message?.api_key || '',
                         api_secret: resp.message?.api_secret || '',
+                        sid: resp.message?.sid || '',
                     },
                 }
             }
             return {
                 status: 'failed',
+                // message: 'Unable to sign up',
                 message: {
                     api_key: '',
                     api_secret: '',
+                    sid: '',
                 },
             }
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any

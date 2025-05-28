@@ -1,27 +1,38 @@
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
+import Tabs from "@/components/ui/Tabs";
+import TabList from "@/components/ui/Tabs/TabList";
+import TabNav from "@/components/ui/Tabs/TabNav";
+import TabContent from "@/components/ui/Tabs/TabContent";
+import { Carousel } from "@/components/shared/Carousel";
 import { getGallery } from "@/services/GalleryService";
+import { getAwards } from "@/services/AwardService";
+
 
 interface GalleryItem {
   name: string;
   title: string;
   description: string;
   category: string;
-  images: string[]; // Array of image URLs
+}
+
+interface AwardItem {
+  award_name: string;
+  description: string;
+  employee: string;
+  photo: string | null;
+  delete_flag: number;
 }
 
 export const Gallery = () => {
   const [galleries, setGalleries] = useState<GalleryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [awards, setAwards] = useState<AwardItem[]>([]);
+  const [loadingGallery, setLoadingGallery] = useState(true);
+  const [loadingAwards, setLoadingAwards] = useState(true);
 
   useEffect(() => {
     async function fetchGalleries() {
       try {
         const response = await getGallery<{ data: GalleryItem[] }>();
-        console.log("Gallery API Response:", response); // Debugging
         if (response?.data && Array.isArray(response.data)) {
           setGalleries(response.data);
         } else {
@@ -31,46 +42,95 @@ export const Gallery = () => {
         console.error("Error fetching gallery:", error);
         setGalleries([]);
       } finally {
-        setLoading(false);
+        setLoadingGallery(false);
       }
     }
+
+    async function fetchAwards() {
+      try {
+        const response = await getAwards<{ data: AwardItem[] }>();
+        const fetchedAwards = response?.data || [];
+        // console.log(response);
+        // const filteredAwards = fetchedAwards.filter((award) => award.delete_flag === 0);
+        setAwards(fetchedAwards);
+      } catch (error) {
+        console.error("Error fetching awards:", error);
+        setAwards([]);
+      } finally {
+        setLoadingAwards(false);
+      }
+    }
+
     fetchGalleries();
+    fetchAwards();
   }, []);
 
-  if (loading) return <p>Loading gallery...</p>;
-  if (galleries.length === 0) return <p>No galleries available.</p>;
-
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Gallery</h2>
-      {galleries.map((gallery) => (
-        <div key={gallery.name} className="mb-6">
-          <h3 className="text-xl font-semibold">{gallery.title}</h3>
-          <p className="text-gray-600">{gallery.description}</p>
+    <Tabs defaultValue="gallery" className="mt-4">
+      <TabList>
+        <TabNav value="gallery">Gallery</TabNav>
+        <TabNav value="awards">Awards</TabNav>
+      </TabList>
 
-          {gallery.images && gallery.images.length > 0 ? (
-            <Swiper
-              modules={[Autoplay, Pagination]}
-              pagination={{ dynamicBullets: true }}
-              autoplay={{ delay: 4000, disableOnInteraction: false }}
-              loop={true}
-              className="w-full mt-4"
-            >
-              {gallery.images.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={image}
-                    alt={`Gallery ${gallery.title} - Image ${index + 1}`}
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+      <div className="p-4">
+        {/* Gallery Tab */}
+        <TabContent value="gallery">
+          {loadingGallery ? (
+            <p>Loading gallery...</p>
+          ) : galleries.length === 0 ? (
+            <p>No galleries available.</p>
           ) : (
-            <p className="text-gray-400 mt-2">No images available.</p>
+            <div className="space-y-6">
+              {galleries.map((item) => (
+                <div
+                  key={item.name}
+                  className="p-4 bg-white shadow rounded-lg border border-gray-100"
+                >
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p className="text-gray-600">{item.description}</p>
+                  <span className="text-sm text-gray-500 italic">Category: {item.category}</span>
+                </div>
+              ))}
+            </div>
           )}
-        </div>
-      ))}
-    </div>
+        </TabContent>
+
+        {/* Awards Tab */}
+        <TabContent value="awards">
+          {loadingAwards ? (
+            <p>Loading awards...</p>
+          ) : awards.length === 0 ? (
+            <p>No awards available.</p>
+          ) : (
+            <div className="space-y-6">
+              {awards.map((award, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-4 p-4 bg-white shadow rounded-lg"
+                >
+                  <img
+                    src={
+                      award.photo ||
+                      "https://via.placeholder.com/100x100?text=No+Image"
+                    }
+                    alt={award.employee || award.award_name}
+                    className="w-24 h-24 object-cover rounded"
+                  />
+                  <div>
+                    <h4 className="text-lg font-semibold">{award.award_name}</h4>
+                    <p className="text-gray-600 text-sm">{award.description}</p>
+                    {award.employee && (
+                      <p className="text-gray-400 text-xs">
+                        Awarded to: {award.employee}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </TabContent>
+      </div>
+    </Tabs>
   );
 };

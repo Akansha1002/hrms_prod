@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-
-import { Autoplay, Pagination } from "swiper/modules";
 import Tabs from "@/components/ui/Tabs";
 import TabContent from "@/components/ui/Tabs/TabContent";
 import TabList from "@/components/ui/Tabs/TabList";
 import TabNav from "@/components/ui/Tabs/TabNav";
+import { Carousel } from "@/components/shared/Carousel";
 
 import { getChairmanMessages } from "@/services/ChairmanMessageService";
-import { getNews } from "@/services/NewsService";
+import { getCelebrations } from "@/services/CelebrationService";
 
 interface ChairmanMessage {
   name: string;
@@ -20,35 +16,33 @@ interface ChairmanMessage {
   published_date: string;
 }
 
-interface News {
+interface Celebration {
   employee_name: string;
   name: string;
-  title: string;
-  author: string;
-  published_date: string;
-  content: string;
-  category: string;
+  employee: string;
+  type: string;
+  date: string;
+  message: string;
+  status: string;
 }
 
 export const HeroTabs = () => {
   const [messages, setMessages] = useState<ChairmanMessage[]>([]);
-  const [news, setNews] = useState<News[]>([]);
+  const [celebrations, setCelebrations] = useState<Celebration[]>([]);
 
   useEffect(() => {
     async function fetchMessages() {
       const response = await getChairmanMessages<{ data: ChairmanMessage[] }>();
-      if (response) {
-        setMessages(response.data);
-      }
+      if (response) setMessages(response.data);
     }
-    async function fetchNews() {
-      const response = await getNews<{ data: News[] }>();
-      if (response) {
-        setNews(response.data);
-      }
+
+    async function fetchCelebrations() {
+      const response = await getCelebrations<{ data: Celebration[] }>();
+      if (response) setCelebrations(response.data);
     }
+
     fetchMessages();
-    fetchNews();
+    fetchCelebrations();
   }, []);
 
   return (
@@ -56,74 +50,46 @@ export const HeroTabs = () => {
       <Tabs defaultValue="tab1">
         <TabList>
           <TabNav value="tab1">CEO's Desk</TabNav>
-          <TabNav value="tab2">HR Announcement</TabNav>
-          <TabNav value="tab3">Things to do</TabNav>
-          <TabNav value="tab4">Share Information</TabNav>
+          <TabNav value="tab2">Celebrations</TabNav>
         </TabList>
-        <div className="p-4">
-          {/* CEO's Desk */}
+
+        <div className="">
+          {/* CEO's Desk Tab */}
           <TabContent value="tab1">
             {messages.length > 0 ? (
-              <Swiper
-                modules={[Autoplay, Pagination]}
-                pagination={{ dynamicBullets: true }}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
-                loop={true}
-                className="w-full"
-              >
+              <Carousel>
                 {messages.map((msg) => (
-                  <SwiperSlide key={msg.name} className="p-5">
-                    <div className="p-4 bg-white shadow-md rounded-lg">
-                      <h2 className="text-xl font-bold">{msg.title}</h2>
-                      <p className="text-sm text-gray-500">
-                        By {msg.chairman_name} on{" "}
-                        {new Date(msg.published_date).toLocaleDateString()}
-                      </p>
-                      <p className="mt-2">{msg.message}</p>
-                    </div>
-                  </SwiperSlide>
+                  <div key={msg.name} className="p-4 bg-white shadow rounded-xl border mx-2 min-w-[300px] max-w-[400px]">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-1">{msg.title}</h2>
+                    <p className="text-xs text-gray-500 mb-2">
+                      By {msg.chairman_name} on {new Date(msg.published_date).toLocaleDateString()}
+                    </p>
+                    <p className="text-sm text-gray-700">{msg.message}</p>
+                  </div>
                 ))}
-              </Swiper>
+              </Carousel>
             ) : (
-              <p>No Chairman Messages available.</p>
+              <p className="text-sm text-gray-500">No Chairman Messages available.</p>
             )}
           </TabContent>
 
-          {/* HR Announcements */}
+          {/* Celebrations Tab */}
           <TabContent value="tab2">
-            {news.length > 0 ? (
-              <Swiper
-                modules={[Autoplay, Pagination]}
-                pagination={{ dynamicBullets: true }}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
-                loop={true}
-                className="w-full"
-              >
-                {news.map((item) => (
-                  <SwiperSlide key={item.name} className="p-5">
-                    <div className="p-4 bg-white shadow-md rounded-lg">
-                      <h2 className="text-xl font-bold">{item.title}</h2>
-                      <p className="text-sm text-gray-500">
-                        By {item.employee_name} on{" "}
-                        {new Date(item.published_date).toLocaleDateString()}
-                      </p>
-                      <p className="text-sm text-gray-500">{item.category}</p>
-                      <p className="mt-2">{item.content}</p>
-                    </div>
-                  </SwiperSlide>
+            {celebrations.length > 0 ? (
+              <Carousel>
+                {celebrations.map((event) => (
+                  <div key={event.name} className="p-4 bg-white shadow rounded-xl border mx-2 min-w-[300px] max-w-[400px]">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-1">{event.type}</h2>
+                    <p className="text-xs text-gray-500 mb-2">
+                      {event.employee_name} - {event.status} on {new Date(event.date).toLocaleDateString()}
+                    </p>
+                    <p className="text-sm text-gray-700">{event.message}</p>
+                  </div>
                 ))}
-              </Swiper>
+              </Carousel>
             ) : (
-              <p>No HR Announcements available.</p>
+              <p className="text-sm text-gray-500">No upcoming celebrations.</p>
             )}
-          </TabContent>
-
-          {/* Other Tabs */}
-          <TabContent value="tab3">
-            <p>Things to do content goes here...</p>
-          </TabContent>
-          <TabContent value="tab4">
-            <p>Share Information content goes here...</p>
           </TabContent>
         </div>
       </Tabs>

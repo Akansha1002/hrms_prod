@@ -6,7 +6,10 @@ const ApiService = {
         param: AxiosRequestConfig<Request>,
     ) {
         return new Promise<Response>((resolve, reject) => {
-            AxiosBase(param)
+            AxiosBase({
+                ...param,
+                withCredentials: false,
+            })
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response.data)
                 })

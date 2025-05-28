@@ -184,7 +184,7 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                             )}
                         />
                     </div>
-                    <FormItem
+                    {/* <FormItem
                         label="GL Code"
                         invalid={Boolean(errors.custom_gl_code)}
                         errorMessage={errors.custom_gl_code?.message}
@@ -199,7 +199,7 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                                 />
                             }
                         />
-                    </FormItem>
+                    </FormItem> */}
                     {/* <FormItem
                         label="Pay Mode"
                         invalid={Boolean(errors.salary_mode)}
@@ -216,7 +216,7 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                             }
                         />
                     </FormItem> */}
-                    <FormItem
+                    {/* <FormItem
                         label="Applied From"
                         invalid={Boolean(errors.custom_applied_from)}
                         errorMessage={errors.custom_applied_from?.message}
@@ -231,8 +231,9 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                                 />
                             }
                         />
-                    </FormItem>
+                    </FormItem> */}
                     <FormItem
+                    asterisk
                         label="Pay Group"
                         invalid={Boolean(errors.custom_pay_group)}
                         errorMessage={errors.custom_pay_group?.message}
@@ -281,11 +282,11 @@ const PayRollSection = ({ control, errors, salaryStructureList, isLoading }: Pay
                     </div>
                 </div>
             </Card>
-            {/* <ComputeCtcDrawer
+            <ComputeCtcDrawer
                 open={drawerOpen}
                 onDrawerOpen={setDrawerOpen}
                 selectedSalaryStructure={selectedSalaryStructure}
-            /> */}
+            />
         </>
     )
 }
